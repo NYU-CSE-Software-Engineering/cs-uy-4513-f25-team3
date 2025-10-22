@@ -10,23 +10,14 @@ Users are able to:
 
 This allows for trip discovery to be fast and flexible
 
-## User Story 1: Search and Filter Itineraries
-As a user, I want to search and filter itineraries by keyword, date, location, cost, and trip type so that I can quickly find trips that match my preferences.
+## User Story: Search and Filter Itineraries
+As a user, I want to search, filter, and view itineraries by keyword, date, location, cost, and trip type so that I can quickly find trips that match my preferences.
 
-## Acceptance Criteria 1
+## Acceptance Criteria
 - If I type a word or phrase into the search box and hit “Search,” the page should only show itineraries that contain that word in the title or description.
 - When I use any filters (date, location, cost or trip type), the results should only include itineraries that match those filters.
-- When I use more than one filter together, the results should match all selected filters.
-- If no itineraries match my filters, I should see a message saying “No itineraries found.”
 - If I click “Clear Filters,” all filters and the search box should reset, and all itineraries should reappear.
-
-## User Story 2: View Itinerary Details
-As a user, I want to view the full details of an itinerary so that I can decide whether I want to join that trip.
-
-## Acceptance Criteria 2
-- Each itinerary in the search results should display a summary (title, destination, date range, and cost).
-- If I click on an itinerary, I should see its full details, including description, dates, locations, cost and group size..
-- If any data is missing (like a description or location), I should see a placeholder or “Not available” message instead of a blank field.
+- If I click on an itinerary, I should see its full details, including description, dates, locations, cost and group size. If any data is missing (like a description or location), I should see a placeholder or “Not available” message instead of a blank field.
 - I should be able to return to the search results easily after viewing a trip’s details.
 - If I click on a private itinerary I should see "This itinerary is private and cannot be viewed" instead of an error message and be redirected back to the list of itineraries.
 
