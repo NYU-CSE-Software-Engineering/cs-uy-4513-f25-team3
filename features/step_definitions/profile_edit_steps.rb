@@ -19,6 +19,7 @@ end
 Given(/^I am UserID (\d+)$/) do |user_id|
   find_user!(user_id.to_i)
   @current_user = @user
+  @old_password = @user.password
 end
 
 When(/^I enter my current password correctly$/) do
@@ -68,7 +69,7 @@ Then(/^I should be able to log in only with "(.*)"$/) do |new_password|
 end
 
 Then(/^the old password should no longer work$/) do
-  expect(@current_user.password).not_to eq(old_password)
+  expect(@current_user.password).not_to eq(@old_password)
 end
 
 Then(/^my age should be updated to (\d+) on my profile$/) do |age|
@@ -81,8 +82,4 @@ end
 
 Then(/^my gender should be updated to "(.*)"$/) do |gender|
   expect(@current_user.gender).to eq(gender)
-end
-
-Then(/^I should see a success confirmation message$/) do
-  puts "Profile updated successfully!"
 end
