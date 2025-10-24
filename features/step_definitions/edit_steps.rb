@@ -7,6 +7,11 @@ When('I click on MessageID {int}') do |message_id|
   container.click
 end
 
+When('I press "Save" on MeassageID {int}') do |message_id|
+  container = find(%([data-testid="save-#{message_id}"]))
+  container.click
+end
+
 Then("I don't see {string}") do |text|
   expect(page).not_to have_text(text)
 end
