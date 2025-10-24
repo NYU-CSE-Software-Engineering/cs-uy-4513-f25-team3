@@ -43,6 +43,7 @@ Rule: Editting
 
     Scenario: Edit my own message
         When I edit MessageID 103 to "Running 5 minutes late"
+        And I press "Save" on MessageID 103
         Then MessageID 103 has Text "Running 5 minutes late"
     
     Scenario: Edit another user's message
