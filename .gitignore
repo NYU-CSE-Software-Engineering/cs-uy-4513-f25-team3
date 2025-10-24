@@ -1,0 +1,8 @@
+# Bundler
+/vendor/bundle/
+/.bundle/
+
+# Logs & temp
+log/*
+tmp/
+*.log

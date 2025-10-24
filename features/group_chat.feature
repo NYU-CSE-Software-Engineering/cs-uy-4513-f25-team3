@@ -18,6 +18,7 @@ Background:
         | 102       | 3      | 10               | Meet in lobby at 6:45     | 2025-10-22T17:10:00Z     | 
         | 103       | 1      | 10               | On my way                 | 2025-10-22T17:15:00Z     | 
     And I am UserID 1
+    And I am on the group chat for ItineraryGroupID 10
 
 
 @message_conents
@@ -49,14 +50,14 @@ Rule: Editting
         Then MessageID 101 has Text "Landing at 5pm"
 
     Scenario: Edited messages display an "edited" indicator
-        Given MessageID 103 is edited
+        Given MessageID 103 was edited
         Then MessageID 103 shows an edited indicator
 
 @send_failure
 Rule: Send_failure
     Scenario: Failure to send a message doesn't create the message
         When I attempt to send "Boarding now" to ItineraryGroupID 10 and the request fails
-        And no new Message exists with (UserID: 1, ItineraryGroupID: 10, Text: "Boarding now")
+        Then no new Message exists with (UserID: 1, ItineraryGroupID: 10, Text: "Boarding now")
 
     Scenario: Failure to send a message shows an error
         When I attempt to send "Boarding now" to ItineraryGroupID 10 and the request fails
@@ -69,11 +70,9 @@ Rule: Send_failure
 @message_details
 Rule: Message_details
     Scenario: View specific messages with sender 
-        When I open the chat for ItineraryGroupID 10
         Then MessageID 101 shows UserID 2 
 
     Scenario: View specific messages with time
-        When I open the chat for ItineraryGroupID 10
         Then MessageID 101 shows its send time
 
     Scenario: Can access the details option
@@ -89,5 +88,4 @@ Rule: Message_details
 
 @chronological_order
 Scenario: Chronological order of messages
-    When I open the chat for ItineraryGroupID 10
     Then MessageIDs are ordered oldest-to-newest
