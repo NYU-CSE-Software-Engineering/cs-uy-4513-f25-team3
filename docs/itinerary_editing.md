@@ -48,6 +48,7 @@ So that the itinerary can stay updated with any recent changes
     - `end_date:date`
     - `trip_type:string`
     - `cost:integer`
+    - `organizerID:integer`
 
 
 - **Methods**:
