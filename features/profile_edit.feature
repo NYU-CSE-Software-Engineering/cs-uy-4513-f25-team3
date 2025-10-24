@@ -47,3 +47,18 @@ Scenario: Successfully change gender
     When I update my gender to "Female"
     And I press "Save Changes"
     Then my gender should be updated to "Female" on my profile
+
+# SAD PATHS
+
+Scenario: Attempt to update password but confirmation does not match
+    When I enter "john456" as my new unique username
+    And I enter "newpass123" as my new password
+    And I confirm it by typing "WRONGpass123" again
+    And I press "Save"
+    Then my username should still be "john123"
+    And I should be able to log in only with "pass123"
+    And I should see an error saying "Password confirmation does not match"
+
+Scenario: Attempt to view another user's profile page
+    When I try to visit /show/2
+    Then I should not be able to view the page

@@ -1,5 +1,5 @@
 def find_user!(user_id)
-  @user = User.find_by(user_id: user_id)
+  User.find_by(user_id: user_id)
 end
 
 Given(/^the following Users exist:$/) do |table|
@@ -17,8 +17,7 @@ Given(/^the following Users exist:$/) do |table|
 end
 
 Given(/^I am UserID (\d+)$/) do |user_id|
-  find_user!(user_id.to_i)
-  @current_user = @user
+  @current_user = find_user!(user_id.to_i)
   @old_password = @user.password
 end
 
@@ -35,9 +34,7 @@ When(/^I enter "(.*)" as my new password$/) do |new_password|
 end
 
 When(/^I confirm it by typing "(.*)" again$/) do |confirmation|
-  if @current_user.password != confirmation
-    raise "Password confirmation does not match"
-  end
+  @password_confirmation = confirmation
 end
 
 When(/^I update my age to (\d+)$/) do |age|
@@ -56,8 +53,16 @@ When(/^I update my gender to "(.*)"$/) do |gender|
   @current_user.gender = gender
 end
 
-When(/^I press "(.*)"$/) do |button|
-  @current_user.save
+When(/^I press "(.*)"$/) do |_button|
+  if @current_user.password != @password_confirmation
+    @error_message = "Password confirmation does not match"
+  else
+    @current_user.save
+  end
+end
+
+Then(/^I should see an error saying "(.*)"$/) do |error_text|
+  expect(@error_message).to eq(error_text)
 end
 
 Then(/^my username should be updated to "(.*)"$/) do |new_username|
@@ -82,4 +87,19 @@ end
 
 Then(/^my gender should be updated to "(.*)"$/) do |gender|
   expect(@current_user.gender).to eq(gender)
+end
+
+When(/^I try to visit \/show\/(\d+)$/) do |requested_id|
+  if requested_id == @current_user.user_id
+    @current_path = "/show/#{requested_id}"
+   
+  else
+     @page_error = "Access denied"
+     @current_path = "/show/#{@current_user.UserID}"
+  end
+end
+
+Then(/^I should not be able to view the page$/) do
+  expect(@page_error).to eq("Access denied")
+  expect(@current_path).to eq("/show/#{@current_user.UserID}")
 end
