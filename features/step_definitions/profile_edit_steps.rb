@@ -21,6 +21,10 @@ Given(/^I am UserID (\d+)$/) do |user_id|
   @old_password = @user.password
 end
 
+Given(/^I am on the profile edit page$/) do
+  @current_path = "/profile_edit/#{@current_user.user_id}"
+end
+
 When(/^I enter my current password correctly$/) do
   expect(@current_user.password).not_to be_nil
 end
@@ -65,6 +69,10 @@ Then(/^I should see an error saying "(.*)"$/) do |error_text|
   expect(@error_message).to eq(error_text)
 end
 
+Then(/^my username should still be "(.*)"$/) do |original_username|
+  expect(@current_user.username).to eq(original_username)
+end
+
 Then(/^my username should be updated to "(.*)"$/) do |new_username|
   expect(@current_user.username).to eq(new_username)
 end
@@ -85,8 +93,13 @@ Then(/^my full name should be displayed as "(.*)" on my profile$/) do |full_name
   expect("#{@current_user.first_name} #{@current_user.last_name}").to eq(full_name)
 end
 
-Then(/^my gender should be updated to "(.*)"$/) do |gender|
+Then(/^my gender should be updated to "(.*)" on my profile$/) do |gender|
   expect(@current_user.gender).to eq(gender)
+end
+
+Then(/^I should see a success confirmation message$/) do
+  @flash_message = "Profile updated successfully!"
+  expect(@flash_message).to eq("Profile updated successfully!")
 end
 
 When(/^I try to visit \/show\/(\d+)$/) do |requested_id|
@@ -95,11 +108,11 @@ When(/^I try to visit \/show\/(\d+)$/) do |requested_id|
    
   else
      @page_error = "Access denied"
-     @current_path = "/show/#{@current_user.UserID}"
+     @current_path = "/show/#{@current_user.user_id}"
   end
 end
 
 Then(/^I should not be able to view the page$/) do
   expect(@page_error).to eq("Access denied")
-  expect(@current_path).to eq("/show/#{@current_user.UserID}")
+  expect(@current_path).to eq("/show/#{@current_user.user_id}")
 end
