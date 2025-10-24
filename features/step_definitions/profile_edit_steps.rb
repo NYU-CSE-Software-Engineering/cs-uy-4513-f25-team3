@@ -16,14 +16,15 @@ Given(/^the following Users exist:$/) do |table|
   end
 end
 
+Given(/^I am on the profile edit page$/) do
+  @current_path = "/profile_edit/#{@current_user.user_id}"
+end
+
 Given(/^I am UserID (\d+)$/) do |user_id|
   @current_user = find_user!(user_id.to_i)
   @old_password = @user.password
 end
 
-Given(/^I am on the profile edit page$/) do
-  @current_path = "/profile_edit/#{@current_user.user_id}"
-end
 
 When(/^I enter my current password correctly$/) do
   expect(@current_user.password).not_to be_nil
