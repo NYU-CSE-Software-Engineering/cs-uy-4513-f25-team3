@@ -20,9 +20,7 @@ Scenario: Successful logout
 
 Scenario: Logout attempt without being logged in
     Given I am not logged in
-    When I press "Logout"
-    Then I should see the message "You must be logged in to perform that action"
-    And I should be on the login page
+    Then I should not see a "Logout" button
     And I should not have an active session
 
 Scenario: Access page after logout
@@ -31,8 +29,8 @@ Scenario: Access page after logout
     Then I should be on the login page
     And I should see the message "Please log in to continue"
     
-Scenario: Logout after session expires
+Scenario: No logout button after session expires
     Given my session has expired
-    When I press "Logout"
-    Then I should see the message "Your session has expired"
+    Then I should not see a "Logout" button
+    And I should see the message "Your session has expired"
     And I should be on the login page

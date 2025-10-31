@@ -21,3 +21,8 @@ end
 When(/^I try to visit the (.*) page$/) do |page_name|
   visit "/#{page_name}"
 end
+
+Then('I should not see a {string} button') do |button_text|
+  expect(page).not_to have_button(button_text)
+  expect(page).not_to have_link(button_text)
+end
