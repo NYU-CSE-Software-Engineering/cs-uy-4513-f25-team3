@@ -5,8 +5,7 @@ Feature: Login
 
     Scenario: Successful login as a user
         Given I am on the login page
-        And a user exists with "Username" "izzyadams11"
-        And a user exists with "Password" "IloveCS123!"
+        And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with "IloveCS123!"
         And I click "Submit"
@@ -14,8 +13,7 @@ Feature: Login
 
     Scenario: Successful login as an organizer
         Given I am on the login page
-        And an organizer exists with "Username" "rheanayar"
-        And an organizer exists with "Password" "IloveDS123!"
+        And an organizer exists with username "rheanayar" and password "IloveDS123!"
         When I fill in "Username" with "rheanayar"
         And I fill in "Password" with "IloveDS123!"
         And I click "Submit"
@@ -23,8 +21,7 @@ Feature: Login
 
     Scenario: Unsuccessful login
         Given I am on the login page
-        And a user exists with "Username" "izzyadams11"
-        And a user exists with "Password" "IloveCS123!"
+        And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with "IloveDS!"
         And I click "Submit"
@@ -33,8 +30,7 @@ Feature: Login
 
     Scenario: Login with blank field
         Given I am on the login page
-        And a user exists with "Username" "izzyadams11"
-        And a user exists with "Password" "IloveCS123!"
+        And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with ""
         And I click "Submit"
