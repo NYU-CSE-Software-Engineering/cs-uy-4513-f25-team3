@@ -5,7 +5,8 @@ This directory can be used to access documentation on the project's individual f
 
 
 ## User Management
-### [Login Feature](login.md)
+### [Login Feature](login.md) 
+### [Logout Feature](logout.md)
 ### [Edit Profile Feature](profile_edit.md)
 
 ## Itinerary Management
