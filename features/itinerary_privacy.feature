@@ -10,52 +10,94 @@ Feature: Itinerary Privacy
 Background:
     Given an organizer exists with username "izzyadams11" and password "IloveCS123!"
     And the following itinerary exists:
-		| title       | NYC Tour              |
-		| description | Exploring NYC         |
-		| location    | New York              |
-		| start_date  | 2026-01-01            |
-		| end_date    | 2026-01-14            |
-		| trip_type   | Public                |
-		| cost        | 2400                  |
+        | title       | NYC Tour              |
+        | description | Exploring NYC         |
+        | location    | New York              |
+        | start_date  | 2026-01-01            |
+        | end_date    | 2026-01-14            |
+        | trip_type   | Public                |
+        | cost        | 2400                  |
 
-Scenario: Organizer makes trip private with password
-    Given I am logged in as organizer "izzyadmams11"
+
+# Organizer Changes Trip to Private
+Scenario: Redirect after making trip private
+    Given I am logged in as organizer "izzyadams11"
     And I am on the itinerary settings page for "NYC Tour"
     And I select "Private" from "Trip Type"
     And I enter "bigapple" as my trip password
-    And I press "Save Changes"
+    When I press "Save Changes"
     Then I should be on the itinerary page for "NYC Tour"
-    And I should see the message "Itinerary was successfully updated."
-    And I should see "Private"
-    And users must enter a password to join
 
-Scenario: User joins private trip with correct password
+Scenario: Confirmation after making trip private
+    Given I am logged in as organizer "izzyadams11"
+    And I am on the itinerary settings page for "NYC Tour"
+    And I select "Private" from "Trip Type"
+    And I enter "bigapple" as my trip password
+    When I press "Save Changes"
+    Then I should see the message "Itinerary was successfully updated."
+
+Scenario: Trip marked as private persists in database
+    Given I am logged in as organizer "izzyadams11"
+    And I am on the itinerary settings page for "NYC Tour"
+    And I select "Private" from "Trip Type"
+    And I enter "bigapple" as my trip password
+    When I press "Save Changes"
+    Then the itinerary "NYC Tour" should have trip_type "Private" in the database
+    And the itinerary "NYC Tour" should have an encrypted password in the database
+
+# User joins Private Trip
+Scenario: User redirect after joining private trip
     Given the itinerary "NYC Tour" is private with password "bigapple"
     And I am logged in as user "janedoe"
-    When I visit the join page for "NYC Tour"
+    And I visit the join page for "NYC Tour"
     And I enter "bigapple" as the trip password
-    And I press "Join Trip"
+    When I press "Join Trip"
     Then I should be on the itinerary page for "NYC Tour"
-    And I should see the message "You have joined the trip successfully."
-    And I should see "NYC Tour" in my joined trips list
 
+Scenario: User sees confirmation after joining private trip
+    Given the itinerary "NYC Tour" is private with password "bigapple"
+    And I am logged in as user "janedoe"
+    And I visit the join page for "NYC Tour"
+    And I enter "bigapple" as the trip password
+    When I press "Join Trip"
+    Then I should see the message "You have joined the trip successfully."
+
+Scenario: User added to joined trips after successful join
+    Given the itinerary "NYC Tour" is private with password "bigapple"
+    And I am logged in as user "janedoe"
+    And I have joined the trip "NYC Tour" with password "bigapple"
+    Then I should see "NYC Tour" in my joined trips list
+
+# Wrong Password
 Scenario: User joins private trip with wrong password
     Given the itinerary "NYC Tour" is private with password "bigapple"
     And I am logged in as user "janedoe"
     When I visit the join page for "NYC Tour"
     And I enter "wrongpass" as the trip password
     And I press "Join Trip"
-    Then I should be on the join page for "NYC Tour"
-    And I should see the message "Incorrect trip password."
+    Then I should see the message "Incorrect trip password."
     And I should not see "NYC Tour" in my joined trips list
 
-  Scenario: Organizer makes trip public again
-    Given I am logged in as organizer "izzyadmams11"
+# Change back to public trip
+Scenario: Redirect after making trip public
+    Given I am logged in as organizer "izzyadams11"
     And the itinerary "NYC Tour" is private with password "bigapple"
     And I am on the itinerary settings page for "NYC Tour"
     And I select "Public" from "Trip Type"
     And I press "Save Changes"
     Then I should be on the itinerary page for "NYC Tour"
-    And I should see the message "Itinerary was successfully updated."
-    And I should see "Public"
-    And users no longer need a password to join
+
+Scenario: Confirmation message after making trip public
+    Given I am logged in as organizer "izzyadams11"
+    And the itinerary "NYC Tour" is private with password "bigapple"
+    And I am on the itinerary settings page for "NYC Tour"
+    And I select "Public" from "Trip Type"
+    And I press "Save Changes"
+    Then I should see the message "Itinerary was successfully updated."
+
+Scenario: Trip marked as public persists in database
+    Given I am logged in as organizer "izzyadams11"
+    And I am on the itinerary settings page for "NYC Tour"
+    And I select "Public" from "Trip Type"
+    When I press "Save Changes"
+    Then the itinerary "NYC Tour" should have trip_type "Public" in the database

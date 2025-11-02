@@ -50,3 +50,23 @@ Then('users no longer need a password to join') do
   expect(itinerary.trip_type.downcase).to eq('public')
   expect(itinerary.password).to be_blank
 end
+
+Then('the itinerary {string} should have trip_type {string} in the database') do |title, trip_type|
+  itinerary = Itinerary.find_by(title: title)
+  expect(itinerary).not_to be_nil
+  expect(itinerary.trip_type).to eq(trip_type)
+end
+
+Then('the itinerary {string} should have an encrypted password in the database') do |title|
+  itinerary = Itinerary.find_by(title: title)
+  expect(itinerary).not_to be_nil
+  expect(itinerary.password_digest).not_to be_nil
+  expect(itinerary.password_digest).not_to be_empty
+end
+
+Given('I have joined the trip {string} with password {string}') do |title, password|
+  itinerary = Itinerary.find_by(title: title)
+  visit join_itinerary_path(itinerary)
+  fill_in 'Trip Password', with: password
+  click_button 'Join Trip'
+end
