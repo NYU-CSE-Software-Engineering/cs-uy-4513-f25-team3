@@ -12,6 +12,7 @@ This directory can be used to access documentation on the project's individual f
 ## Itinerary Management
 ### [Create an Itinerary](create_itinerary.md)
 ### [Edit an Itinerary](itinerary_editing.md)
+### [Itinerary Privacy](itinerary_privacy.md)
 ### [View and Filter Itineraries](search_filtering_management.md)
 
 ## Communication Management
