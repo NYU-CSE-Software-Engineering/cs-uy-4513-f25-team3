@@ -1,9 +1,9 @@
-Given('a user exists with username {string} and password {string}') do |username, password|
-  @user = User.create!(username: username, password: password, role: "user")
+Given('a user exists with {string} {string}') do |username, password|
+  @user = User.create!(email: username, password: password, role: "user")
 end
 
-Given('an organizer exists with username {string} and password {string}') do |username, password|
-  @organizer = Organizer.create!(username: username, password: password, role: "organizer")
+Given('an organizer exists with {string} {string}') do |username, password|
+  @organizer = Organizer.create!(username: username, password: password)
 end
 
 When('I fill in {string} with {string}') do |field, value|
