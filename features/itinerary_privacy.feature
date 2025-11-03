@@ -101,3 +101,4 @@ Scenario: Trip marked as public persists in database
     And I select "Public" from "Trip Type"
     When I press "Save Changes"
     Then the itinerary "NYC Tour" should have trip_type "Public" in the database
+
