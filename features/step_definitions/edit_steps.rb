@@ -7,17 +7,9 @@ When('I click on MessageID {int}') do |message_id|
   container.click
 end
 
-When('I press "Save" on MessageID {int}') do |message_id|
+When('I press "Save" on MeassageID {int}') do |message_id|
   container = find(%([data-testid="save-#{message_id}"]))
   container.click
-end
-
-When('I edit MessageID {int} to {string}') do |message_id, new_text|
-  find(%([data-testid="edit-#{message_id}"])).click
-
-  within(%([data-testid="message-form-#{message_id}"])) do
-    fill_in 'message_text', with: new_text
-  end
 end
 
 Then("I don't see {string}") do |text|

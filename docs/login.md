@@ -5,7 +5,7 @@ The **login feature** enables users to access their account by entering the corr
 There will be one login page for all types of users. This feature allows for privacy and access to individual data.
 
 
-## User Story: Login 
+## User Story: Search and Filter Itineraries
 As a user/organizer, I want to enter my username and password, so that I can access my account.
 
 ## Acceptance Criteria

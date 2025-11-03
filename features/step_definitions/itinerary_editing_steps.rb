@@ -21,6 +21,7 @@ Then(/^I should be on the itinerary page for "(.*)"$/) do |title|
   expect(page).to have_current_path(itinerary_path(@itinerary))
 end
 
+
 Then(/^I should see an editable "(.*)" field prefilled with "(.*)"$/) do |label, value|
   expect(page).to have_field(label, with: value)
 end
@@ -29,12 +30,17 @@ Then(/^I should see an editable "(.*)" selector prefilled with "(.*)"$/) do |lab
   expect(page).to have_select(label, selected: selected)
 end
 
+
 When(/^I fill in "(.*)" with "(.*)"$/) do |label, value|
   fill_in label, with: value
 end
 
 When(/^I select "(.*)" from "(.*)"$/) do |option, label|
   select option, from: label
+end
+
+When(/^I press "(.*)"$/) do |button|
+  click_button button
 end
 
 Then(/^I should see the message "(.*)"$/) do |text|
