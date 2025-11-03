@@ -2,10 +2,18 @@ Given('I am a signed-in user') do
     @user = User.create!(email: 'test@example.com', password: 'password')
 end
 
+Given('I am on the new itinerary page') do
+  visit new_itinerary_path
+end
+
 When('I fill in the following:') do |table|
     table.rows_hash.each do |field, value|
     fill_in field, with: value
   end
+end
+
+When('I press {string}') do |string|
+    click_button button_text
 end
 
 Then('I should see the success message {string}') do |message|

@@ -1,3 +1,7 @@
+Given('I am on the login page') do
+  visit '/login'
+end
+
 Given('a user exists with {string} {string}') do |username, password|
   @user = User.create!(email: username, password: password, role: "user")
 end
@@ -8,6 +12,10 @@ end
 
 When('I fill in {string} with {string}') do |field, value|
   fill_in field, with: value
+end
+
+When('I click {string}') do |submit|
+  click_button submit
 end
 
 Then('I should be on my user homepage') do
