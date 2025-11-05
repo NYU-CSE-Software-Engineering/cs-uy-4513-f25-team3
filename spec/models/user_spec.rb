@@ -5,4 +5,9 @@ RSpec.describe User, type: :model do
         user = User.new(password: "abc123")
         expect(user).not_to be_valid
     end
+    it 'is invalid if Username already exists' do
+        User.create!(username: "janey", password: "abc123")
+        duplicate = User.new(username: "janey", password: "pass123")
+        expect(duplicate).not_to be_valid
+    end
 end

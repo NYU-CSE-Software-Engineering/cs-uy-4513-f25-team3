@@ -22,7 +22,7 @@ end
 
 Given(/^I am UserID (\d+)$/) do |user_id|
   @current_user = find_user!(user_id.to_i)
-  @old_password = @user.password
+  @old_password = @current_user.password
 end
 
 

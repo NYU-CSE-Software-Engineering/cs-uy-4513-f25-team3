@@ -30,9 +30,9 @@ Given('the following Messages exist:') do |table|
   end
 end
 
-Given('I am UserID {int}') do |user_id|
-  @current_user_id = user_id
-end
+# Given('I am UserID {int}') do |user_id|
+#   @current_user_id = user_id
+# end
 
 Given('I am on the group chat for ItineraryGroupID {int}') do |group_id|
   id = group_id.to_i
