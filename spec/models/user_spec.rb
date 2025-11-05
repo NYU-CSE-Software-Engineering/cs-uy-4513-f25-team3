@@ -10,4 +10,8 @@ RSpec.describe User, type: :model do
         duplicate = User.new(username: "janey", password: "pass123")
         expect(duplicate).not_to be_valid
     end
+    it 'is invalid without a Password' do
+        user = User.new(username: "john123")
+        expect(user).not_to be_valid
+    end
 end
