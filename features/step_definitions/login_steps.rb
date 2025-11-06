@@ -1,5 +1,6 @@
 Given('a user exists with username {string} and password {string}') do |username, password|
   @user = User.create!(username: username, password: password, role: "user")
+end
 
 Given('I am on the login page') do
   visit '/login'
@@ -10,7 +11,7 @@ Given('a user exists with {string} {string}') do |username, password|
 end
 
 Given('an organizer exists with username {string} and password {string}') do |username, password|
-  @organizer = Organizer.create!(username: username, password: password, role: "organizer")
+  @organizer = User.create!(username: username, password: password, role: "organizer")
 end
 
 When('I fill in {string} with {string}') do |field, value|

@@ -1,5 +1,5 @@
 Given('I am logged in as organizer {string}') do |username|
-  organizer = Organizer.find_or_create_by!(username: username, password: 'securepass')
+  organizer = User.find_or_create_by!(username: username, password: 'securepass', role: 'organizer')
   page.set_rack_session(organizer_id: organizer.id)
 end
 
