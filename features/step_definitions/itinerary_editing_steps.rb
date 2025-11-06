@@ -1,5 +1,5 @@
 def find_itinerary!(title)
-  @itinerary = Itinerary.find_by!(title: title)
+  @itinerary = ItineraryGroup.find_by!(title: title)
 end
 
 Given(/^I am a signed-in user$/) do
@@ -8,7 +8,7 @@ end
 
 Given(/^the following itinerary exists:$/) do |table|
   attrs = table.rows_hash.symbolize_keys
-  Itinerary.create!(attrs)
+  ItineraryGroup.create!(attrs)
 end
 
 Given(/^I am on the itinerary settings page for "(.*)"$/) do |title|

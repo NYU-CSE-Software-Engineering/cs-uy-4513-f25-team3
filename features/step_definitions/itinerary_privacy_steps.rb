@@ -8,13 +8,13 @@ Given('I enter {string} as my trip password') do |password|
 end
 
 Then('users must enter a password to join') do
-  itinerary = Itinerary.last
+  itinerary = ItineraryGroup.last
   expect(itinerary.trip_type.downcase).to eq('private')
   expect(itinerary.password).to be_present
 end
 
 Given('the itinerary {string} is private with password {string}') do |title, password|
-  itinerary = Itinerary.find_or_create_by!(title: title)
+  itinerary = ItineraryGroup.find_or_create_by!(title: title)
   itinerary.update!(trip_type: 'private', password: password)
 end
 
@@ -24,7 +24,7 @@ Given('I am logged in as user {string}') do |username|
 end
 
 When('I visit the join page for {string}') do |title|
-  itinerary = Itinerary.find_by!(title: title)
+  itinerary = ItineraryGroup.find_by!(title: title)
   visit join_itinerary_path(itinerary)
 end
 
@@ -37,7 +37,7 @@ Then('I should see {string} in my joined trips list') do |trip_name|
 end
 
 Then('I should be on the join page for {string}') do |title|
-  itinerary = Itinerary.find_by!(title: title)
+  itinerary = ItineraryGroup.find_by!(title: title)
   expect(page.current_path).to eq(join_itinerary_path(itinerary))
 end
 
@@ -46,7 +46,7 @@ Then('I should not see {string} in my joined trips list') do |trip_name|
 end
 
 Then('users no longer need a password to join') do
-  itinerary = Itinerary.last
+  itinerary = ItineraryGroup.last
   expect(itinerary.trip_type.downcase).to eq('public')
   expect(itinerary.password).to be_blank
 end
@@ -58,14 +58,14 @@ Then('the itinerary {string} should have trip_type {string} in the database') do
 end
 
 Then('the itinerary {string} should have an encrypted password in the database') do |title|
-  itinerary = Itinerary.find_by(title: title)
+  itinerary = ItineraryGroup.find_by(title: title)
   expect(itinerary).not_to be_nil
   expect(itinerary.password_digest).not_to be_nil
   expect(itinerary.password_digest).not_to be_empty
 end
 
 Given('I have joined the trip {string} with password {string}') do |title, password|
-  itinerary = Itinerary.find_by(title: title)
+  itinerary = ItineraryGroup.find_by(title: title)
   visit join_itinerary_path(itinerary)
   fill_in 'Trip Password', with: password
   click_button 'Join Trip'
