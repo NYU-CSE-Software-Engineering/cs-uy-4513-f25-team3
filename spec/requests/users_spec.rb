@@ -8,7 +8,9 @@ RSpec.describe "User logout", type: :request do
             end
 
             it "prevents access to protected pages" do
+                allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(double("User", id: 3)) #stubbing login
                 delete logout_path
+                allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(nil) #stubbing logout since sessions don't exist yet, will happen in destroy path, code is there
                 get itineraries_path
                 expect(response).to redirect_to(login_path)
             end
