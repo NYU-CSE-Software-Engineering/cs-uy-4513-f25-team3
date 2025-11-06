@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
-    def new
-        #placeholder for login redirection from logout
+    def new # for now only works when fed parameters manually until we implement login
+        session[:user_id] = params[:user_id]
     end
 
     def destroy
