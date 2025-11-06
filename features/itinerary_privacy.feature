@@ -10,7 +10,7 @@ Feature: Itinerary Privacy
 Background:
     Given an organizer exists with username "izzyadams11" and password "IloveCS123!"
     And the following itinerary exists:
-        | title       | NYC Tour              |
+        | group_name  | NYC Tour              |
         | description | Exploring NYC         |
         | location    | New York              |
         | start_date  | 2026-01-01            |
