@@ -10,12 +10,12 @@ Feature: Itinerary Privacy
 Background:
     Given an organizer exists with username "izzyadams11" and password "IloveCS123!"
     And the following itinerary exists:
-        | group_name  | NYC Tour              |
+        | title       | NYC Tour              |
         | description | Exploring NYC         |
         | location    | New York              |
         | start_date  | 2026-01-01            |
         | end_date    | 2026-01-14            |
-        | trip_type   | Public                |
+        | is_private  | Public                |
         | cost        | 2400                  |
 
 

@@ -10,7 +10,6 @@ Given(/^the following itinerary exists:$/) do |table|
   attrs = table.rows_hash.symbolize_keys
   ItineraryGroup.create!(attrs)
 end
-
 Given(/^I am on the itinerary settings page for "(.*)"$/) do |title|
   find_itinerary!(title)
   visit edit_itinerary_path(@itinerary)

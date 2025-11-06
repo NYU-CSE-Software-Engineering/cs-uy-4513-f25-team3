@@ -10,16 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_11_06_191821) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_06_204035) do
   create_table "itinerary_groups", force: :cascade do |t|
-    t.string "group_name"
-    t.date "date"
+    t.string "title"
+    t.string "description"
     t.string "location"
-    t.boolean "is_private"
+    t.date "start_date"
+    t.date "end_date"
+    t.boolean "is_private", default: false
     t.integer "organizer_id"
-    t.string "password"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.float "cost"
+    t.string "password"
   end
 
   create_table "users", force: :cascade do |t|

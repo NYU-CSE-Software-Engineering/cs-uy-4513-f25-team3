@@ -9,17 +9,17 @@ end
 
 Then('users must enter a password to join') do
   itinerary = ItineraryGroup.last
-  expect(itinerary.trip_type.downcase).to eq('private')
+  expect(itinerary.is_private.downcase).to eq('private')
   expect(itinerary.password).to be_present
 end
 
 Given('the itinerary {string} is private with password {string}') do |title, password|
   itinerary = ItineraryGroup.find_or_create_by!(title: title)
-  itinerary.update!(trip_type: 'private', password: password)
+  itinerary.update!(is_private: 'private', password: password)
 end
 
 Given('I am logged in as user {string}') do |username|
-  user = User.find_or_create_by!(username: username, password: 'password123')
+  user = User.find_or_create_by!(username: username, password: 'password123', role: 'user')
   page.set_rack_session(user_id: user.id)
 end
 
@@ -47,14 +47,14 @@ end
 
 Then('users no longer need a password to join') do
   itinerary = ItineraryGroup.last
-  expect(itinerary.trip_type.downcase).to eq('public')
+  expect(itinerary.is_private.downcase).to eq('public')
   expect(itinerary.password).to be_blank
 end
 
-Then('the itinerary {string} should have trip_type {string} in the database') do |title, trip_type|
+Then('the itinerary {string} should have trip_type {string} in the database') do |title, is_private|
   itinerary = Itinerary.find_by(title: title)
   expect(itinerary).not_to be_nil
-  expect(itinerary.trip_type).to eq(trip_type)
+  expect(itinerary.is_private).to eq(is_private)
 end
 
 Then('the itinerary {string} should have an encrypted password in the database') do |title|
