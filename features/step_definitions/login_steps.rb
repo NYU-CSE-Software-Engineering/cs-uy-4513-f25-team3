@@ -3,7 +3,7 @@ Given('a user exists with username {string} and password {string}') do |username
 end
 
 Given('an organizer exists with username {string} and password {string}') do |username, password|
-  @organizer = Organizer.create!(username: username, password: password, role: "organizer")
+  @organizer = User.create!(username: username, password: password, role: "organizer")
 end
 
 When('I fill in {string} with {string}') do |field, value|
