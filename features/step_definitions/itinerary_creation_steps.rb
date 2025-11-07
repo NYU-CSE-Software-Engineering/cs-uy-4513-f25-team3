@@ -12,9 +12,9 @@ When('I fill in the following:') do |table|
   end
 end
 
-When('I press {string}') do |string|
-    click_button button_text
-end
+#When('I press {string}') do |string|
+#    click_button button_text
+#end
 
 Then('I should see the success message {string}') do |message|
     expect(page).to have_content(message)

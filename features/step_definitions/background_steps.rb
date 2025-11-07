@@ -1,5 +1,7 @@
 require 'time'
 
+=begin
+Commenting out for now because there are two
 Given('the following Users exist:') do |table|
   # table.columns: UserID, Username
   table.hashes.each do |row|
@@ -8,6 +10,7 @@ Given('the following Users exist:') do |table|
     end
   end
 end
+=end
 
 Given('the following ItineraryGroups exist:') do |table|
   # table.columns: ItineraryGroupID, GroupName
@@ -30,9 +33,9 @@ Given('the following Messages exist:') do |table|
   end
 end
 
-Given('I am UserID {int}') do |user_id|
-  @current_user_id = user_id
-end
+# Given('I am UserID {int}') do |user_id|
+#   @current_user_id = user_id
+# end
 
 Given('I am on the group chat for ItineraryGroupID {int}') do |group_id|
   id = group_id.to_i
