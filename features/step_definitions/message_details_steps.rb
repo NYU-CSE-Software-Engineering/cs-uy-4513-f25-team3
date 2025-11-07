@@ -38,6 +38,7 @@ Then('I should see UserID {int} as read') do |user_id|
   ).to be(true), "Expected to see UserID #{user_id} in the read list"
 end
 
+
 Then('I should see UserID {int} as unread') do |user_id|
   expect(
     page.has_text?("Unread: #{user_id}")

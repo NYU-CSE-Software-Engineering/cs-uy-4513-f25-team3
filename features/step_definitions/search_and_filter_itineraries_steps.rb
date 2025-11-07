@@ -6,7 +6,7 @@ end
 # GIVEN
 Given('the following itineraries exist:') do |table|
   table.hashes.each do |itinerary|
-    Itinerary.create!(itinerary)
+    ItineraryGroup.create!(itinerary)
   end
 end
 

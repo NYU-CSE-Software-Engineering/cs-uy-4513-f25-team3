@@ -67,5 +67,6 @@ group :test do
   gem "selenium-webdriver"
   gem 'cucumber-rails', require: false
   gem 'database_cleaner-active_record'
+  gem 'rails-controller-testing'
   gem 'rack_session_access'
 end

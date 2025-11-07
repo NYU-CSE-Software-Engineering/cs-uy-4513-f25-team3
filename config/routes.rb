@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  resources :itineraries, only: [:edit, :update, :show], controller: 'itinerary_groups' do
+    member do
+      get 'join'
+      post 'join', action: 'join_itinerary'
+    end
+  end
   get '/login', to: 'sessions#new'
   delete '/logout', to: 'sessions#destroy'
   get '/itineraries', to: 'itineraries#index'
-
-
 
 end

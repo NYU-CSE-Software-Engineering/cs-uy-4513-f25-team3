@@ -14,7 +14,8 @@ Given(/^the following Users exist:$/) do |table|
       username: row['Username'],
       password: row['Password'],
       age: row['Age'].to_i,
-      gender: row['Gender']
+      gender: row['Gender'],
+      role: row['Role']
     )
   end
 end
@@ -63,13 +64,13 @@ When(/^I update my gender to "(.*)"$/) do |gender|
   @current_user.gender = gender
 end
 
-# When(/^I press "(.*)"$/) do |_button|
-#   if @current_user.password != @password_confirmation
-#     @error_message = "Password confirmation does not match"
-#   else
-#     @current_user.save
-#   end
-# end
+#When(/^I press "(.*)"$/) do |_button|
+#  if @current_user.password != @password_confirmation
+#    @error_message = "Password confirmation does not match"
+#  else
+#    @current_user.save
+#  end
+#end
 
 Then(/^I should see an error saying "(.*)"$/) do |error_text|
   expect(@error_message).to eq(error_text)

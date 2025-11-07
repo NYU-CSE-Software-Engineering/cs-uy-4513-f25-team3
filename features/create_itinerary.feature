@@ -14,7 +14,7 @@ Feature:
             | location    | Korea            |
             | start_date  | 2026-01-15       |
             | end_date    | 2026-01-29       |
-            | trip_type   | Public           |
+            | is_private  | Public           |
             | cost        | 3500             |
         And I press "Create"
         Then I should see the success message "Itinerary Created"
@@ -31,7 +31,7 @@ Feature:
             | description | With the boys!     |
             | start_date  | 2026-05-11         |
             | end_date    | 2026-06-03         |
-            | trip_type   | Private            |
+            | is_private  | Private            |
             | cost        | 5250               |
         And I press "Create"
         Then I should see the error message "location field can not be blank"
