@@ -6,6 +6,7 @@ class ItineraryGroupsController < ApplicationController
     @itinerary_group = ItineraryGroup.find(params[:id])
     
     if @itinerary_group.update(itinerary_group_params)
+      flash[:notice] = "Itinerary was successfully updated."
       redirect_to itinerary_group_path(@itinerary_group)
     else
       render :edit
