@@ -1,6 +1,6 @@
-Given(/I am on the (.*) page/) do |page_name|
-    visit path_to(page_name)
-end
+# Given(/I am on the (.*) page/) do |page_name|
+#     visit path_to(page_name)
+# end
 
 When(/^I click "(.*)"$/) do |link_text|
   click_link_or_button(link_text)

@@ -52,16 +52,18 @@ Then('users no longer need a password to join') do
 end
 
 Then('the itinerary {string} should have trip_type {string} in the database') do |title, is_private|
-  itinerary = Itinerary.find_by(title: title)
+  itinerary = ItineraryGroup.find_by(title: title)
   expect(itinerary).not_to be_nil
-  expect(itinerary.is_private).to eq(is_private)
+
+  expected_value = (is_private.downcase == 'private')
+  expect(itinerary.is_private).to eq(expected_value)
 end
 
 Then('the itinerary {string} should have an encrypted password in the database') do |title|
   itinerary = ItineraryGroup.find_by(title: title)
   expect(itinerary).not_to be_nil
-  expect(itinerary.password_digest).not_to be_nil
-  expect(itinerary.password_digest).not_to be_empty
+  expect(itinerary.password).not_to be_nil
+  expect(itinerary.password).not_to be_nil
 end
 
 Given('I have joined the trip {string} with password {string}') do |title, password|

@@ -8,8 +8,7 @@ Feature: Itinerary Privacy
     So that I can participate securely.
 
 Background:
-    Given an organizer exists with username "izzyadams11" and password "IloveCS123!"
-    And the following itinerary exists:
+    Given the following itinerary exists:
         | title       | NYC Tour              |
         | description | Exploring NYC         |
         | location    | New York              |
