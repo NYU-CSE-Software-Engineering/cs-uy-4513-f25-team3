@@ -44,7 +44,7 @@ When('I press {string} on MessageID {int}') do |button_text, id|
 end
 
 Given('I am on the {string} page') do |page_name|
-  visit path_for(page_name)
+  visit path_to(page_name)
 end
 
 Given('I am on the itineraries page') do
