@@ -23,5 +23,15 @@ RSpec.describe "ItineraryGroups", type: :request do
             
             expect(response).to redirect_to(itinerary_group_path(itinerary_group))
         end
+
+        it "sets a success flash message after successful update" do
+            itinerary_group = ItineraryGroup.create!(title: "NYC Tour")
+            
+            patch itinerary_group_path(itinerary_group), params: {
+                itinerary_group: { title: "NYC Tour Updated" }
+            }
+            
+            expect(flash[:notice]).to eq("Itinerary was successfully updated.")
+        end
     end
 end
