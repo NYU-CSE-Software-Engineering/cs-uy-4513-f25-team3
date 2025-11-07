@@ -23,6 +23,13 @@
   </head>
 
   <body>
+    <% if session[:user_id] %>
+      <div id="navbar">
+        <%= button_to "Logout", logout_path, method: :delete %>
+      </div>
+    <% end %>
+
     <%= yield %>
+
   </body>
 </html>
