@@ -4,7 +4,10 @@ class ApplicationController < ActionController::Base
 
 
   def require_login # checks if user is logged in, called before all protected pages
-    redirect_to login_path unless session[:user_id]
+    unless session[:user_id]
+      flash[:alert] = "Please log in to continue"
+      redirect_to login_path 
+    end
   end
 
 end

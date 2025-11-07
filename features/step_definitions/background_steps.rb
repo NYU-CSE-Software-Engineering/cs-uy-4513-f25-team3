@@ -1,5 +1,7 @@
 require 'time'
 
+=begin
+Commenting out for now because there are two
 Given('the following Users exist:') do |table|
   # table.columns: UserID, Username
   table.hashes.each do |row|
@@ -8,6 +10,7 @@ Given('the following Users exist:') do |table|
     end
   end
 end
+=end
 
 Given('the following ItineraryGroups exist:') do |table|
   # table.columns: ItineraryGroupID, GroupName

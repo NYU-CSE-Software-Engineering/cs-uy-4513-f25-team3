@@ -1,6 +1,7 @@
 Given("my session has expired") do
   # Force-clear the session to simulate timeout
   page.set_rack_session(user_id: nil)
+  visit itineraries_path 
 end
 
 Then("I should not have an active session") do

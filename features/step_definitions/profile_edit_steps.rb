@@ -1,11 +1,14 @@
-def find_user!(user_id)
-  User.find_by(user_id: user_id)
+=begin
+used session instead since it is implemented now
+def find_user!(id)
+  User.find(id)
 end
+=end
 
 Given(/^the following Users exist:$/) do |table|
   table.hashes.each do |row|
     User.create!(
-      user_id: row['UserID'].to_i,
+      #user_id: row['UserID'].to_i, # deleting because database gives us an id automatically
       first_name: row['FirstName'],
       last_name: row['LastName'],
       username: row['Username'],
@@ -21,7 +24,9 @@ Given(/^I am on the profile edit page$/) do
 end
 
 Given(/^I am UserID (\d+)$/) do |user_id|
-  @current_user = find_user!(user_id.to_i)
+  user = User.find(user_id.to_i)
+  @current_user = user
+  page.set_rack_session(user_id: user.id)
   @old_password = @current_user.password
 end
 

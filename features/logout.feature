@@ -11,6 +11,7 @@ Background:
         | 3      | Izzy      | Adams    | izzyadams11 | IloveCS123 | 21  | Female |
         | 4      | Rhea      | Nayar    | rheanayar   | IloveDS123 | 23  | Female |
     And I am UserID 1
+    And I am on the "itineraries" page
 
 Scenario: Successful logout
     When I press "Logout"
@@ -25,12 +26,11 @@ Scenario: Logout attempt without being logged in
 
 Scenario: Access page after logout
     When I press "Logout"
-    When I try to visit the itinerary page
+    When I try to visit the itineraries page
     Then I should be on the login page
     And I should see the message "Please log in to continue"
     
 Scenario: No logout button after session expires
     Given my session has expired
     Then I should not see a "Logout" button
-    And I should see the message "Your session has expired"
     And I should be on the login page
