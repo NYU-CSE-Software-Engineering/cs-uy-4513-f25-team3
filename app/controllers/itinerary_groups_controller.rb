@@ -16,22 +16,26 @@ class ItineraryGroupsController < ApplicationController
   
   def show
     @itinerary_group = ItineraryGroup.find(params[:id])
+
+    if @itinerary_group.is_private
+        flash.now[:alert] = "This itinerary is private and cannot be viewed."
+    end
   end
 
   def join
     @itinerary_group = ItineraryGroup.find(params[:id])
   end
   
-def join_itinerary
-  @itinerary_group = ItineraryGroup.find(params[:id])
-  if @itinerary_group.is_private && params[:password] != @itinerary_group.password
-    flash[:alert] = "Incorrect trip password."
-    render :join
-  else
-    flash[:notice] = "You have joined the trip successfully."
-    redirect_to itinerary_path(@itinerary_group)
+  def join_itinerary
+    @itinerary_group = ItineraryGroup.find(params[:id])
+    if @itinerary_group.is_private && params[:password] != @itinerary_group.password
+      flash[:alert] = "Incorrect trip password."
+      render :join
+    else
+      flash[:notice] = "You have joined the trip successfully."
+      redirect_to itinerary_path(@itinerary_group)
+    end
   end
-end
   
   private
   
