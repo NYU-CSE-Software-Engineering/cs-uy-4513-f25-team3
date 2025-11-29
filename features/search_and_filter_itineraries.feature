@@ -5,7 +5,7 @@ Feature: Search and Filter Itineraries
 
 Background:
     Given the following itineraries exist:
-      | title           | description                | location  | start_date  | end_date    | trip_type | cost |
+      | title           | description                | location  | start_date  | end_date    | is_private| cost |
       | Hawaii Trip     | Fun week in Hawaii         | Honolulu  | 2025-12-01  | 2025-12-07  | Public    | 1200 |
       | Hawaii Private  | Private luxury getaway     | Honolulu  | 2025-12-05  | 2025-12-10  | Private   | 3000 |
       | Ski Escape      | Skiing adventure in Aspen  | Aspen     | 2025-11-15  | 2025-11-20  | Public    | 800  |
