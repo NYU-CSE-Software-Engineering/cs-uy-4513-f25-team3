@@ -60,7 +60,7 @@ Then(/^I should not see the following itineraries: (.*)$/) do |itineraries|
 end
 
 Then(/^I should see all itineraries$/) do
-  expected_titles = Itinerary.all.map(&:title)
+  expected_titles = ItineraryGroup.all.map(&:title)
   visible_titles = page.all('.itinerary-title').map(&:text)
   expect(visible_titles).to match_array(expected_titles)
 end
@@ -83,7 +83,7 @@ Then(/^I can return to the itineraries page$/) do
 end
 
 Then('I should see the following details for {string}') do |title|
-  itinerary = Itinerary.find_by(title: title)
+  itinerary = ItineraryGroup.find_by(title: title)
 
   # Check each attribute, show "Not available" if missing
   expect(page).to have_content(itinerary.title || 'Not available')
