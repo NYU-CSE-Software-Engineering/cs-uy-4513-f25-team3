@@ -46,7 +46,7 @@ group :development, :test do
 
   # Added gems from Step 2
   gem "rspec-rails"
-  gem "cucumber-rails"
+  # gem "cucumber-rails"
   gem "capybara"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
@@ -69,4 +69,5 @@ group :test do
   gem 'database_cleaner-active_record'
   gem 'rails-controller-testing'
   gem 'rack_session_access'
+  gem "simplecov", require: false
 end
