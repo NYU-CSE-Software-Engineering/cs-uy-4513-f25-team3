@@ -1,5 +1,8 @@
 class ItinerariesController < ApplicationController
   before_action :require_login
+  
+  # UNCOMMENT TO SEE THE ITINERARIES PAGE WITHOUT LOGIN AS IT IS NOT IMPLEMENTED YET
+  # skip_before_action :require_login, only: :index 
 
   def index
     @itineraries = ItineraryGroup.all
