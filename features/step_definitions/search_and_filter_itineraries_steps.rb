@@ -32,7 +32,7 @@ When(/^I filter by location "(.*)"$/) do |location|
 end
 
 When(/^I filter by trip type "(.*)"$/) do |trip_type|
-  select trip_type, from: trip_type
+  select trip_type, from: "Trip type"
   submit_search_form
 end
 
@@ -57,13 +57,15 @@ When(/^I search for itineraries containing "(.*)"$/) do |keyword|
 end
 
 Then(/^I should see the following itineraries: (.*)$/) do |itineraries|
-  itineraries.split(',').map(&:strip).each do |title|
+  titles = itineraries.split(',').map { |t| t.strip.delete('"') }
+  titles.each do |title|
     expect(page).to have_content(title)
   end
 end
 
 Then(/^I should not see the following itineraries: (.*)$/) do |itineraries|
-  itineraries.split(',').map(&:strip).each do |title|
+  titles = itineraries.split(',').map { |t| t.strip.delete('"') }
+  titles.each do |title|
     expect(page).not_to have_content(title)
   end
 end

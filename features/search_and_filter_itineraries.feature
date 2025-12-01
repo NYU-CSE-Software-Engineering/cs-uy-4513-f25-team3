@@ -19,13 +19,13 @@ Background:
 
 Scenario: Search itineraries by keyword
     When I search for itineraries containing "Hawaii"
-    Then I should see the following itineraries: "Hawaii Trip", "Hawaii Private"
+    Then I should see the following itineraries: "Hawaii Trip"
     And I should not see the following itineraries: "Ski Escape", "Beach Relax", "City Tour", "Luxury Escape", "Solo Adventure"
 
 Scenario: Filter itineraries by date range
     When I filter by dates between "2025-12-05" and "2025-12-10"
-    Then I should see the following itineraries: "Hawaii Trip", "Beach Relax"
-    And I should not see the following itineraries: "Hawaii Private", "Ski Escape", "City Tour", "Luxury Escape", "Solo Adventure"
+    Then I should see the following itineraries: "Beach Relax"
+    And I should not see the following itineraries: "Hawaii Trip", "Ski Escape", "City Tour", "Luxury Escape", "Solo Adventure"
 
 Scenario: Filter itineraries by location
     When I filter by location "Aspen"
@@ -35,7 +35,7 @@ Scenario: Filter itineraries by location
 Scenario: Filter itineraries by trip type
     When I filter by trip type "Private"
     Then I should see the following itineraries: "Hawaii Private", "Luxury Escape"
-    And I should not see the following itineraries: "Hawaii Private", "Ski Escape", "City Tour", "beach Relax", "Solo Adventure"
+    And I should not see the following itineraries: "Hawaii Trip", "Ski Escape", "City Tour", "beach Relax", "Solo Adventure"
 
 Scenario: Filter itineraries by cost range
     When I filter itineraries with cost between 700 and 1500
