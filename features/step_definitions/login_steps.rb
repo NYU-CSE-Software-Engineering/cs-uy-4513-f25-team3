@@ -18,10 +18,6 @@ When('I fill in {string} with {string}') do |field, value|
   fill_in field, with: value
 end
 
-When('I click {string}') do |submit|
-  click_button submit
-end
-
 Then('I should be on my user homepage') do
   expect(current_path).to eq(user_path(@user))
 end
