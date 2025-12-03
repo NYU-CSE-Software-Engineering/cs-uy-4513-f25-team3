@@ -12,10 +12,12 @@
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
-require 'simplecov'
-SimpleCov.start 'rails' do
-  add_filter '/spec/'
-  add_filter '/features/'
+if !defined?(SimpleCov::ResultMerger)
+  require "simplecov"
+  SimpleCov.start "rails" do
+    add_filter "/spec/"
+    add_filter "/features/"
+  end
 end
 
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
@@ -26,7 +28,7 @@ RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
-    # defined using `chain`, e.g.:
+    # defined using `chain`, e.g.:g
     #     be_bigger_than(2).and_smaller_than(4).description
     #     # => "be bigger than 2 and smaller than 4"
     # ...rather than:
