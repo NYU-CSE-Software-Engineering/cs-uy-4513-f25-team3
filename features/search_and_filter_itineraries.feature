@@ -30,12 +30,12 @@ Scenario: Filter itineraries by date range
 Scenario: Filter itineraries by location
     When I filter by location "Aspen"
     Then I should see the following itineraries: "Ski Escape"
-    And I should not see the following itineraries: "Hawaii Trip", "Hawaii Private", "Breach Relax", "City Tour", "Luxury Escape", "Solo Adventure"
+    And I should not see the following itineraries: "Hawaii Trip", "Hawaii Private", "Beach Relax", "City Tour", "Luxury Escape", "Solo Adventure"
 
 Scenario: Filter itineraries by trip type
     When I filter by trip type "Private"
     Then I should see the following itineraries: "Hawaii Private", "Luxury Escape"
-    And I should not see the following itineraries: "Hawaii Trip", "Ski Escape", "City Tour", "beach Relax", "Solo Adventure"
+    And I should not see the following itineraries: "Hawaii Trip", "Ski Escape", "City Tour", "Beach Relax", "Solo Adventure"
 
 Scenario: Filter itineraries by cost range
     When I filter itineraries with cost between 700 and 1500
