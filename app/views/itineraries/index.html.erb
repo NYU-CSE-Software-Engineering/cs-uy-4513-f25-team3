@@ -1,1 +1,4 @@
 <h1>Itineraries</h1>
+<% if current_user %>
+  <h2>Welcome, <%= current_user.username %>!</h2>
+<% end %>

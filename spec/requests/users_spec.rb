@@ -1,34 +1,73 @@
 require 'rails_helper'
 
+RSpec.describe "User login", type: :request do
+  let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123") }
+  
+    describe "POST /login" do
+        context "with valid credentials" do
+            it "logs the user in and redirects to dashboard" do
+                post login_path, params: { user: { username: user.username, password: user.password } }
+
+                expect(response).to redirect_to(itineraries_path)
+                follow_redirect!
+                expect(response.body).to include("Welcome, #{user.username}")
+
+            end
+        end
+
+        context "with invalid credentials" do
+            it "doesn't log the user in and rerenders login page" do
+                post login_path, params: { user: { username: user.username, password: "incorrect" } }
+
+
+                expect(response).to render_template(:new)
+                expect(response.body).to include("Invalid username and/or password")
+            end
+        end
+    end
+end
+
+
 RSpec.describe "User logout", type: :request do
-    let!(:user) { User.create(username: "izzyadams11", password: "iloveCS123")} # create a fake user in database
+    let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123") }
 
     describe "DELETE /logout" do
-        context "the user is logged in" do
+        context "when the user is logged in" do
             before do
-                post login_path, params: {user_id: user.id} # login as user (needs full implementation later)
+                post login_path, params: { user: { username: user.username, password: user.password } }
             end
 
             it "redirects to login and prevents access to protected pages after logout" do
-                delete logout_path #logout
-                expect(response).to redirect_to(login_path) #logging out redirects to the login page
-                get itineraries_path # visit a protected page (should be denied access)
-                expect(response).to redirect_to(login_path) # when access is denied it redirects to login page
-            end
+                delete logout_path
+                expect(response).to redirect_to(login_path)
+                
+                get itineraries_path
+                expect(response).to redirect_to(login_path)
 
+                follow_redirect!
+                expect(response.body).to include("Login")
+            end
         end
 
-        context "the user is already logged out" do
+        context "when the user is already logged out" do
             before do
-                delete logout_path # start logged out
+                delete logout_path
             end
+
             it "prevents access to protected pages" do
                 get itineraries_path
                 expect(response).to redirect_to(login_path)
+
+                follow_redirect!
+                expect(response.body).to include("Login")
             end
+
             it "redirects to the login page when user tries to logout" do
                 delete logout_path
                 expect(response).to redirect_to(login_path)
+
+                follow_redirect!
+                expect(response.body).to include("Login")
             end
         end
     end
