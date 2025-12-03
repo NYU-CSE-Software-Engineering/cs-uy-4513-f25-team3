@@ -9,7 +9,7 @@ Scenario: View all accounts
     | username | role |
     | "izzyadams11" | "user" |
     | "rheanayar7" | "organizer"|
-    When I navigate to the accounts page
+    When I navigate to the Accounts page
     Then I should see information for "izzyadams11"
     And I should see information for "rheanayar7"
 
