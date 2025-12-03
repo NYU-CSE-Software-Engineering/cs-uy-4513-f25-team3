@@ -22,7 +22,6 @@ RSpec.describe User, type: :model do
         user = create(:user, :admin)  
         expect(user.admin?).to be true
     end
-
     it "returns false for admin? if role is not admin" do
         user = create(:user, :organizer)  
         expect(user.admin?).to be false
