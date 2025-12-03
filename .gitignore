@@ -3,3 +3,5 @@ tmp/
 vendor/bundle
 vendor/ruby
 .DS_Store
+log/*.log
+storage/*.sqlite3
