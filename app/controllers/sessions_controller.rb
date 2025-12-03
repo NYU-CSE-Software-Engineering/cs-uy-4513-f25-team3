@@ -3,6 +3,12 @@ class SessionsController < ApplicationController
         session[:user_id] = params[:user_id]
     end
 
+    def create
+        session[:user_id] = params[:user_id]
+        redirect_to itineraries_path
+    end
+
+
     def destroy
         session[:user_id] = nil
         flash[:notice] = "You have been logged out"
