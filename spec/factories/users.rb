@@ -4,4 +4,7 @@ FactoryBot.define do
         password { "password123" }
         role { "user" }
     end
+    trait :admin do
+      role { "admin" }
+    end
 end

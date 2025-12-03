@@ -3,35 +3,31 @@ Feature: Login
     I want to view and manage user accounts 
     so that I can maintain system security and integrity.
 
-Scenario: View all accounts
-    Given I am logged in as an administrator
-    And the following accounts exist
+Background:
+    The following accounts exist
     | username | role |
     | "izzyadams11" | "user" |
     | "rheanayar7" | "organizer"|
+
+Scenario: View all accounts
+    Given I am logged in as an administrator
     When I navigate to the Accounts page
-    Then I should see information for "izzyadams11"
-    And I should see information for "rheanayar7"
+    And the Accounts page should display "izzyadams11"
+    And the Accounts page should display "rheanayar7"
 
 
 Scenario: Successful account deletion
     Given I am logged in as an administrator
-    And a user with username "izzyadams11" exists
-    When I select that account 
-    And I click "Delete"
-    And I choose "Confirm" on the confirmation prompt
-    Then the system should remove that user account
-    And the Accounts page should not display "izzyadams11"
+    And I click "Delete" for "izzyadams11"
+    And I click "Confirm"
+    Then the Accounts page should not display "izzyadams11"
 
 
 Scenario: Cancel account deletion
     Given I am logged in as an administrator
-    And a user with username "izzyadams11" exists
-    When I select that account 
-    And I click "Delete"
-    And I choose "Cancel" on the confirmation prompt
-    Then the account should still exist
-    And the Accounts page should display "izzyadams11"
+    And I click "Delete" for "izzyadams11"
+    And I click "Cancel"
+    Then the Accounts page should display "izzyadams11"
 
 
 Scenario: Deleting a nonexistent account
@@ -49,10 +45,8 @@ Scenario: Trying to delete an account as a user
 
 Scenario: Successful modification of account role
     Given I am logged in as an administrator
-    And a user with username "izzyadams11" and role "user" exists
-    When I select that account 
-    And I click "Modify Role"
+    And I click "Modify Role" for "izzyadams11"
     And I change the role to "organizer"
-    And I choose "Confirm" on the confirmation prompt
+    And I click "Confirm"
     Then the account "izzyadams11" should have role "organizer"
 
