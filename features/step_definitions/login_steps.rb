@@ -3,38 +3,26 @@ Given('a user exists with username {string} and password {string}') do |username
 end
 
 Given('I am on the login page') do
-  visit '/login'
+  visit login_path
 end
 
-Given('a user exists with {string} {string}') do |username, password|
-  @user = User.create!(email: username, password: password, role: "user")
-end
+
 
 Given('an organizer exists with username {string} and password {string}') do |username, password|
   @organizer = User.create!(username: username, password: password, role: "organizer")
 end
 
-When('I fill in {string} with {string}') do |field, value|
-  fill_in field, with: value
-end
 
-When('I click {string}') do |submit|
-  click_button submit
-end
 
-Then('I should be on my user homepage') do
-  expect(current_path).to eq(user_path(@user))
-end
 
-Then('I should be on my organizer homepage') do
-  expect(current_path).to eq(organizer_path(@organizer))
-end
+
 
 Then('I should receive an error') do
   expect(page).to have_content("Invalid username and/or password")
 end
 
 Then('the login page should refresh to blank') do
-  expect(find_field('Username').value).to eq("")
-  expect(find_field('Password').value).to eq("")
+  expect(page).to have_field("Username", with: "")
+  password_value = find_field("Password").value
+  expect(password_value.nil? || password_value == "").to be true
 end

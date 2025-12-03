@@ -12,9 +12,6 @@ Then(/^I should see (a message|an error) "(.*)"$/) do |type, text|
 end
 
 
-When('I click {string}') do |submit|
-  click_button submit
-end
 
 Then(/^I should see (?:a message|an error) "(.*)"$/) do |type, text|
   expect(page).to have_content(text)
