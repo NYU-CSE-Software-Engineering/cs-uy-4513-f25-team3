@@ -5,14 +5,14 @@ Feature: Search and Filter Itineraries
 
 Background:
     Given the following itineraries exist:
-      | title           | description                | location  | start_date  | end_date    | is_private| cost |
-      | Hawaii Trip     | Fun week in Hawaii         | Honolulu  | 2025-12-01  | 2025-12-07  | Public    | 1200 |
-      | Hawaii Private  | Private luxury getaway     | Honolulu  | 2025-12-05  | 2025-12-10  | Private   | 3000 |
-      | Ski Escape      | Skiing adventure in Aspen  | Aspen     | 2025-11-15  | 2025-11-20  | Public    | 800  |
-      | Beach Relax     | Relaxing on Miami beaches  | Miami     | 2025-12-05  | 2025-12-10  | Public    | 1500 |
-      | City Tour       | Explore New York City      | New York  | 2025-12-10  | 2025-12-12  | Public    | 500  |
-      | Luxury Escape   | High-end resort experience | Maldives  | 2025-12-15  | 2025-12-22  | Private   |      |
-      | Solo Adventure  | Solo hiking trip           | Colorado  | 2025-11-20  | 2025-11-25  | Public    | 300  |
+      | title           | description                | location  | start_date  | end_date    | is_private| cost | password |
+      | Hawaii Trip     | Fun week in Hawaii         | Honolulu  | 2025-12-01  | 2025-12-07  | Public    | 1200 |          |
+      | Hawaii Private  | Private luxury getaway     | Honolulu  | 2025-12-05  | 2025-12-10  | Private   | 3000 | pwd      |
+      | Ski Escape      | Skiing adventure in Aspen  | Aspen     | 2025-11-15  | 2025-11-20  | Public    | 800  |          |
+      | Beach Relax     | Relaxing on Miami beaches  | Miami     | 2025-12-05  | 2025-12-10  | Public    | 1500 |          |
+      | City Tour       | Explore New York City      | New York  | 2025-12-10  | 2025-12-12  | Public    | 500  |          |
+      | Luxury Escape   | High-end resort experience | Maldives  | 2025-12-15  | 2025-12-22  | Private   |      | plsfix   |
+      | Solo Adventure  | Solo hiking trip           | Colorado  | 2025-11-20  | 2025-11-25  | Public    | 300  |          |
     And I am on the itineraries page
 
 # HAPPY PATHS
