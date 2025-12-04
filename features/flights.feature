@@ -24,8 +24,8 @@ Feature: Manage Flights
             Then I should see "DL202"
             And I should not see "IC067"
 
-        Scenario: Filter flights by maximum cost
-            When I filter flights by maximum cost "400"
+        Scenario: Filter flights by cost
+            When I filter flights with cost between 700 and 1500
             Then I should see "IC067"
             And I should not see "DL202"
         
