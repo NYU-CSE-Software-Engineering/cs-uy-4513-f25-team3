@@ -14,9 +14,6 @@ end
 
 
 
-
-
-
 Then('I should receive an error') do
   expect(page).to have_content("Invalid username and/or password")
 end
