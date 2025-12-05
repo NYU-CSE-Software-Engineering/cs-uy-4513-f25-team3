@@ -2,3 +2,66 @@
 <% if current_user %>
   <h2>Welcome, <%= current_user.username %>!</h2>
 <% end %>
+
+
+<% if flash.now[:alert] %>
+  <div class="alert"><%= flash.now[:alert] %></div>
+<% end %>
+
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
+
+<%= form_with url: itineraries_path, method: :get, local: true do %>
+<div>
+<%= label_tag :search, "Search" %>
+    <%= text_field_tag :search, params[:search], id: "search" %>
+
+<%= text_field_tag :keyword, params[:search], id: "keyword", type: :hidden %>
+  </div>
+
+<div>
+<%= label_tag :start_date, "Start date" %>
+    <%= date_field_tag :start_date, params[:start_date], id: "start_date" %>
+
+<%= label_tag :end_date, "End date" %>
+    <%= date_field_tag :end_date, params[:end_date], id: "end_date" %>
+</div>
+
+<div>
+<%= label_tag :location, "Location" %>
+    <%= text_field_tag :location, params[:location], id: "location" %>
+</div>
+
+<div>
+  <%= label_tag :trip_type, "Trip type" %>
+  <%= select_tag :trip_type,
+        options_for_select([["Public", "Public"], ["Private", "Private"]], params[:trip_type]),
+        include_blank: false,
+        id: "trip_type" %>
+</div>
+
+
+<div>
+<%= label_tag :min_cost, "Min cost" %>
+    <%= text_field_tag :min_cost, params[:min_cost], id: "min_cost" %>
+
+<%= label_tag :max_cost, "Max cost" %>
+    <%= text_field_tag :max_cost, params[:max_cost], id: "max_cost" %>
+</div>
+
+<%= submit_tag "Search" %>
+  <%= submit_tag "Clear", name: "clear" %>
+<% end %>
+
+<% if @itineraries.present? %>
+<ul>
+<% @itineraries.each do |itinerary| %>
+      <li class="itinerary-title">
+    <%= link_to itinerary.title, itinerary_path(itinerary) %>
+      </li>
+    <% end %>
+  </ul>
+    <% else %>
+  <p>No itineraries found</p>
+    <% end %>
