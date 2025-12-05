@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # search / filyer
-  resources :itineraries, only: [:index]
+  resources :itineraries, only: [:index] # itinerary_group shows
 
   # itinerary actions
   resources :itinerary_groups,
@@ -25,6 +25,10 @@ Rails.application.routes.draw do
       post "join", action: "join_itinerary"
     end
   end
+
+  # flights & hotels
+  resources :flights, only: [:index] # no individual show
+  resources :hotels, only: [:index] # no individual show
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
