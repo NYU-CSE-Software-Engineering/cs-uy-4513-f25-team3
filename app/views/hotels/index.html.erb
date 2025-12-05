@@ -1,0 +1,37 @@
+<h1>Hotels</h1>
+
+<% if flash.now[:alert] %>
+  <div class="alert"><%= flash.now[:alert] %></div>
+<% end %>
+
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
+
+<%= form_with url: hotels_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :search_location, "Location" %>
+    <%= text_field_tag :search_location, params[:search_location], id: "search_location" %>
+  </div>
+
+  <div>
+    <%= label_tag :min_rating, "Minimum rating" %>
+    <%= number_field_tag :min_rating, params[:min_rating], id: "min_rating" %>
+  </div>
+
+  <%= render "shared/date_and_cost_filters",
+             start_label: "Arrival date",
+             end_label: "Departure date" %>
+
+  <%= submit_tag "Search" %>
+<% end %>
+
+<% if @hotels.present? %>
+  <ul>
+    <% @hotels.each do |hotel| %>
+      <li class="hotel-name"><%= hotel.name %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No hotels found</p>
+<% end %>
