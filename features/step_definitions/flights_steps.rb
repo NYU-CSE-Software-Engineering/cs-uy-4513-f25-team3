@@ -1,5 +1,5 @@
 Given ('I am on the flights page') do
-    visit '/flights'
+    visit flights_path
 end
 
 Given('the following flights exist:') do |table|
