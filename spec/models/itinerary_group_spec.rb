@@ -9,7 +9,7 @@ RSpec.describe ItineraryGroup, type: :model do
 
   it 'is invalid without a location' do
     itinerary_group = ItineraryGroup.new
-    expect(intinerary_group).not_to be_valid
+    expect(itinerary_group).not_to be_valid
     expect(itinerary_group.errors[:location]).to include("can't be blank")
   end
   
