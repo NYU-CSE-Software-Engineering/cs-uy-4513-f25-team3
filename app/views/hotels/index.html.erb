@@ -16,7 +16,11 @@
 
   <div>
     <%= label_tag :min_rating, "Minimum rating" %>
-    <%= number_field_tag :min_rating, params[:min_rating], id: "min_rating" %>
+    <%= number_field_tag :min_rating, params[:min_rating],
+          id: "min_rating",
+          min: 0,
+          max: 5,
+          step: 0.1 %>
   </div>
 
   <%= render "shared/date_and_cost_filters",
