@@ -1,6 +1,7 @@
 class ItineraryGroup < ApplicationRecord
   validates :title, presence: true
   validates :location, presence: true
+  validates :start_date, presence: true
 
   def trip_type
     is_private? ? "Private" : "Public"
