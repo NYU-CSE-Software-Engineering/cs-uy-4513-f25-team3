@@ -4,7 +4,7 @@ RSpec.describe "Hotel search and filtering", type: :request do
   let!(:user) { User.create!(username: "hotel_user", password: "password", role: "user") }
 
   before do
-    post login_path, params: { user_id: user.id }
+    post login_path, params: { user: { username: user.username, password: user.password } }
   end
 
   let!(:hilton) do
