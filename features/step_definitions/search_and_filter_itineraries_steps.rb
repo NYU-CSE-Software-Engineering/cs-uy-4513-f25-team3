@@ -1,8 +1,3 @@
-# HELPER
-def submit_search_form
-  click_button "Search"
-end
-
 # GIVEN
 Given('the following itineraries exist:') do |table|
   # Log in a test user so require_login passes
@@ -20,12 +15,6 @@ Given('the following itineraries exist:') do |table|
 end
 
 # WHEN
-When(/^I filter by dates between "([^"]*)" and "([^"]*)"$/) do |start_date, end_date|
-  fill_in 'start_date', with: start_date
-  fill_in 'end_date', with: end_date
-  submit_search_form
-end
-
 When(/^I filter by location "(.*)"$/) do |location|
   fill_in "location", with: location
   submit_search_form
@@ -33,21 +22,6 @@ end
 
 When(/^I filter by trip type "(.*)"$/) do |trip_type|
   select trip_type, from: "Trip type"
-  submit_search_form
-end
-
-When(/^I filter itineraries with cost between (\d+) and (\d+)$/) do |min, max|
-  fill_in 'min_cost', with: min
-  fill_in 'max_cost', with: max
-  submit_search_form
-end
-
-When('I clear all filters') do
-  click_button 'Clear'
-end
-
-When('I filter itineraries with an invalid cost range') do
-  fill_in 'min_cost', with: 'abc'
   submit_search_form
 end
 

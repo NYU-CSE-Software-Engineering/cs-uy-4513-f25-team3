@@ -1,0 +1,37 @@
+<h1>Flights</h1>
+
+<% if flash.now[:alert] %>
+  <div class="alert"><%= flash.now[:alert] %></div>
+<% end %>
+
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
+
+<%= form_with url: flights_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :departure_location, "Departure location" %>
+    <%= text_field_tag :departure_location, params[:departure_location], id: "departure_location" %>
+  </div>
+
+  <div>
+    <%= label_tag :arrival_location, "Arrival location" %>
+    <%= text_field_tag :arrival_location, params[:arrival_location], id: "arrival_location" %>
+  </div>
+
+  <%= render "shared/date_and_cost_filters",
+             start_label: "Departure date",
+             end_label: "Arrival date" %>
+
+  <%= render "shared/search_and_clear_buttons" %>
+<% end %>
+
+<% if @flights.present? %>
+  <ul>
+    <% @flights.each do |flight| %>
+      <li class="flight-number"><%= flight.flight_number %></li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No flights found</p>
+<% end %>
