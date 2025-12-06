@@ -2,6 +2,22 @@
 <% if flash[:notice] %>
   <p class="flash-notice"><%= flash[:notice] %></p>
 <% end %>
+
 <% if flash[:alert] %>
   <p class="flash-alert"><%= flash[:alert] %></p>
+<% end %>
+
+<%= form_with model: @user, url: login_path, method: :post, local: true do |f| %>
+  <div>
+    <%= f.label :username %><br>
+    <%= f.text_field :username, required: true%>
+  </div>
+  <div>
+    <%= f.label :password %><br>
+    <%= f.password_field :password, required: true %>
+  </div>
+
+  <div>
+    <%= f.submit "Login" %>
+  </div>
 <% end %>

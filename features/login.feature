@@ -8,23 +8,23 @@ Feature: Login
         And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with "IloveCS123!"
-        And I click "Submit"
-        Then I should be on my user homepage
+        And I click "Login"
+        Then I should be on the itineraries page
 
     Scenario: Successful login as an organizer
         Given I am on the login page
         And an organizer exists with username "rheanayar" and password "IloveDS123!"
         When I fill in "Username" with "rheanayar"
         And I fill in "Password" with "IloveDS123!"
-        And I click "Submit"
-        Then I should be on my organizer homepage
+        And I click "Login"
+        Then I should be on the itineraries page
 
     Scenario: Unsuccessful login
         Given I am on the login page
         And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with "IloveDS!"
-        And I click "Submit"
+        And I click "Login"
         Then I should receive an error
         And the login page should refresh to blank
 
@@ -33,6 +33,6 @@ Feature: Login
         And a user exists with username "izzyadams11" and password "IloveCS123!"
         When I fill in "Username" with "izzyadams11"
         And I fill in "Password" with ""
-        And I click "Submit"
+        And I click "Login"
         Then I should receive an error
         And the login page should refresh to blank

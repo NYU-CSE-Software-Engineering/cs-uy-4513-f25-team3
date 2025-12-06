@@ -1,11 +1,19 @@
 class SessionsController < ApplicationController
-    def new # for now only works when fed parameters manually until we implement login
-        session[:user_id] = params[:user_id]
+    def new 
+        @user = User.new
     end
 
     def create
-        session[:user_id] = params[:user_id]
-        redirect_to itineraries_path
+        user = User.find_by(username: params[:user][:username])
+        if user && user.password == params[:user][:password]
+            reset_session
+            session[:user_id] = user.id
+            redirect_to itineraries_path
+        else
+            flash[:alert] = "Invalid username and/or password"
+            @user = User.new(username: "", password: "")
+            render :new, status: :unprocessable_entity
+        end
     end
 
 
