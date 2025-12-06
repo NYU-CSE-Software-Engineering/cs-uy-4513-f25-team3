@@ -6,7 +6,15 @@ class FlightsController < ApplicationController
   def index
     @flights = Flight.all
 
-    return unless params[:commit] == "Search"
+    if params[:clear].present?
+      params[:departure_location] = nil
+      params[:arrival_location]   = nil
+      params[:start_date]         = nil
+      params[:end_date]           = nil
+      params[:min_cost]           = nil
+      params[:max_cost]           = nil
+      return
+    end
 
     scope, date_error = handle_date_errors_for(Flight)
     if date_error

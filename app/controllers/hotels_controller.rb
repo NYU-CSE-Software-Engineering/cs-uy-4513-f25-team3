@@ -6,7 +6,15 @@ class HotelsController < ApplicationController
   def index
     @hotels = Hotel.all
 
-    return unless params[:commit] == "Search"
+    if params[:clear].present?
+      params[:search_location] = nil
+      params[:start_date]      = nil
+      params[:end_date]        = nil
+      params[:min_cost]        = nil
+      params[:max_cost]        = nil
+      params[:min_rating]      = nil
+      return
+    end
 
     scope, date_error = handle_date_errors_for(Hotel)
     if date_error

@@ -8,11 +8,14 @@ class ItinerariesController < ApplicationController
   def index
     @itineraries = ItineraryGroup.all
 
-    # "Filters not applied until search triggered"
-    return unless params[:commit] == "Search" && params[:clear].blank?
-
     if params[:clear].present?
-      @itineraries = ItineraryGroup.all
+      params[:search]     = nil
+      params[:start_date] = nil
+      params[:end_date]   = nil
+      params[:min_cost]   = nil
+      params[:max_cost]   = nil
+      params[:location]   = nil
+      params[:trip_type]  = nil
       return
     end
 
