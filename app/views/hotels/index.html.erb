@@ -27,7 +27,7 @@
              start_label: "Arrival date",
              end_label: "Departure date" %>
 
-  <%= submit_tag "Search" %>
+  <%= render "shared/search_and_clear_buttons" %>
 <% end %>
 
 <% if @hotels.present? %>

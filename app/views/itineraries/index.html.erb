@@ -37,8 +37,7 @@
 </div>
 
 
-<%= submit_tag "Search" %>
-  <%= submit_tag "Clear", name: "clear" %>
+<%= render "shared/search_and_clear_buttons" %>
 <% end %>
 
 <% if @itineraries.present? %>

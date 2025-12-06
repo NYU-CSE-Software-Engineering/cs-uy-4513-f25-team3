@@ -23,7 +23,7 @@
              start_label: "Departure date",
              end_label: "Arrival date" %>
 
-  <%= submit_tag "Search" %>
+  <%= render "shared/search_and_clear_buttons" %>
 <% end %>
 
 <% if @flights.present? %>
