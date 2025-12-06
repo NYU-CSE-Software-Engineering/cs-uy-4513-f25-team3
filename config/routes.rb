@@ -31,4 +31,8 @@ Rails.application.routes.draw do
   delete '/logout', to: 'sessions#destroy'
   get '/itineraries', to: 'itineraries#index'
 
+  get "/signup", to: "users#new"
+  post "/signup", to: "users#create"
+  resources :users, only: [:new, :create]
+
 end
