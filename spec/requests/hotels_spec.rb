@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe "Hotel search and filtering", type: :request do
-  let!(:user) { User.create!(username: "hotel_user", password: "password", role: "user") }
+  let!(:user) { User.create!(username: "hotel_user", password: "password", password_confirmation: "password", role: "user") }
 
   before do
-    post login_path, params: { user: { username: user.username, password: user.password } }
+    post login_path, params: { user: { username: user.username, password: user.password, password_confirmation: user.password_confirmation } }
   end
 
   let!(:hilton) do
