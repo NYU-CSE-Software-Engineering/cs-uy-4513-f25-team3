@@ -48,16 +48,18 @@ RSpec.describe "User sign up", type: :request do
         }
 
         expect(response).to render_template(:new)
-        expect(response.body).to include("Password confirmation doesn't match Password")
+        text = CGI.unescapeHTML(response.body)
+        expect(text).to include("Password confirmation doesn't match Password")
       end
 
       it "fails when required fields are missing" do
         post users_path, params: { user: { username: "", password: "", password_confirmation: "", role: "user" } }
 
         expect(response).to render_template(:new)
-        expect(response.body).to include("Username can't be blank")
-        expect(response.body).to include("Password can't be blank")
-        expect(response.body).to include("Password confirmation can't be blank")
+        text = CGI.unescapeHTML(response.body)
+        expect(text).to include("Username can't be blank")
+        expect(text).to include("Password can't be blank")
+        expect(text).to include("Password confirmation can't be blank")
       end
     end
   end
