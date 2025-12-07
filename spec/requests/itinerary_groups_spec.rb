@@ -21,7 +21,7 @@ RSpec.describe "ItineraryGroups", type: :request do
                 start_date: Date.today,
                 end_date: Date.today + 1
             )
-            
+
             get edit_itinerary_path(itinerary_group)
             
             expect(response).to have_http_status(:success)
@@ -33,6 +33,7 @@ RSpec.describe "ItineraryGroups", type: :request do
     describe "PATCH /itineraries/:id" do
         it "redirects to the show page after successful update" do
             itinerary_group = ItineraryGroup.create!(
+                
                 title: "NYC Tour",
                 start_date: Date.today,
                 end_date: Date.today + 1
@@ -47,6 +48,7 @@ RSpec.describe "ItineraryGroups", type: :request do
 
         it "sets a success flash message after successful update" do
             itinerary_group = ItineraryGroup.create!(
+                
                 title: "NYC Tour",
                 start_date: Date.today,
                 end_date: Date.today + 1
@@ -60,3 +62,4 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 end
+
