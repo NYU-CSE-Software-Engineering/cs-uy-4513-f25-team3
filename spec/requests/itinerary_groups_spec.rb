@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "ItineraryGroups", type: :request do
+    let!(:user) do
+        User.create!(
+          username: "group_user",
+          password: "password123",
+          password_confirmation: "password123",
+          role: "user"
+        )
+    end
+
+    before do
+        post login_path, params: { user: { username: user.username, password: "password123" } }
+    end
+
     describe "GET /itineraries/:id/edit" do
         it "renders the edit template (settings page)" do
             itinerary_group = ItineraryGroup.create!(title: "NYC Tour")
