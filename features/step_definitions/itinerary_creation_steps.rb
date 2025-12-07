@@ -1,5 +1,5 @@
 Given('I am a signed-in user') do
-    @user = User.create!(email: 'test@example.com', password: 'password')
+    @user = User.create!(username: 'jane123', password: 'password', role: 'user')
 end
 
 Given('I am on the new itinerary page') do

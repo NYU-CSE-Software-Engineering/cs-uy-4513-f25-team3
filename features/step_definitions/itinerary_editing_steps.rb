@@ -3,7 +3,7 @@ def find_itinerary!(title)
 end
 
 Given(/^I am a signed-in user$/) do
-  @user = User.create!(email: 'test@example.com', password: 'password', role:'user')
+  @user = User.create!(username: 'john123', password: 'password', role:'user')
 end
 
 Given(/^the following itinerary exists:$/) do |table|

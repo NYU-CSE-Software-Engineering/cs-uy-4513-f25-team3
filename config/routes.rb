@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # search / filyer
-  resources :itineraries, only: [:index]
+  resources :itineraries, only: [:index, :new, :create]
 
   # itinerary actions
   resources :itinerary_groups,
@@ -29,6 +29,5 @@ Rails.application.routes.draw do
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
-  get '/itineraries', to: 'itineraries#index'
 
 end
