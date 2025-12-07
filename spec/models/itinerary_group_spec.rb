@@ -35,4 +35,26 @@ RSpec.describe ItineraryGroup, type: :model do
     expect(itinerary_group).not_to be_valid
     expect(itinerary_group.errors[:end_date]).to include("must be same as or after start date")
   end
+
+  it 'is invalid if start date or end date are in the past' do
+    past_start = ItineraryGroup.new(
+      title: "Japan Adventure",
+      location: "Japan",
+      start_date: '2025-11-12',
+      end_date: '2026-01-07'
+    )
+    expect(past_start).not_to be_valid
+    expect(past_start.errors[:start_date]).to include("start date must be today or in the future")
+
+    past_end = ItineraryGroup.new(
+      title: "Japan Adventure",
+      location: "Japan",
+      start_date: '2026-01-07',
+      end_date: '2025-11-12'
+    )
+    expect(past_end).not_to be_valid
+    expect(past_end.errors[:end_date]).to include("end date must be today or in the future")
+  end
+
+
 end
