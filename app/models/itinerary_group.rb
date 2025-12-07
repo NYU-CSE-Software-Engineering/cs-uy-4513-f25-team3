@@ -6,6 +6,11 @@ class ItineraryGroup < ApplicationRecord
   validate :chronological_dates
   validate :dates_not_in_past
   validate :private_password_check
+  validates :cost,
+  numericality: {
+    only_integer: true,               
+    greater_than_or_equal_to: 0       
+  }
 
   def chronological_dates
     return if start_date.blank? || end_date.blank?
