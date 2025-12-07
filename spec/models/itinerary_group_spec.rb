@@ -56,5 +56,15 @@ RSpec.describe ItineraryGroup, type: :model do
     expect(past_end.errors[:end_date]).to include("end date must be today or in the future")
   end
 
-
+  it 'is invalid without a password given it is private' do
+    itinerary_group = ItineraryGroup.new(
+      title: 'Korea Trip',
+      location: 'Korea',
+      start_date: '2026-05-11',
+      end_date: '2026-05-25',
+      is_private: true
+    )
+    expect(itinerary_group).not_to be_valid
+    expect(itinerary_group.errors[:password]).to include('password required for private trips')
+  end
 end
