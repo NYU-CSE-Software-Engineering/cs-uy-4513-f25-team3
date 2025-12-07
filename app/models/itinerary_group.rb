@@ -5,6 +5,7 @@ class ItineraryGroup < ApplicationRecord
   validates :end_date, presence: true
   validate :chronological_dates
   validate :dates_not_in_past
+  validate :private_password_check
 
   def chronological_dates
     return if start_date.blank? || end_date.blank?
@@ -21,6 +22,12 @@ class ItineraryGroup < ApplicationRecord
     if end_date.present? && end_date < current
       errors.add(:end_date, 'end date must be today or in the future')
     end
+  end
+
+  def private_password_check
+    if is_private? && password.blank?
+      errors.add(:password, 'password required for private trips')
+    end 
   end
 
   def trip_type
