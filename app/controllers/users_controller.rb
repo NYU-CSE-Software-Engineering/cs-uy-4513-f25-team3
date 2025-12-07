@@ -10,7 +10,7 @@ class UsersController < ApplicationController
 
     if @user.save
       session[:user_id] = @user.id
-      flash[:notice] = "Account created successfully"
+      flash[:signup_success] = "Account created successfully"
       redirect_to itineraries_path
     else
       render :new
