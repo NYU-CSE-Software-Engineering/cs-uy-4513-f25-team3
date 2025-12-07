@@ -67,4 +67,22 @@ RSpec.describe ItineraryGroup, type: :model do
     expect(itinerary_group).not_to be_valid
     expect(itinerary_group.errors[:password]).to include('password required for private trips')
   end
+
+  it "is invalid when cost is negative" do
+    itinerary = ItineraryGroup.new(cost: -100)
+    expect(itinerary).not_to be_valid
+    expect(itinerary.errors[:cost]).to include("must be greater than or equal to 0")
+  end
+
+  it "is invalid when cost is not a number" do
+    itinerary = ItineraryGroup.new(cost: "one hundred")
+    expect(itinerary).not_to be_valid
+    expect(itinerary.errors[:cost]).to include("is not a number")
+  end
+
+  it "is invalid when cost is not an integer" do
+    itinerary = ItineraryGroup.new(cost: 2537.56)
+    expect(itinerary).not_to be_valid
+    expect(itinerary.errors[:cost]).to include("must be an integer")
+  end
 end
