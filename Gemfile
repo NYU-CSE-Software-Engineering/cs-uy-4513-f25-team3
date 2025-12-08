@@ -48,7 +48,8 @@ group :development, :test do
   gem "rspec-rails"
   # gem "cucumber-rails"
   gem "capybara"
-  gem 'factory_bot_rails'
+  gem "factory_bot_rails"
+  gem "faker"
 
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
