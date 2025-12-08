@@ -4,6 +4,16 @@ class ItineraryGroupsController < ApplicationController
     @itinerary_group = ItineraryGroup.new
   end
 
+  def create
+    @itinerary_group = ItineraryGroup.new(itinerary_group_params)
+    
+    if @itinerary_group.save
+      redirect_to itinerary_path(@itinerary_group), notice: 'Itinerary Created'
+    else
+      render :new
+    end
+  end
+
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
   end
