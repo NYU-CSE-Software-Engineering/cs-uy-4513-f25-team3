@@ -18,16 +18,21 @@ RSpec.describe Hotel, type: :model do
     expect(hotel.errors[:location]).to include("can't be blank")
   end
 
-  it "is invalid with a non-integer rating" do
+  it "allows a float rating within range" do
     hotel = build(:hotel, rating: 3.5)
-    expect(hotel).not_to be_valid
-    expect(hotel.errors[:rating]).to include("must be an integer")
+    expect(hotel).to be_valid
   end
 
   it "is invalid with a rating outside 1..5" do
-    hotel = build(:hotel, rating: 6)
+    hotel = build(:hotel, rating: 6.0)
     expect(hotel).not_to be_valid
-    expect(hotel.errors[:rating]).to include("must be in 1..5")
+    expect(hotel.errors[:rating]).to include("must be less than or equal to 5.0")
+  end
+
+  it "is invalid with a rating below 1" do
+    hotel = build(:hotel, rating: 0.5)
+    expect(hotel).not_to be_valid
+    expect(hotel.errors[:rating]).to include("must be greater than or equal to 1.0")
   end
 
   it "is invalid with a negative cost" do
@@ -36,4 +41,3 @@ RSpec.describe Hotel, type: :model do
     expect(hotel.errors[:cost]).to include("must be greater than or equal to 0")
   end
 end
-
