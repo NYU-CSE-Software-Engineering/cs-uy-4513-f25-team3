@@ -13,13 +13,13 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   # search / filyer
-  resources :itineraries, only: [:index, :new, :create]
+  resources :itineraries, only: [:index]
 
   # itinerary actions
   resources :itinerary_groups,
             path: "itineraries",
-            as:   "itinerary",
-            only: [:show, :edit, :update] do
+            as:   "itinerary" do
+              # only: [:show, :edit, :update] do
     member do
       get  "join"
       post "join", action: "join_itinerary"

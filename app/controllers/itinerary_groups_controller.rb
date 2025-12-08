@@ -1,4 +1,9 @@
 class ItineraryGroupsController < ApplicationController
+
+  def new
+    @itinerary_group = ItineraryGroup.new
+  end
+
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
   end
@@ -40,6 +45,9 @@ class ItineraryGroupsController < ApplicationController
   private
   
   def itinerary_group_params
-    params.require(:itinerary_group).permit(:title, :is_private, :password)
+    params.require(:itinerary_group).permit(
+      :title, :description, :location, 
+      :start_date, :end_date,
+      :is_private, :password)
   end
 end
