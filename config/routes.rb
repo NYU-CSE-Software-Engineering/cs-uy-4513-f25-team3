@@ -35,5 +35,14 @@ post '/login', to: 'sessions#create'
 delete '/logout', to: 'sessions#destroy'
 
 
+  # flights & hotels
+  resources :flights, only: [:index] # no individual show
+  resources :hotels, only: [:index] # no individual show
+
+
+
+  get "/signup", to: "users#new"
+  post "/signup", to: "users#create"
+  resources :users, only: [:new, :create]
 
 end

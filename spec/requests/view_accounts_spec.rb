@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "View Accounts", type: :request do
-    let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123") }
-    let!(:admin) { FactoryBot.create(:user, :admin, username: "adminTest", password: "iloveCS123") }
+    let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123", password_confirmation: "iloveCS123") }
+    let!(:admin) { FactoryBot.create(:user, :admin, username: "adminTest", password: "iloveCS123", password_confirmation: "iloveCS123") }
     describe "GET /accounts" do
         context "when the admin is logged in" do
             before do

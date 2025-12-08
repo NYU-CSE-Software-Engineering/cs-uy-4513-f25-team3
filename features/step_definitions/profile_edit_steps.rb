@@ -15,7 +15,8 @@ Given(/^the following Users exist:$/) do |table|
       password: row['Password'],
       age: row['Age'].to_i,
       gender: row['Gender'],
-      role: row['Role']
+      role: row['Role'],
+      password_confirmation: row['Password Confirmation']
     )
   end
 end

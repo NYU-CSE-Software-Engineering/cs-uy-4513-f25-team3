@@ -17,3 +17,7 @@ This directory can be used to access documentation on the project's individual f
 
 ## Communication Management
 ### [Messaging](communication_management_feature.md)
+
+## Hotels and Flights Management
+### [Searching and Filtering Flights](flights.md)
+### [Searching and Filtering Hotels](hotels.md)

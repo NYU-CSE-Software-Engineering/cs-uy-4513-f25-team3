@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   def current_user
         @current_user ||= User.find_by(id: session[:user_id])
   end
+  
+  before_action :require_login
 
 
   def require_login # checks if user is logged in, called before all protected pages
