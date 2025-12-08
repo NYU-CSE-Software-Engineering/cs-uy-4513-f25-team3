@@ -10,16 +10,6 @@ Then('MessageID {int} shows its send time') do |message_id|
   ).to be(true), "Expected message #{message_id} to show its time"
 end
 
-When('I click "Details"') do
-  click_on('Details')
-end
-
-Then('I see "Details"') do
-  expect(
-    page.has_text?('Details')
-  ).to be(true)
-end
-
 Given('MessageID {int} has been read only by UserID {int}') do |message_id, reader_id|
   if Object.const_defined?('MessageRead')
     MessageRead.where(message_id: message_id).delete_all

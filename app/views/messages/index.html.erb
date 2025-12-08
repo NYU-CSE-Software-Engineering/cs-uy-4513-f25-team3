@@ -1,0 +1,58 @@
+<h1>Group Chat</h1>
+
+<% if flash[:alert] %>
+  <div><%= flash[:alert] %></div>
+<% end %>
+
+<div id="messages">
+  <% @messages.each do |message| %>
+    <div
+      data-testid="message-<%= message.id %>"
+      data-message-id="<%= message.id %>">
+      <span>[User <%= message.user_id %>]</span>
+      <span><%= message.text %></span>
+      <span data-testid="message-time">
+        <%= (message.time || message.created_at).strftime("%Y-%m-%d %H:%M") %>
+      </span>
+      <% if message.updated_at && message.updated_at > message.created_at %>
+        <span>edited</span>
+      <% end %>
+      <span>Details</span>
+
+      <% if current_user && message.user_id == current_user.id %>
+        <div>
+          <span>Edit</span>
+          <form action="<%= message_path(message) %>" method="post">
+            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+            <input type="hidden" name="_method" value="patch" />
+            <input
+              type="text"
+              name="text"
+              value="<%= message.text %>"
+              data-testid="edit-input-<%= message.id %>" />
+            <button
+              type="submit"
+              data-testid="save-<%= message.id %>">
+              Save
+            </button>
+          </form>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+
+<form action="<%= create_itinerary_group_message_path(@itinerary_group) %>" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div data-testid="chat-input-container">
+    <% if flash[:failed_text].present? %>
+      <span><%= flash[:failed_text] %></span>
+    <% end %>
+    <input
+      type="text"
+      name="text"
+      data-testid="chat-input"
+      value="<%= flash[:failed_text].to_s %>" />
+  </div>
+  <button type="submit" data-testid="chat-send">Send</button>
+</form>
