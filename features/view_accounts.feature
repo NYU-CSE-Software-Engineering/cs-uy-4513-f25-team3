@@ -4,30 +4,23 @@ Feature: Login
     so that I can maintain system security and integrity.
 
 Background:
-    The following accounts exist
-    | username | role |
-    | "izzyadams11" | "user" |
-    | "rheanayar7" | "organizer"|
+    Given the following accounts exist:
+        | username | role |
+        | izzyadams11 | user |
+        | rheanayar7 | organizer|
 
 Scenario: View all accounts
     Given I am logged in as an administrator
     When I navigate to the Accounts page
-    And the Accounts page should display "izzyadams11"
+    Then the Accounts page should display "izzyadams11"
     And the Accounts page should display "rheanayar7"
 
 
 Scenario: Successful account deletion
     Given I am logged in as an administrator
-    And I click "Delete" for "izzyadams11"
-    And I click "Confirm"
+    When I navigate to the Accounts page
+    And I click the "Delete" button for "izzyadams11"
     Then the Accounts page should not display "izzyadams11"
-
-
-Scenario: Cancel account deletion
-    Given I am logged in as an administrator
-    And I click "Delete" for "izzyadams11"
-    And I click "Cancel"
-    Then the Accounts page should display "izzyadams11"
 
 
 Scenario: Deleting a nonexistent account
@@ -45,8 +38,8 @@ Scenario: Trying to delete an account as a user
 
 Scenario: Successful modification of account role
     Given I am logged in as an administrator
-    And I click "Modify Role" for "izzyadams11"
-    And I change the role to "organizer"
-    And I click "Confirm"
-    Then the account "izzyadams11" should have role "organizer"
+    When I navigate to the Accounts page
+    And I click the "Update Role" button for "rheanayar7"
+    And I change the role to "user" for "rheanayar7"
+    Then the account "rheanayar7" should have role "user"
 
