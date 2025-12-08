@@ -23,5 +23,26 @@
   <%= f.label :password_confirmation %>
   <%= f.password_field :password_confirmation %>
 
+<div>
+  <%= f.label :first_name %>
+  <%= f.text_field :first_name %> <!-- optional -->
+</div>
+
+<div>
+  <%= f.label :last_name %>
+  <%= f.text_field :last_name %> <!-- optional -->
+</div>
+
+<div>
+  <%= f.label :age %>
+  <%= f.number_field :age %> <!-- optional -->
+</div>
+
+<div>
+  <%= f.label :gender %>
+  <%= f.select :gender, ["Male", "Female", "Other"], include_blank: true %> <!-- optional -->
+</div>
+
+  
   <%= f.submit "Save Changes" %>
 <% end %>
