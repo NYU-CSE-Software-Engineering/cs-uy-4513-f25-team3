@@ -35,17 +35,19 @@ User.create!(
     username: Faker::Internet.unique.username(specifier: 6),
     password: pw,
     password_confirmation: pw,
-    role: ["User", "Admin"].sample
+    role: ["User", "User", "User", "Admin"].sample
   )
 end
 
 puts "Seeding flights..."
+airlines = ["AA", "DL", "UA", "SW", "BA", "AF"]
+
 20.times do
   departure_time = Faker::Time.forward(days: rand(5..30), period: :morning)
   arrival_time   = departure_time + rand(2..12).hours
 
   Flight.create!(
-    flight_number: "#{Faker::Aviation.airline_iata}#{Faker::Number.number(digits: 3)}",
+    flight_number: "#{airlines.sample}#{Faker::Number.number(digits: 3)}",
     departure_location: Faker::Address.city,
     arrival_location: Faker::Address.city,
     departure_time: departure_time,
@@ -53,6 +55,7 @@ puts "Seeding flights..."
     cost: rand(100.0..1500.0).round(2)
   )
 end
+
 
 puts "Seeding hotels..."
 20.times do
@@ -88,6 +91,8 @@ destinations = [
     "#{Faker::Lorem.words(number: 3).join(' ')}, local culture, and unforgettable sights."
   ].join(" ")
 
+  is_private = [true, false, false, false, false, false].sample
+
   ItineraryGroup.create!(
     title: title,
     description: description,
@@ -95,9 +100,9 @@ destinations = [
     start_date: start_date,
     end_date: end_date,
     location: destinations.sample,
-    is_private: [true, false].sample,
+    is_private: is_private,
     cost: rand(300.0..5000.0).round(2),
-    password: nil   # or Faker::Internet.password if you want private trips to sometimes have passwords
+    password: is_private ? Faker::Internet.password(min_length: 6) : nil
   )
 end
 
