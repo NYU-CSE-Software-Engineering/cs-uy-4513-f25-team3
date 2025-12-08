@@ -23,15 +23,11 @@ class UsersController < ApplicationController
   end
 
   def update
-    if session[:user_id] == params[:user_id]
-      if @user.update(user_params)
-        flash[:notice] = "Profile updated successfully"
-        redirect_to itineraries_path
-      else
-        flash[:notice] = "There was an error in updating the profile"
-        render :edit
-      end
+    if @user.update(user_params)
+      flash[:notice] = "Profile updated successfully"
+      redirect_to itineraries_path
     else
+      flash[:alert] = "There was an error in updating the profile"
       render :edit
     end
   end

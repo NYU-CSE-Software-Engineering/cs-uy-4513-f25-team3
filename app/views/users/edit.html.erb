@@ -16,12 +16,13 @@
 
   <%= f.label :role %>
   <%= f.text_field :role %>
+  
 
-  <%= f.label :password %>
-  <%= f.password_field :password %>
+  <%= f.label :password, "New password" %>
+  <%= f.password_field :password, required: true %>
 
-  <%= f.label :password_confirmation %>
-  <%= f.password_field :password_confirmation %>
+  <%= f.label :password_confirmation, "New password confirmation" %>
+  <%= f.password_field :password_confirmation, required: true %>
 
 <div>
   <%= f.label :first_name %>
