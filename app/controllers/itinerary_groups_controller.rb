@@ -8,7 +8,7 @@ class ItineraryGroupsController < ApplicationController
     @itinerary_group = ItineraryGroup.new(itinerary_group_params)
     
     if @itinerary_group.save
-      redirect_to itinerary_path(@itinerary_group), notice: 'Itinerary Created'
+      redirect_to root_path, notice: 'Itinerary Created'
     else
       render :new
     end
