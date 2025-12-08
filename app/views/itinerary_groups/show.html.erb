@@ -15,4 +15,19 @@
 <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
 <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
 
+<% if @organizer || @attendees.any? %>
+  <h2>Group Members</h2>
+  <ul>
+    <% if @organizer %>
+      <li><%= @organizer.first_name %> <%= @organizer.last_name %></li>
+    <% end %>
+    
+    <% @attendees.each do |attendee| %>
+      <li><%= attendee.first_name %> <%= attendee.last_name %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+
+
 <%= link_to 'Back to results', itineraries_path %>

@@ -10,11 +10,13 @@ Background:
 		| Bob        | Jones     | bob_j    | Pass123!  | user      |
 		| Carol      | Wilson    | carol_w  | Pass123!  | user      |
 		| David      | Brown     | david_b  | Pass123!  | user      |
-	And I am logged in as "bob_j" with password "Pass123!"
+		#And I am logged in as "bob_j" with password "Pass123!"
+		#Commented for now
 
 #Happy Paths
 Scenario: View members in a public group I belong to
-	Given the following itinerary group exists:
+	Given I am logged in as "bob_j" with password "Pass123!"
+	And the following itinerary group exists:
 		| title           | Fun Adventure         |
 		| description     | Having Fun				|
 		| organizer       | alice_s                  |
@@ -48,7 +50,8 @@ Scenario: View group with only organizer (no other members)
 	And I should see "Alice Smith"
 
 Scenario: Member list updates when new member joins
-	Given the following itinerary group exists:
+	Given I am logged in as "bob_j" with password "Pass123!"
+	And the following itinerary group exists:
 		| title       | Fun Adventure  |
 		| description | Having Fun     |
 		| organizer   | alice_s        |
@@ -65,7 +68,8 @@ Scenario: Member list updates when new member joins
 	And I should see "Carol Wilson"
 
 Scenario: Member list updates when a member leaves
-	Given the following itinerary group exists:
+	Given I am logged in as "bob_j" with password "Pass123!"
+	And the following itinerary group exists:
 		| title       | Fun Adventure  |
 		| description | Having fun     |
 		| organizer   | alice_s        |
@@ -86,7 +90,8 @@ Scenario: Member list updates when a member leaves
 	And I should not see "Carol Wilson"
 
 Scenario: View members in multiple different groups
-	Given the following itinerary group exists:
+	Given I am logged in as "bob_j" with password "Pass123!"
+	And the following itinerary group exists:
 		| title       | Paris Trip     |
 		| description | Visit Paris    |
 		| organizer   | alice_s        |
@@ -136,7 +141,7 @@ Scenario: Cannot view members when not logged in
 	And I should not see "Carol Wilson"
 
 Scenario: Cannot view non-existent group
+	Given I am logged in as "alice_s" with password "Pass123!"
 	When I attempt to visit the itinerary page for "Fake Trip"
 	Then I should see an error message
-	And I should see "not found" or "doesn't exist"
-
+	And I should see either "not found" or "doesn't exist"
