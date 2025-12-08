@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
   create_table "hotels", force: :cascade do |t|
     t.string "name"
     t.string "location"
-    t.integer "rating"
+    t.float "rating"
     t.float "cost"
     t.datetime "arrival_time"
     t.datetime "departure_time"
