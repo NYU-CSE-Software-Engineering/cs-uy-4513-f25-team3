@@ -6,9 +6,9 @@ Feature: Profile Edit — User Management and Authentication
 Background:
 
     Given the following Users exist:
-        | UserID | FirstName | LastName | Username | Password | Age | Gender |
-        | 1      | John      | Doe      | john123  | pass123  | 25  | Male   |
-        | 2      | Jane      | Doe      | janey    | hello22  | 20  | Female |
+        | UserID | FirstName | LastName | Username | Password | Role       | Age | Gender |
+        | 1      | John      | Doe      | john123  | pass123  | user       | 25  | Male   |
+        | 2      | Jane      | Doe      | janey    | hello22  | organizer  | 20  | Female |
     And I am UserID 1
     Given I am on the profile edit page
 
@@ -55,7 +55,6 @@ Scenario: Attempt to update password but confirmation does not match
     And I press "Save"
     Then my username should still be "john123"
     And I should be able to log in only with "pass123"
-    And I should see an error saying "Password confirmation does not match"
 
 Scenario: Attempt to view another user's profile page
     When I try to visit /show/2

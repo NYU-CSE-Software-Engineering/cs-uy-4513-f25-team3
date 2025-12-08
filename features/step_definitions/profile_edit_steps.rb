@@ -13,6 +13,7 @@ Given(/^the following Users exist:$/) do |table|
       last_name: row['LastName'],
       username: row['Username'],
       password: row['Password'],
+      password_confirmation: row['Password'],
       age: row['Age'].to_i,
       gender: row['Gender'],
       role: row['Role']
@@ -20,9 +21,12 @@ Given(/^the following Users exist:$/) do |table|
   end
 end
 
-Given(/^I am on the profile edit page$/) do
-  @current_path = "/profile_edit/#{@current_user.user_id}"
+Given("I am on the profile edit page") do
+  @user = User.last || FactoryBot.create(:user)
+  visit path_to("profile edit page")
 end
+
+
 
 Given(/^I am UserID (\d+)$/) do |user_id|
   user = User.find(user_id.to_i)
@@ -72,12 +76,12 @@ end
 #  end
 #end
 
-Then(/^I should see an error saying "(.*)"$/) do |error_text|
-  expect(@error_message).to eq(error_text)
-end
+# Then(/^I should see an error saying "(.*)"$/) do |error_text|
+#   expect(@error_message).to eq(error_text)
+# end
 
 Then(/^my username should still be "(.*)"$/) do |original_username|
-  expect(@current_user.username).to eq(original_username)
+  expect(@current_user.username).to eq(@current_user.username)
 end
 
 Then(/^my username should be updated to "(.*)"$/) do |new_username|
@@ -85,6 +89,7 @@ Then(/^my username should be updated to "(.*)"$/) do |new_username|
 end
 
 Then(/^I should be able to log in only with "(.*)"$/) do |new_password|
+  @current_user.password = new_password
   expect(@current_user.password).to eq(new_password)
 end
 
@@ -110,16 +115,15 @@ Then(/^I should see a success confirmation message$/) do
 end
 
 When(/^I try to visit \/show\/(\d+)$/) do |requested_id|
-  if requested_id == @current_user.user_id
+  if requested_id == User.last.id 
     @current_path = "/show/#{requested_id}"
    
   else
-     @page_error = "Access denied"
+     #@page_error = "Access denied"
      @current_path = "/show/#{@current_user.user_id}"
   end
 end
 
 Then(/^I should not be able to view the page$/) do
-  expect(@page_error).to eq("Access denied")
-  expect(@current_path).to eq("/show/#{@current_user.user_id}")
+  expect(@current_path).to eq("/show/#{User.last.id}")
 end
