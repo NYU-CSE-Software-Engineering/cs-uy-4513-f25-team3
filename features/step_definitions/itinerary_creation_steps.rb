@@ -1,5 +1,10 @@
 Given('I am a signed-in user') do
     @user = User.create!(username: 'jane123', password: 'password', role: 'user')
+    
+    visit login_path
+    fill_in "Username", with: "jane123"
+    fill_in "Password", with: "password"
+    click_button "Login"
 end
 
 Given('I am on the new itinerary page') do
@@ -8,7 +13,11 @@ end
 
 When('I fill in the following:') do |table|
     table.rows_hash.each do |field, value|
-    fill_in field, with: value
+    if page.has_select?(field)
+        select value, from: field
+    else
+        fill_in field, with: value
+    end
   end
 end
 

@@ -46,7 +46,7 @@ Feature:
             | location    | Spain & Italy      |
             | start_date  | 2026-05-11         |
             | end_date    | 2026-05-10         |
-            | trip_type   | Private            |
+            | is_private  | Private            |
             | cost        | 5250               |
         And I press "Create"
         Then I should see the error message "end_date must be after or the same as start_date"
@@ -61,7 +61,7 @@ Feature:
             | location    | Spain & Italy      |
             | start_date  | 2024-01-13         |
             | end_date    | 2024-02-10         |
-            | trip_type   | Private            |
+            | is_private  | Private            |
             | cost        | 5250               |
         And I press "Create"
         Then I should see the error message "start_date and end_date must be in the future"
@@ -75,7 +75,7 @@ Feature:
             | description | With the boys!     |
             | location    | Spain & Italy      |
             | end_date    | 2026-06-03         |
-            | trip_type   | Private            |
+            | is_private  | Private            |
             | cost        | <wrong_input>      |
         And I press "Create"
         Then I should see the error message <err_message>
@@ -85,21 +85,6 @@ Feature:
             | -100        | cost must be greater or equal to 0 |
             | one hundred | cost is not a number               |
             | 2537.56     | cost must be an integer            |
-
-    @core
-    Scenario: Invalid input for trip type
-        Given I am a signed-in user
-        And I am on the new itinerary page
-        When I fill in the following:
-            | title       | Europe Tour 2026   |
-            | description | With the boys!     |
-            | location    | Spain & Italy      |
-            | start_date  | 2026-05-11         |
-            | end_date    | 2026-05-10         |
-            | trip_type   | Everyone           |
-            | cost        | 5250               |
-        And I press "Create"
-        Then I should see the error message "trip_type must either be Public or Private"
 
     @core @auth
     Scenario: Unauthenticated user trying to create a new itinerary
