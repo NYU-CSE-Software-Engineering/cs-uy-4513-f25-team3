@@ -24,6 +24,9 @@ class UsersController < ApplicationController
 
   def update
 
+    # Role cannot be updated
+    params[:user].delete(:role)
+
     if params[:current_password] != @user.password
       flash.now[:notice] = "Current password is incorrect"
       render :edit
