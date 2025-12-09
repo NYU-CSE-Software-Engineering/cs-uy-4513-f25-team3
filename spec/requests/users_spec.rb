@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "User login", type: :request do
-  let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123") }
+  let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123", password_confirmation: "iloveCS123") }
   
     describe "POST /login" do
         context "with valid credentials" do
@@ -29,7 +29,7 @@ end
 
 
 RSpec.describe "User logout", type: :request do
-    let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123") }
+    let!(:user) { FactoryBot.create(:user, username: "izzyadams11", password: "iloveCS123", password_confirmation: "iloveCS123") }
 
     describe "DELETE /logout" do
         context "when the user is logged in" do

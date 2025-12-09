@@ -10,7 +10,8 @@ Then('MessageIDs are ordered oldest-to-newest') do
     n[:'data-testid']&.match(/message-(\d+)/)&.captures&.first || n[:'data-message-id']
   }.compact.map(&:to_i)
 
-  group_id = current_path[%r{/itinerary_groups/(\d+)/messages}, 1]&.to_i
+  group_id =
+    current_path[%r{/(?:itinerary_groups|itineraries)/(\d+)/messages}, 1]&.to_i
   if group_id
     expected_ids = Message.where(itinerary_group_id: group_id).order(time: :asc).pluck(:id)
     expect(visible_ids).to eq(expected_ids), "Expected UI order #{visible_ids} to match chronological #{expected_ids}"

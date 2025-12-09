@@ -1,6 +1,19 @@
 require 'rails_helper'
 
 RSpec.describe "ItineraryGroups", type: :request do
+    let!(:user) do
+        User.create!(
+          username: "group_user",
+          password: "password123",
+          password_confirmation: "password123",
+          role: "user"
+        )
+    end
+
+    before do
+        post login_path, params: { user: { username: user.username, password: "password123" } }
+    end
+
 
     describe "GET /itineraries/new" do
         it "renders the new template" do
@@ -84,3 +97,4 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 end
+

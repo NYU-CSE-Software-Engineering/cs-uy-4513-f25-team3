@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   root "itineraries#index"
 
   # search / filyer
-  resources :itineraries, only: [:index]
+  resources :itineraries, only: [:index] # itinerary_group shows
 
   # itinerary actions
   resources :itinerary_groups,
@@ -27,8 +27,22 @@ Rails.application.routes.draw do
     end
   end
 
+  # Routes used by group chat Cucumber scenarios:
+  # visit("/itinerary_groups/:id/messages")
+  get  "/itineraries/:id/messages", to: "messages#index",  as: :itinerary_group_messages
+  post "/itineraries/:id/messages", to: "messages#create", as: :create_itinerary_group_message
+  patch "/messages/:id",                 to: "messages#update", as: :message
+
+  # flights & hotels
+  resources :flights, only: [:index] # no individual show
+  resources :hotels, only: [:index] # no individual show
+
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
+
+  get "/signup", to: "users#new"
+  post "/signup", to: "users#create"
+  resources :users, only: [:new, :create]
 
 end

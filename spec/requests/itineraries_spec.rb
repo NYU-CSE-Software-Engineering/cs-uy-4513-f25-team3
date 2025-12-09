@@ -1,7 +1,14 @@
 require "rails_helper"
 
 RSpec.describe "Itinerary search and filtering", type: :request do
-  let!(:user) { User.create!(username: "search_user", password: "password", role: "user") }
+  let!(:user) do
+    User.create!(
+      username: "search_user",
+      password: "password",
+      password_confirmation: "password",
+      role: "user"
+    )
+  end
 
   before do
     post login_path, params: { user: { username: user.username, password: user.password } }
@@ -27,7 +34,8 @@ RSpec.describe "Itinerary search and filtering", type: :request do
       start_date:  Date.parse("2025-12-05"),
       end_date:    Date.parse("2025-12-10"),
       is_private:  true,
-      cost:        3000
+      cost:        3000,
+      password:   "ihatebugs"
     )
   end
 

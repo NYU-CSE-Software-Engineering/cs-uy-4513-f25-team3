@@ -1,14 +1,18 @@
+<% if flash[:signup_success] %>
+  <div class="notice"><%= flash[:signup_success] %></div>
+<% end %>
+
 <h1>Itineraries</h1>
 <% if current_user %>
   <h2>Welcome, <%= current_user.username %>!</h2>
 <% end %>
 
-<% if flash.now[:alert] %>
-  <div class="alert"><%= flash.now[:alert] %></div>
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
 <% end %>
 
-<% if flash.now[:notice] %>
-  <div class="notice"><%= flash.now[:notice] %></div>
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
 <%= form_with url: itineraries_path, method: :get, local: true do %>
@@ -19,13 +23,9 @@
 <%= text_field_tag :keyword, params[:search], id: "keyword", type: :hidden %>
   </div>
 
-<div>
-<%= label_tag :start_date, "Start date" %>
-    <%= date_field_tag :start_date, params[:start_date], id: "start_date" %>
-
-<%= label_tag :end_date, "End date" %>
-    <%= date_field_tag :end_date, params[:end_date], id: "end_date" %>
-</div>
+<%= render "shared/date_and_cost_filters",
+           start_label: "Start date",
+           end_label: "End date" %>
 
 <div>
 <%= label_tag :location, "Location" %>
@@ -41,23 +41,18 @@
 </div>
 
 
-<div>
-<%= label_tag :min_cost, "Min cost" %>
-    <%= text_field_tag :min_cost, params[:min_cost], id: "min_cost" %>
-
-<%= label_tag :max_cost, "Max cost" %>
-    <%= text_field_tag :max_cost, params[:max_cost], id: "max_cost" %>
-</div>
-
-<%= submit_tag "Search" %>
-  <%= submit_tag "Clear", name: "clear" %>
+<%= render "shared/search_and_clear_buttons" %>
 <% end %>
 
 <% if @itineraries.present? %>
 <ul>
 <% @itineraries.each do |itinerary| %>
       <li class="itinerary-title">
-    <%= link_to itinerary.title, itinerary_path(itinerary) %>
+    <div class="itinerary-links">
+      <%= link_to itinerary.title, itinerary_path(itinerary) %>
+      <span>|</span>
+      <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
+    </div>
       </li>
     <% end %>
   </ul>
