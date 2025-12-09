@@ -9,4 +9,10 @@ FactoryBot.define do
     age { rand(18..70) }
     gender { %w[male female non_binary other].sample }
   end
+  trait :admin do
+    role { "admin" }
+  end
+  trait :organizer do
+    role { "organizer" }
+  end
 end
