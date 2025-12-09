@@ -24,6 +24,14 @@ RSpec.describe User, type: :model do
         user = User.new(username: 'testuser', password: 'password123', password_confirmation: "password123")
         expect(user).not_to be_valid
     end
+    it "returns true for admin? if role is admin" do
+        user = User.create!(username: "testadmin", password: "adminpass", password_confirmation: "adminpass", role: "admin")  
+        expect(user.admin?).to be true
+    end
+    it "returns false for admin? if role is not admin" do
+        user = User.create!(username: "testadmin", password: "adminpass", password_confirmation: "adminpass", role: "organizer")   
+        expect(user.admin?).to be false
+    end
 
 end
 

@@ -4,8 +4,7 @@
 # instead of editing this one. Cucumber will automatically load all features/**/*.rb
 # files.
 
-
-
+require 'factory_bot_rails'
 require 'cucumber/rails'
 require 'capybara/cucumber'
 require 'capybara/rails'
@@ -56,3 +55,9 @@ end
 # The :transaction strategy is faster, but might give you threading problems.
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
+
+# allows for more factorybot functionality
+World(FactoryBot::Syntax::Methods)
+
+include Warden::Test::Helpers if defined?(Warden)
+Warden.test_mode! if defined?(Warden)

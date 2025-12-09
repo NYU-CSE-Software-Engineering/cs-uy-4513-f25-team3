@@ -72,3 +72,4 @@ RSpec.describe "User logout", type: :request do
         end
     end
 end
+
