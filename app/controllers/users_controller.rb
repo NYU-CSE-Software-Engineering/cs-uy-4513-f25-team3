@@ -25,8 +25,9 @@ class UsersController < ApplicationController
   def update
 
     if params[:current_password] != @user.password
-      flash.now[:alert] = "Current password is incorrect"
-      return render :edit
+      flash.now[:notice] = "Current password is incorrect"
+      render :edit
+      return
     end
 
     if params[:user][:password].blank?
@@ -38,7 +39,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Profile updated successfully"
       redirect_to itineraries_path
     else
-      flash.now[:alert] = "There was an error in updating the profile"
+      flash.now[:notice] = "There was an error in updating the profile"
       render :edit
     end
   end
