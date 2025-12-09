@@ -10,7 +10,7 @@ RSpec.describe ItineraryGroup, type: :model do
   it 'is invalid without a location' do
     itinerary_group = ItineraryGroup.new
     expect(itinerary_group).not_to be_valid
-    expect(itinerary_group.errors[:location]).to include("can't be blank")
+    expect(itinerary_group.errors[:location]).to include("location field can not be blank")
   end
 
   it 'is invalid without a start_date' do
@@ -33,7 +33,7 @@ RSpec.describe ItineraryGroup, type: :model do
       end_date: '2026-01-11'
     )
     expect(itinerary_group).not_to be_valid
-    expect(itinerary_group.errors[:end_date]).to include("must be same as or after start date")
+    expect(itinerary_group.errors[:base]).to include("end_date must be after or the same as start_date")
   end
 
   it 'is invalid if start date or end date are in the past' do
@@ -44,7 +44,7 @@ RSpec.describe ItineraryGroup, type: :model do
       end_date: '2026-01-07'
     )
     expect(past_start).not_to be_valid
-    expect(past_start.errors[:start_date]).to include("start date must be today or in the future")
+    expect(past_start.errors[:base]).to include("start_date and end_date must be in the future")
 
     past_end = ItineraryGroup.new(
       title: "Japan Adventure",
@@ -53,7 +53,7 @@ RSpec.describe ItineraryGroup, type: :model do
       end_date: '2025-11-12'
     )
     expect(past_end).not_to be_valid
-    expect(past_end.errors[:end_date]).to include("end date must be today or in the future")
+    expect(past_end.errors[:base]).to include("start_date and end_date must be in the future")
   end
 
   it 'is invalid without a password given it is private' do
@@ -65,13 +65,13 @@ RSpec.describe ItineraryGroup, type: :model do
       is_private: true
     )
     expect(itinerary_group).not_to be_valid
-    expect(itinerary_group.errors[:password]).to include('password required for private trips')
+    expect(itinerary_group.errors[:password]).to include('required for private trips')
   end
 
   it "is invalid when cost is negative" do
     itinerary = ItineraryGroup.new(cost: -100)
     expect(itinerary).not_to be_valid
-    expect(itinerary.errors[:cost]).to include("must be greater than or equal to 0")
+    expect(itinerary.errors[:cost]).to include("must be greater or equal to 0")
   end
 
   it "is invalid when cost is not a number" do
