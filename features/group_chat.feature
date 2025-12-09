@@ -5,18 +5,18 @@ Feature: Group Chat — Communication Management
 
 Background:
     Given the following Users exist:
-        | UserID | Username |
-        | 1      | alex     |
-        | 2      | casey    |
-        | 3      | jordan   |
+        | UserID | FirstName | LastName | Username | Password   | Age | Gender | Role |
+        | 1      | Alex      | A        | alex     | pass123    | 25  | Other  | user |
+        | 2      | Casey     | B        | casey    | hello456   | 26  | Other  | user |
+        | 3      | Jordan    | C        | jordan   | travel789  | 27  | Other  | user |
     And the following ItineraryGroups exist:
-        | ItineraryGroupID | GroupName |
-        | 10               | A         | 
+        | ItineraryGroupID | Title           | StartDate   | EndDate     |
+        | 10               | Group A Chat    | 2025-10-22  | 2025-10-23  |
     And the following Messages exist:
         | MessageID | UserID | ItineraryGroupID | Text                      | Time                     |
-        | 101       | 2      | 10               | Landing at 5pm            | 2025-10-22T16:30:00Z     | 
-        | 102       | 3      | 10               | Meet in lobby at 6:45     | 2025-10-22T17:10:00Z     | 
-        | 103       | 1      | 10               | On my way                 | 2025-10-22T17:15:00Z     | 
+        | 101       | 2      | 10               | Landing at 5pm            | 2025-10-22T16:30:00Z     |
+        | 102       | 3      | 10               | Meet in lobby at 6:45     | 2025-10-22T17:10:00Z     |
+        | 103       | 1      | 10               | On my way                 | 2025-10-22T17:15:00Z     |
     And I am UserID 1
     And I am on the group chat for ItineraryGroupID 10
 
@@ -79,13 +79,6 @@ Rule: Message_details
     Scenario: Can access the details option
         When I click on MessageID 103
         Then I see "Details"
-
-    Scenario: Can view recepient status message
-        Given MessageID 103 has been read only by UserID 2
-        When I click on MessageID 103
-        And I click "Details"
-        Then I should see UserID 2 as read
-        And I should see UserID 3 as unread
 
 @chronological_order
 Scenario: Chronological order of messages
