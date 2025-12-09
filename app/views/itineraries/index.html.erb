@@ -10,8 +10,13 @@
 <% end %>
 
 
+<<<<<<< HEAD
 <% if flash[:alert] %>
   <div class="alert"><%= flash[:alert] %></div>
+=======
+<% if flash.now[:alert] || flash[:alert] %>
+  <div class="alert"><%= flash.now[:alert] || flash[:alert] %></div>
+>>>>>>> main
 <% end %>
 
 <% if flash[:notice] %>
@@ -51,7 +56,11 @@
 <ul>
 <% @itineraries.each do |itinerary| %>
       <li class="itinerary-title">
-    <%= link_to itinerary.title, itinerary_path(itinerary) %>
+    <div class="itinerary-links">
+      <%= link_to itinerary.title, itinerary_path(itinerary) %>
+      <span>|</span>
+      <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
+    </div>
       </li>
     <% end %>
   </ul>

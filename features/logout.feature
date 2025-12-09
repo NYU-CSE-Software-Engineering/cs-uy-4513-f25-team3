@@ -5,11 +5,11 @@ Feature: Logout - User Management and Authentication
 
 Background:
     Given the following Users exist:
-        | UserID | FirstName | LastName | Username    | Password   | Age | Gender | Role |
-        | 1      | John      | Doe      | john123     | pass123    | 25  | Male   | user |
-        | 2      | Jane      | Doe      | janey       | hello22    | 20  | Female | user |
-        | 3      | Izzy      | Adams    | izzyadams11 | IloveCS123 | 21  | Female | user |
-        | 4      | Rhea      | Nayar    | rheanayar   | IloveDS123 | 23  | Female | user |
+        | UserID | FirstName | LastName | Username    | Password   | Age | Gender | Role | Password Confirmation |
+        | 1      | John      | Doe      | john123     | pass123    | 25  | Male   | user | pass123 |
+        | 2      | Jane      | Doe      | janey       | hello22    | 20  | Female | user | hello22 |
+        | 3      | Izzy      | Adams    | izzyadams11 | IloveCS123 | 21  | Female | user | IloveCS123 |
+        | 4      | Rhea      | Nayar    | rheanayar   | IloveDS123 | 23  | Female | user | IloveDS123 |
     And I am UserID 1
     And I am on the "itineraries" page
 

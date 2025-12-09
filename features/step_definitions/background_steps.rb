@@ -1,22 +1,13 @@
 require 'time'
-
-=begin
-Commenting out for now because there are two
-Given('the following Users exist:') do |table|
-  # table.columns: UserID, Username
-  table.hashes.each do |row|
-    User.find_or_create_by!(id: row['UserID'].to_i) do |u|
-      u.username = row['Username']
-    end
-  end
-end
-=end
+require 'date'
 
 Given('the following ItineraryGroups exist:') do |table|
-  # table.columns: ItineraryGroupID, GroupName
+  # table.columns: ItineraryGroupID, Title, StartDate, EndDate
   table.hashes.each do |row|
     ItineraryGroup.find_or_create_by!(id: row['ItineraryGroupID'].to_i) do |g|
-      g.group_name = row['GroupName']
+      g.title      = row['Title'] || "Group #{row['ItineraryGroupID']}"
+      g.start_date = Date.parse(row['StartDate'] || Date.today.to_s)
+      g.end_date   = Date.parse(row['EndDate']   || g.start_date.to_s)
     end
   end
 end
@@ -39,5 +30,5 @@ end
 
 Given('I am on the group chat for ItineraryGroupID {int}') do |group_id|
   id = group_id.to_i
-  visit("/itinerary_groups/#{id}/messages")
+  visit("/itineraries/#{id}/messages")
 end
