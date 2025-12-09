@@ -56,7 +56,7 @@ end
 
 puts "Seeding flights..."
 
-20.times do
+200.times do
   departure_time = Faker::Time.forward(days: rand(5..30), period: :morning)
   arrival_time   = departure_time + rand(2..12).hours
 
@@ -76,7 +76,7 @@ end
 
 
 puts "Seeding hotels..."
-20.times do
+200.times do
   arrival_time   = Faker::Time.forward(days: rand(5..30))
   departure_time = arrival_time + rand(1..10).days + rand(2..12).hours
   place = destinations.sample
