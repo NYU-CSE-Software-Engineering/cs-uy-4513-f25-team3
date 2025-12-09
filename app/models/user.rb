@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   attr_accessor :password_confirmation
+  has_many :messages
 
   validates :role, presence: true
   validates :username, presence: true, uniqueness: true

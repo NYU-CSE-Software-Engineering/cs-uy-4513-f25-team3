@@ -30,10 +30,15 @@ Rails.application.routes.draw do
   resources :accounts, only: [:index, :update, :destroy]
 
 
-get '/login', to: 'sessions#new'
-post '/login', to: 'sessions#create'
-delete '/logout', to: 'sessions#destroy'
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
+  # Routes used by group chat Cucumber scenarios:
+  # visit("/itinerary_groups/:id/messages")
+  get  "/itineraries/:id/messages", to: "messages#index",  as: :itinerary_group_messages
+  post "/itineraries/:id/messages", to: "messages#create", as: :create_itinerary_group_message
+  patch "/messages/:id",                 to: "messages#update", as: :message
 
   # flights & hotels
   resources :flights, only: [:index] # no individual show

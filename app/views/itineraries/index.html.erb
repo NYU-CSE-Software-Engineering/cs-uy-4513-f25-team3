@@ -49,7 +49,11 @@
 <ul>
 <% @itineraries.each do |itinerary| %>
       <li class="itinerary-title">
-    <%= link_to itinerary.title, itinerary_path(itinerary) %>
+    <div class="itinerary-links">
+      <%= link_to itinerary.title, itinerary_path(itinerary) %>
+      <span>|</span>
+      <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
+    </div>
       </li>
     <% end %>
   </ul>
