@@ -89,10 +89,25 @@ Feature:
             | one hundred | cost is not a number               |
             | 2537.56     | cost must be an integer            |
 
+    @core
+    Scenario: Private itinerary without a password
+        Given I am a signed-in user
+        And I am on the new itinerary page
+        When I fill in the following:
+            | title       | Korea Trip       |
+            | description | With the boys!   |
+            | location    | Korea            |
+            | start_date  | 2026-05-11       |
+            | end_date    | 2026-05-25       |
+            | is_private  | Private          |
+            | cost        | 3500             |
+        And I press "Create"
+        Then I should see the error message "Password required for private trips"
+
     @core @auth
     Scenario: Unauthenticated user trying to create a new itinerary
         Given I am not signed in
         When I try to visit the new itinerary page
         Then I should be on the sign in page
-        And I should see "Users must sign in or create an account to proceed."
+        And I should see "Please log in to continue"
 

@@ -59,6 +59,6 @@ class ItineraryGroupsController < ApplicationController
     params.require(:itinerary_group).permit(
       :title, :description, :location, 
       :start_date, :end_date,
-      :is_private, :password)
+      :is_private, :password, :cost)
   end
 end

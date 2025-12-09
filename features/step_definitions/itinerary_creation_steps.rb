@@ -1,18 +1,16 @@
 Given('I am a signed-in user') do
-    # @user = User.create!(username: 'jane123', password: 'password', role: 'user')
+  @user = User.create!(
+    username: 'john123',
+    password: 'password',
+    password_confirmation: 'password',
+    role: 'user'
+  )
 
-    # visit login_path
-    # fill_in "Username", with: "jane123"
-    # fill_in "Password", with: "password"
-    # click_button "Login"
-    @user = User.create!(
-        username: "testuser",
-        password: "password"
-    )
-    visit login_path
-    fill_in "user_username", with: "testuser"
-    fill_in "user_password", with: "password"
-    click_button "Login"
+  # actually log in through the UI so session[:user_id] is set
+  visit login_path
+  fill_in 'user_username', with: 'john123'
+  fill_in 'user_password', with: 'password'
+  click_button 'Login'
     
 end
 
@@ -48,15 +46,15 @@ Then('I should see the error message {string}') do |message|
 end
 
 Then('I should see the error message cost must be greater or equal to {int}') do |int|
-    expect(page).to have_content("cost must be greater or equal to #{int}")
+    expect(page).to have_content("Cost must be greater or equal to #{int}")
 end
 
 Then('I should see the error message cost is not a number') do
-    expect(page).to have_content('cost is not a number')
+    expect(page).to have_content('Cost is not a number')
 end
 
 Then('I should see the error message cost must be an integer') do
-    expect(page).to have_content('cost must be an integer')
+    expect(page).to have_content('Cost must be an integer')
 end
 
 Given('I am not signed in') do
