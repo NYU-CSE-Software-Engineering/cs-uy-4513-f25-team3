@@ -17,6 +17,66 @@
   <p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
   <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
   <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
+
+  <h2>Flights</h2>
+  <% if @itinerary_group.flights.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Flight #</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @itinerary_group.flights.each do |flight| %>
+          <tr>
+            <td><%= flight.flight_number %></td>
+            <td><%= flight.departure_location %></td>
+            <td><%= flight.arrival_location %></td>
+            <td><%= flight.departure_time %></td>
+            <td><%= flight.arrival_time %></td>
+            <td><%= number_to_currency(flight.cost) if flight.cost %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No flights have been added to this itinerary.</p>
+  <% end %>
+
+  <h2>Hotels</h2>
+  <% if @itinerary_group.hotels.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Arrival</th>
+          <th>Departure</th>
+          <th>Rating</th>
+          <th>Cost (per night)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @itinerary_group.hotels.each do |hotel| %>
+          <tr>
+            <td><%= hotel.name %></td>
+            <td><%= hotel.location %></td>
+            <td><%= hotel.arrival_time %></td>
+            <td><%= hotel.departure_time %></td>
+            <td><%= hotel.rating %></td>
+            <td><%= number_to_currency(hotel.cost) if hotel.cost %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No hotels have been added to this itinerary.</p>
+  <% end %>
 <% end %>
 
 <%= link_to 'Back to results', itineraries_path(request.query_parameters) %>
