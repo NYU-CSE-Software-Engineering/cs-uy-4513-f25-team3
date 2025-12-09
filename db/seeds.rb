@@ -10,6 +10,14 @@
 
 require "faker"
 
+trip_adjectives = ["Luxury", "Scenic", "Adventure", "Romantic", "Cultural", "Family", "Solo", "Budget", "Gourmet", "Eco"]
+trip_types = ["Escape", "Journey", "Retreat", "Expedition", "Tour", "Getaway", "Experience", "Trip"]
+destinations = [
+  "Paris", "Tokyo", "Hawaii", "New York", "Bali", "London", "Boston", "Las Vegas", "Miami",
+  "Alaska", "Barcelona", "Sydney", "Rome", "Vancouver", "Iceland"
+]
+airlines = ["AA", "DL", "UA", "SW", "BA", "AF"]
+
 puts "Clearing existing data..."
 User.destroy_all
 Flight.destroy_all
@@ -28,6 +36,13 @@ User.create!(
   role: "User"
 )
 
+User.create!(
+  username: "admin1",
+  password: "securepassword",
+  password_confirmation: "securepassword",
+  role: "Admin"
+)
+
 # Additional fake users
 10.times do
   pw = "password123"
@@ -40,16 +55,19 @@ User.create!(
 end
 
 puts "Seeding flights..."
-airlines = ["AA", "DL", "UA", "SW", "BA", "AF"]
 
 20.times do
   departure_time = Faker::Time.forward(days: rand(5..30), period: :morning)
   arrival_time   = departure_time + rand(2..12).hours
 
+  departure = destinations.sample
+  arrival = destinations.sample
+  arrival = destinations.sample while arrival == departure
+
   Flight.create!(
     flight_number: "#{airlines.sample}#{Faker::Number.number(digits: 3)}",
-    departure_location: Faker::Address.city,
-    arrival_location: Faker::Address.city,
+    departure_location: departure,
+    arrival_location: arrival,
     departure_time: departure_time,
     arrival_time: arrival_time,
     cost: rand(100.0..1500.0).round(2)
@@ -60,12 +78,13 @@ end
 puts "Seeding hotels..."
 20.times do
   arrival_time   = Faker::Time.forward(days: rand(5..30))
-  departure_time = arrival_time + rand(1..10).days
+  departure_time = arrival_time + rand(1..10).days + rand(2..12).hours
+  place = destinations.sample
 
   Hotel.create!(
-    name: "#{Faker::Address.city} #{['Inn', 'Resort', 'Hotel', 'Suites'].sample}",
-    location: Faker::Address.city,
-    rating: rand(1.0..5.0).round(1),  # FLOAT rating now supported
+    name: "#{place} #{['Inn', 'Resort', 'Hotel', 'Suites'].sample}",
+    location: place,
+    rating: rand(1.0..5.0).round(1),
     cost: rand(80.0..600.0).round(2),
     arrival_time: arrival_time,
     departure_time: departure_time
@@ -73,18 +92,14 @@ puts "Seeding hotels..."
 end
 
 puts "Seeding itinerary groups..."
-trip_adjectives = ["Luxury", "Scenic", "Adventure", "Romantic", "Cultural", "Family", "Solo", "Budget", "Gourmet", "Eco"]
-trip_types = ["Escape", "Journey", "Retreat", "Expedition", "Tour", "Getaway", "Experience", "Trip"]
-destinations = [
-  "Paris", "Tokyo", "Hawaii", "New York", "Bali", "London", "Boston", "Las Vegas", "Miami",
-  "Alaska", "Barcelona", "Sydney", "Rome", "Vancouver", "Iceland"
-]
 
 50.times do
   start_date = Faker::Date.forward(days: rand(5..20))
   end_date   = start_date + rand(2..14).days
 
-  title = "#{trip_adjectives.sample} #{destinations.sample} #{trip_types.sample}"
+  place = destinations.sample
+
+  title = "#{trip_adjectives.sample} #{place} #{trip_types.sample}"
 
   description = [
     "A #{Faker::Adjective.positive} #{trip_types.sample.downcase} exploring",
@@ -99,7 +114,7 @@ destinations = [
     organizer_id: User.pluck(:id).sample,
     start_date: start_date,
     end_date: end_date,
-    location: destinations.sample,
+    location: place,
     is_private: is_private,
     cost: rand(300.0..5000.0).round(2),
     password: is_private ? Faker::Internet.password(min_length: 6) : nil
