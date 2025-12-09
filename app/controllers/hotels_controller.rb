@@ -47,7 +47,7 @@ class HotelsController < ApplicationController
   def apply_rating_filter
     return if params[:min_rating].blank?
 
-    min_rating = params[:min_rating].to_i
+    min_rating = params[:min_rating].to_f
     @hotels = @hotels.where("rating >= ?", min_rating)
   end
 
