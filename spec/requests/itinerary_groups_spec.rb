@@ -11,6 +11,30 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 
+    describe "POST /itineraries" do
+        it "creates a new itinerary and redirects to home" do
+            post itineraries_path, params: {
+                itinerary_group: {
+                    title: "Valid Trip",
+                    location: "NYC",
+                    start_date: "2026-01-01",
+                    end_date: "2026-01-10"
+                }
+            }
+            
+            expect(response).to redirect_to(root_path)
+            expect(flash[:notice]).to eq("Itinerary Created")
+        end
+
+        it "re-renders the new template" do
+            post itineraries_path, params: {
+                itinerary_group: { title: "" }
+            }
+
+            expect(response).to render_template(:new)
+        end
+    end
+
     describe "GET /itineraries/:id/edit" do
         it "renders the edit template (settings page)" do
             itinerary_group = ItineraryGroup.create!(

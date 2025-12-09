@@ -1,4 +1,4 @@
-class ItineraryGroupsController < ApplicationController
+class ItineraryGroupsController < ApplicationController 
 
   def new
     @itinerary_group = ItineraryGroup.new
@@ -10,6 +10,7 @@ class ItineraryGroupsController < ApplicationController
     if @itinerary_group.save
       redirect_to root_path, notice: 'Itinerary Created'
     else
+      flash.now[:alert] = @itinerary_group.errors.full_messages.join(", ")
       render :new
     end
   end

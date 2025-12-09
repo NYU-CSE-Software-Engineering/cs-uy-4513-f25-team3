@@ -62,6 +62,7 @@ Feature:
             | start_date  | 2024-01-13         |
             | end_date    | 2024-02-10         |
             | is_private  | Private            |
+            | password    | secret123          |
             | cost        | 5250               |
         And I press "Create"
         Then I should see the error message "start_date and end_date must be in the future"
@@ -74,8 +75,10 @@ Feature:
             | title       | Europe Tour 2026   |
             | description | With the boys!     |
             | location    | Spain & Italy      |
+            | start_date  | 2026-05-11         |
             | end_date    | 2026-06-03         |
             | is_private  | Private            |
+            | password    | secret123          |
             | cost        | <wrong_input>      |
         And I press "Create"
         Then I should see the error message <err_message>

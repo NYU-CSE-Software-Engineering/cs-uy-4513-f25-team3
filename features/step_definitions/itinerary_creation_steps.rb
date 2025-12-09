@@ -1,10 +1,19 @@
 Given('I am a signed-in user') do
-    @user = User.create!(username: 'jane123', password: 'password', role: 'user')
-    
+    # @user = User.create!(username: 'jane123', password: 'password', role: 'user')
+
+    # visit login_path
+    # fill_in "Username", with: "jane123"
+    # fill_in "Password", with: "password"
+    # click_button "Login"
+    @user = User.create!(
+        username: "testuser",
+        password: "password"
+    )
     visit login_path
-    fill_in "Username", with: "jane123"
-    fill_in "Password", with: "password"
+    fill_in "user_username", with: "testuser"
+    fill_in "user_password", with: "password"
     click_button "Login"
+    
 end
 
 Given('I am on the new itinerary page') do
@@ -13,12 +22,13 @@ end
 
 When('I fill in the following:') do |table|
     table.rows_hash.each do |field, value|
-    if page.has_select?(field)
-        select value, from: field
-    else
-        fill_in field, with: value
+        case field
+        when "is_private"
+            select value, from: "itinerary_group_is_private"
+        else
+            fill_in field, with: value
+        end
     end
-  end
 end
 
 #When('I press {string}') do |string|
@@ -62,5 +72,5 @@ When('I try to visit the new itinerary page') do
 end
 
 Then('I should be on the sign in page') do
-    expect(current_path).to eq(new_user_session_path)
+    expect(current_path).to eq(login_path)
 end

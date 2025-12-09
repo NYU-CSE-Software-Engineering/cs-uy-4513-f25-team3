@@ -1,6 +1,6 @@
 class ItineraryGroup < ApplicationRecord
   validates :title, presence: true
-  validates :location, presence: {message: 'field can not be blank'}
+  validates :location, presence: {message: 'location field can not be blank'}
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :chronological_dates
@@ -30,7 +30,7 @@ class ItineraryGroup < ApplicationRecord
   def chronological_dates
     return if start_date.blank? || end_date.blank?
     if end_date < start_date
-      errors.add(:end_date, "must be after or the same as start_date")
+      errors.add(:base, "end_date must be after or the same as start_date")
     end
   end
 
@@ -45,7 +45,7 @@ class ItineraryGroup < ApplicationRecord
 
   def private_password_check
     if is_private? && password.blank?
-      errors.add(:password, 'password required for private trips')
+      errors.add(:password, 'required for private trips')
     end 
   end
 
