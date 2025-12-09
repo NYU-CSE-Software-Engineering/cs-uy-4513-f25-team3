@@ -6,13 +6,17 @@
   <div class="alert"><%= flash[:alert] %></div>
 <% end %>
 
-<h1><%= @itinerary_group.title || 'Not available' %></h1>
+<% if @itinerary_group.is_private %>
+  <p>This itinerary is private and cannot be viewed.</p>
+<% else %>
+  <h1><%= @itinerary_group.title || 'Not available' %></h1>
 
-<p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
-<p>Location: <%= @itinerary_group.location.presence || 'Not available' %></p>
-<p>Start date: <%= @itinerary_group.start_date || 'Not available' %></p>
-<p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
-<p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
-<p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
+  <p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
+  <p>Location: <%= @itinerary_group.location.presence || 'Not available' %></p>
+  <p>Start date: <%= @itinerary_group.start_date || 'Not available' %></p>
+  <p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
+  <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
+  <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
+<% end %>
 
-<%= link_to 'Back to results', itineraries_path %>
+<%= link_to 'Back to results', itineraries_path(request.query_parameters) %>

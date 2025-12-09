@@ -45,13 +45,13 @@
 <% end %>
 
 <% if @itineraries.present? %>
-<ul>
-<% @itineraries.each do |itinerary| %>
+  <ul>
+    <% @itineraries.each do |itinerary| %>
       <li class="itinerary-title">
-    <%= link_to itinerary.title, itinerary_path(itinerary) %>
+        <%= link_to itinerary.title, itinerary_path(itinerary, request.query_parameters) %>
       </li>
     <% end %>
   </ul>
-    <% else %>
+<% else %>
   <p>No itineraries found</p>
-    <% end %>
+<% end %>

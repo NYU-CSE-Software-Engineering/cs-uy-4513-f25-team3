@@ -57,14 +57,15 @@ class ItinerariesController < ApplicationController
   end
 
   def apply_date_filter
-    return if params[:start_date].blank? || params[:end_date].blank?
+    return if params[:start_date].blank? && params[:end_date].blank?
 
-    start_date = Date.parse(params[:start_date])
-    end_date   = Date.parse(params[:end_date])
+    start_date = params[:start_date].present? ? Date.parse(params[:start_date]) : nil
+    end_date   = params[:end_date].present?   ? Date.parse(params[:end_date])   : nil
 
-    @itineraries = @itineraries.where(
-      "start_date >= ? AND end_date <= ?", start_date, end_date
-    )
+    scope = @itineraries
+    scope = scope.where("start_date >= ?", start_date) if start_date
+    scope = scope.where("end_date <= ?", end_date)     if end_date
+    @itineraries = scope
   end
 
   def apply_location_filter
