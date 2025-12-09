@@ -1,14 +1,10 @@
-def find_message_container!(message_id)
-  find(%([data-testid="message-#{message_id}"]))
-end
-
 When('I click on MessageID {int}') do |message_id|
   @last_clicked_message_id = message_id
-  container = find_message_container!(message_id)
-  container.click
+  ensure_message_details_open!(message_id)
 end
 
 When('I press "Save" on MeassageID {int}') do |message_id|
+  ensure_message_details_open!(message_id)
   container = find(%([data-testid="save-#{message_id}"]))
   container.click
 end

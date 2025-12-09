@@ -4,9 +4,10 @@ Then('MessageID {int} shows UserID {int}') do |message_id, user_id|
 end
 
 Then('MessageID {int} shows its send time') do |message_id|
+  ensure_message_details_open!(message_id)
   container = find_message_container!(message_id)
   expect(
-    container.has_selector?(%([data-testid="message-time"])) 
+    container.has_selector?(%([data-testid="message-time"]), visible: :visible)
   ).to be(true), "Expected message #{message_id} to show its time"
 end
 

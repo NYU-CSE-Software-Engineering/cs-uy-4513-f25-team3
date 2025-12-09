@@ -9,35 +9,55 @@
     <div
       data-testid="message-<%= message.id %>"
       data-message-id="<%= message.id %>">
-      <span>[User <%= message.user_id %>]</span>
-      <span><%= message.text %></span>
-      <span data-testid="message-time">
-        <%= (message.time || message.created_at).strftime("%Y-%m-%d %H:%M") %>
-      </span>
-      <% if message.updated_at && message.updated_at > message.created_at %>
-        <span>edited</span>
-      <% end %>
-      <span>Details</span>
+      <div class="message-summary">
+        <span>[User <%= message.user_id %>]</span>
+        <span><%= message.text %></span>
+        <% if message.updated_at && message.updated_at > message.created_at %>
+          <span>(*edited)</span>
+        <% end %>
+        <button
+          type="button"
+          class="message-details-toggle"
+          data-testid="details-button-<%= message.id %>"
+          data-message-details-target="message-details-<%= message.id %>"
+          >
+          Details
+        </button>
+      </div>
 
-      <% if current_user && message.user_id == current_user.id %>
-        <div>
-          <span>Edit</span>
-          <form action="<%= message_path(message) %>" method="post">
-            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-            <input type="hidden" name="_method" value="patch" />
-            <input
-              type="text"
-              name="text"
-              value="<%= message.text %>"
-              data-testid="edit-input-<%= message.id %>" />
-            <button
-              type="submit"
-              data-testid="save-<%= message.id %>">
-              Save
-            </button>
-          </form>
+      <div
+        id="message-details-<%= message.id %>"
+        class="message-details is-hidden"
+        data-testid="message-details-<%= message.id %>"
+        aria-hidden="true">
+        <strong>Details</strong>
+        <div class="message-timestamp">
+          <span>Sent:</span>
+          <span data-testid="message-time">
+            <%= (message.time || message.created_at).strftime("%Y-%m-%d %H:%M") %>
+          </span>
         </div>
-      <% end %>
+
+        <% if current_user && message.user_id == current_user.id %>
+          <div class="message-edit">
+            <span>Edit</span>
+            <form action="<%= message_path(message) %>" method="post">
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <input type="hidden" name="_method" value="patch" />
+              <input
+                type="text"
+                name="text"
+                value="<%= message.text %>"
+                data-testid="edit-input-<%= message.id %>" />
+              <button
+                type="submit"
+                data-testid="save-<%= message.id %>">
+                Save
+              </button>
+            </form>
+          </div>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>

@@ -1,6 +1,6 @@
 When(/^I attempt to send "([^"]*)" to ItineraryGroupID (\d+) and the request fails$/) do |text, group_id|
   page.set_rack_session(simulate_message_failure: true)
-  visit("/itinerary_groups/#{group_id}/messages")
+  visit("/itineraries/#{group_id}/messages")
   chat_input!.set(text)
   send_button_click!
 end

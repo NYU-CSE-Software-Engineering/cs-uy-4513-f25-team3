@@ -28,8 +28,8 @@ Rails.application.routes.draw do
 
   # Routes used by group chat Cucumber scenarios:
   # visit("/itinerary_groups/:id/messages")
-  get  "/itinerary_groups/:id/messages", to: "messages#index",  as: :itinerary_group_messages
-  post "/itinerary_groups/:id/messages", to: "messages#create", as: :create_itinerary_group_message
+  get  "/itineraries/:id/messages", to: "messages#index",  as: :itinerary_group_messages
+  post "/itineraries/:id/messages", to: "messages#create", as: :create_itinerary_group_message
   patch "/messages/:id",                 to: "messages#update", as: :message
 
   # flights & hotels
