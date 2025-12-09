@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  root "itineraries#index" 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check
@@ -12,8 +12,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
-  # search / filyer
-  resources :itineraries, only: [:index] # itinerary_group shows
+  # search / filter
+  resources :itineraries, only: [:index]
 
   # itinerary actions
   resources :itinerary_groups,
@@ -26,6 +26,14 @@ Rails.application.routes.draw do
     end
   end
 
+  # view accounts 
+  resources :accounts, only: [:index, :update, :destroy]
+
+
+  get '/login', to: 'sessions#new'
+  post '/login', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
+
   # Routes used by group chat Cucumber scenarios:
   # visit("/itinerary_groups/:id/messages")
   get  "/itineraries/:id/messages", to: "messages#index",  as: :itinerary_group_messages
@@ -36,10 +44,7 @@ Rails.application.routes.draw do
   resources :flights, only: [:index] # no individual show
   resources :hotels, only: [:index] # no individual show
 
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
-  get '/itineraries', to: 'itineraries#index'
+
 
   get "/signup", to: "users#new"
   post "/signup", to: "users#create"

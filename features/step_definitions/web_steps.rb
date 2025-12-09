@@ -12,6 +12,7 @@ Then(/^I should see (a message|an error) "(.*)"$/) do |type, text|
 end
 
 
+
 Then(/^I should be on the (.*) page$/) do |page_name|
   expect(page).to have_current_path(path_to(page_name))
 end
