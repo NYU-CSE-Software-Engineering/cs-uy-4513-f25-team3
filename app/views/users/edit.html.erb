@@ -10,19 +10,30 @@
   </div>
 <% end %>
 
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+
+
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
 <%= form_with model: @user, url: user_path(@user), method: :patch do |f| %>
   <%= f.label :username %>
   <%= f.text_field :username %>
 
   <%= f.label :role %>
   <%= f.text_field :role %>
-  
+
+  <%= f.label :current_password, "Current password" %>
+  <%= password_field_tag :current_password, nil, required: true %>
 
   <%= f.label :password, "New password" %>
-  <%= f.password_field :password, required: true %>
+  <%= f.password_field :password %>
 
   <%= f.label :password_confirmation, "New password confirmation" %>
-  <%= f.password_field :password_confirmation, required: true %>
+  <%= f.password_field :password_confirmation %>
 
 <div>
   <%= f.label :first_name %>
@@ -36,7 +47,7 @@
 
 <div>
   <%= f.label :age %>
-  <%= f.number_field :age %> <!-- optional -->
+  <%= f.number_field :age, min: 0 %> <!-- optional -->
 </div>
 
 <div>
