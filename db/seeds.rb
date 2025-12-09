@@ -14,7 +14,7 @@ trip_adjectives = ["Luxury", "Scenic", "Adventure", "Romantic", "Cultural", "Fam
 trip_types = ["Escape", "Journey", "Retreat", "Expedition", "Tour", "Getaway", "Experience", "Trip", "Party"]
 destinations = [
   "Paris", "Tokyo", "Hawaii", "New York", "Bali", "London", "Boston", "Las Vegas", "Miami",
-  "Alaska", "Barcelona", "Sydney", "Rome", "Vancouver", "Iceland", "Netherlands", "spain", "Seoul", "Toronto",
+  "Alaska", "Barcelona", "Sydney", "Rome", "Vancouver", "Iceland", "Netherlands", "Spain", "Seoul", "Toronto",
   "New Zealand", "Beijing", "Dubai", "Bangkok", "Istanbul"
 ]
 airlines = ["AA", "DL", "UA", "SW", "BA", "AF"]
