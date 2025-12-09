@@ -20,13 +20,18 @@ destinations = [
 airlines = ["AA", "DL", "UA", "SW", "BA", "AF"]
 
 puts "Clearing existing data..."
-User.destroy_all
-Flight.destroy_all
-Hotel.destroy_all
-ItineraryGroup.destroy_all
-ItineraryAttendee.destroy_all
-ItineraryFlight.destroy_all
-ItineraryHotel.destroy_all
+
+tables = ActiveRecord::Base.connection.tables
+
+ItineraryFlight.destroy_all if tables.include?("itinerary_flights")
+ItineraryHotel.destroy_all  if tables.include?("itinerary_hotels")
+ItineraryAttendee.destroy_all if tables.include?("itinerary_attendees")
+Message.destroy_all if tables.include?("messages")
+Flight.destroy_all if tables.include?("flights")
+Hotel.destroy_all if tables.include?("hotels")
+ItineraryGroup.destroy_all if tables.include?("itinerary_groups")
+User.destroy_all if tables.include?("users")
+
 
 puts "Seeding users..."
 # Test login user
