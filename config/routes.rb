@@ -15,14 +15,11 @@ Rails.application.routes.draw do
   # search / filter
   resources :itineraries, only: [:index]
 
-  # restful route for viewing itinerary groups
-  resources :itinerary_groups, only: [:show]
-
   # itinerary actions
   resources :itinerary_groups,
             path: "itineraries",
             as:   "itinerary",
-            only: [:edit, :update] do
+            only: [:show, :edit, :update] do
     member do
       get  "join"
       post "join", action: "join_itinerary"
@@ -35,7 +32,6 @@ Rails.application.routes.draw do
 
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
-  get '/logout', to: 'sessions#destroy'
   delete '/logout', to: 'sessions#destroy'
 
   # Routes used by group chat Cucumber scenarios:
