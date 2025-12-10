@@ -86,8 +86,9 @@
   <% else %>
     <p>No hotels have been added to this itinerary.</p>
   <% end %>
-<% end %>
 
-<%= render "shared/join" %>
+<% else %>
+  <%= render "shared/join" %>
+<% end %>
 
 <%= link_to 'Back to results', itineraries_path(request.query_parameters) %>
