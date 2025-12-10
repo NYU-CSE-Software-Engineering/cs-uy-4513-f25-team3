@@ -28,11 +28,33 @@
 <% end %>
 
 <% if @flights.present? %>
-  <ul>
+  <div class="flight-results">
     <% @flights.each do |flight| %>
-      <li class="flight-number"><%= flight.flight_number %></li>
+      <section class="flight-card">
+        <h2 class="flight-number"><%= flight.flight_number %></h2>
+
+        <p>
+          <strong>Route:</strong>
+          <%= flight.departure_location %> → <%= flight.arrival_location %>
+        </p>
+
+        <p>
+          <strong>Departure:</strong>
+          <%= l(flight.departure_time, format: :long) %>
+          <br>
+          <strong>Arrival:</strong>
+          <%= l(flight.arrival_time, format: :long) %>
+        </p>
+
+        <% if flight.cost.present? %>
+          <p>
+            <strong>Cost:</strong>
+            $<%= number_with_precision(flight.cost, precision: 2) %>
+          </p>
+        <% end %>
+      </section>
     <% end %>
-  </ul>
+  </div>
 <% else %>
   <p>No flights found</p>
 <% end %>

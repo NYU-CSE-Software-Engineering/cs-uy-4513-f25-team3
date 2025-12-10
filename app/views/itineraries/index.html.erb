@@ -48,17 +48,17 @@
 <% end %>
 
 <% if @itineraries.present? %>
-<ul>
-<% @itineraries.each do |itinerary| %>
+  <ul>
+    <% @itineraries.each do |itinerary| %>
       <li class="itinerary-title">
-    <div class="itinerary-links">
-      <%= link_to itinerary.title, itinerary_path(itinerary) %>
-      <span>|</span>
-      <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
-    </div>
+
+        <%= link_to itinerary.title, itinerary_path(itinerary, request.query_parameters) %>
+        <span> | </span>
+        <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
+
       </li>
     <% end %>
   </ul>
-    <% else %>
+<% else %>
   <p>No itineraries found</p>
-    <% end %>
+<% end %>

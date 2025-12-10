@@ -1,14 +1,18 @@
 FactoryBot.define do
-    factory :user do
-        username { "testuser" }
-        password { "password123" }
-        password_confirmation { "password123" } 
-        role { "user" }
-    end
-    trait :admin do
-      role { "admin" }
-    end
-    trait :organizer do
-      role { "organizer" }
-    end
+  factory :user do
+    first_name { Faker::Name.first_name }
+    last_name  { Faker::Name.last_name }
+    sequence(:username) { |n| "user#{n}" }
+    password { "password123" }
+     password_confirmation { "password123" }
+    role { "user" }
+    age { rand(18..70) }
+    gender { %w[male female non_binary other].sample }
+  end
+  trait :admin do
+    role { "admin" }
+  end
+  trait :organizer do
+    role { "organizer" }
+  end
 end
