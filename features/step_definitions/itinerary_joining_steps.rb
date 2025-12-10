@@ -38,41 +38,41 @@ Given('I am a signed-in user as {string}') do |username|
 end
 
 
-Given('I am on the itinerary details page for {string}') do |string|
+Given('I am on the itinerary details page for {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     visit itinerary_path(itinerary)
 end
 
-Then('I should be listed as an attendee of {string}') do |string|
+Then('I should be listed as an attendee of {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     expect(itinerary.users).to include(@user)
 end
 
-Then('I should be on the join itinerary page for {string}') do |string|
+Then('I should be on the join itinerary page for {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     expect(page.current_path).to eq(join_itinerary_path(itinerary))
 end
 
-Then('I should see the itinerary details for {string}') do |string|
+Then('I should see the itinerary details for {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     expect(page).to have_content(itinerary.title)
     expect(page).to have_content(itinerary.description)
     expect(page).to have_content(itinerary.location)
 end
 
-Then('I should not be listed as an attendee of {string}') do |string|
+Then('I should not be listed as an attendee of {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     expect(itinerary.users).not_to include(@user)
 end
 
-Then('I should not see the itinerary details for {string}') do |string|
+Then('I should not see the itinerary details for {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
 
     expect(page).not_to have_content(itinerary.description)
     expect(page).not_to have_content(itinerary.location)
 end
 
-Given('I have already joined the itinerary {string}') do |string|
+Given('I have already joined the itinerary {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     ItineraryAttendee.create!(
         user: @user,
@@ -80,7 +80,7 @@ Given('I have already joined the itinerary {string}') do |string|
     )
 end
 
-Then('I should not be added as a duplicate attendee for {string}') do |string|
+Then('I should not be added as a duplicate attendee for {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     attendees = ItineraryAttendee.where(
         user: @user,
@@ -89,7 +89,7 @@ Then('I should not be added as a duplicate attendee for {string}') do |string|
     expect(attendees.count).to eq(1)
 end
 
-When('I try to join the itinerary {string}') do |string|
+When('I try to join the itinerary {string}') do |title|
     itinerary = ItineraryGroup.find_by!(title: title)
     visit join_itinerary_path(itinerary)
 end

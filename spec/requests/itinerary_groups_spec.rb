@@ -10,6 +10,30 @@ RSpec.describe "ItineraryGroups", type: :request do
         )
     end
 
+    let!(:public_group) do
+        ItineraryGroup.create!(
+            title: "Public NYC Trip",
+            description: "For Xmas!",
+            location: "NYC",
+            start_date: Date.today + 1,
+            end_date: Date.today + 2,
+            is_private: false,
+            # password: nil
+        )
+    end
+
+    let!(:private_group) do
+        ItineraryGroup.create!(
+            title: "Private Europe Trip",
+            description: "With the Boys!",
+            location: "Spain",
+            start_date: Date.today + 1,
+            end_date: Date.today + 2,
+            is_private: true,
+            password: "spain123"
+        )
+    end
+
     before do
         post login_path, params: { user: { username: user.username, password: "password123" } }
     end
@@ -96,5 +120,31 @@ RSpec.describe "ItineraryGroups", type: :request do
             expect(flash[:notice]).to eq("Itinerary was successfully updated.")
         end
     end
+
+    # TODO: Add failing /GET RSPEC 
+    describe "GET /itineraries/:id/join" do
+        it 'renders join page for private itinerary groups' do
+            get join_itinerary_path(private_group)
+            expect(response).to have_http_status(:success)
+            expect(response).to render_template(:join)
+        end
+
+        it 'renders the show page for public itinerary groups' do
+            get join_itinerary_path(public_group)
+            expect(response).to redirect_to(itinerary_path(public_group))
+        end
+    end
+
+
+
+
+
+
+    # TODO: Add failing /POST RSPEC
+
+
+
+
+
 end
 

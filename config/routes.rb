@@ -9,16 +9,12 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
-  # root "posts#index"
-  root "itineraries#index"
-
   # search / filter
   resources :itineraries, only: [:index]
 
   # itinerary actions
   resources :itinerary_groups,
-            path: "itineraries",
+            path: "itineraries",   
             as:   "itinerary" do
               # only: [:show, :edit, :update] do
     member do
@@ -31,9 +27,9 @@ Rails.application.routes.draw do
   resources :accounts, only: [:index, :update, :destroy]
 
 
-  get '/login', to: 'sessions#new'
+  get '/login', to: 'sessions#new', as: 'login'
   post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+  delete '/logout', to: 'sessions#destroy', as: 'logout'
 
   # Routes used by group chat Cucumber scenarios:
   # visit("/itinerary_groups/:id/messages")
@@ -44,10 +40,6 @@ Rails.application.routes.draw do
   # flights & hotels
   resources :flights, only: [:index] # no individual show
   resources :hotels, only: [:index] # no individual show
-
-  get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
 
   get "/signup", to: "users#new"
   post "/signup", to: "users#create"
