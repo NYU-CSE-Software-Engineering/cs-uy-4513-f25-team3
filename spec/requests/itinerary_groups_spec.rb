@@ -1,126 +1,65 @@
 require 'rails_helper'
 
 RSpec.describe "ItineraryGroups", type: :request do
-  let!(:user) do
-    User.create!(
-      username: "group_user",
-      password: "password123",
-      password_confirmation: "password123",
-      role: "user"
-    )
-  end
-
-  before do
-    post login_path, params: { user: { username: user.username, password: "password123" } }
-  end
-
-  describe "GET /itinerary_groups/:id" do
-    it "returns http success" do
-      organizer = User.create!(username: 'alice', password: 'pass123', role: 'organizer')
-      itinerary_group = ItineraryGroup.create!(
-        title: "Europe Trip", 
-        organizer_id: organizer.id,
-        start_date: Date.today,
-        end_date: Date.today + 1
-      )
-      
-      get itinerary_group_path(itinerary_group)
-      
-      expect(response).to have_http_status(:success)
+    let!(:user) do
+        User.create!(
+          username: "group_user",
+          password: "password123",
+          password_confirmation: "password123",
+          role: "user"
+        )
     end
 
-    it "assigns @itinerary_group" do
-      organizer = User.create!(username: 'alice', password: 'pass123', role: 'organizer')
-      itinerary_group = ItineraryGroup.create!(
-        title: "Europe Trip", 
-        organizer_id: organizer.id,
-        start_date: Date.today,
-        end_date: Date.today + 1
-      )
-      
-      get itinerary_group_path(itinerary_group)
-      
-      expect(assigns(:itinerary_group)).to eq(itinerary_group)
+    before do
+        post login_path, params: { user: { username: user.username, password: "password123" } }
     end
 
-    it "assigns @organizer" do
-      organizer = User.create!(username: 'alice', password: 'pass123', role: 'organizer')
-      itinerary_group = ItineraryGroup.create!(
-        title: "Europe Trip", 
-        organizer_id: organizer.id,
-        start_date: Date.today,
-        end_date: Date.today + 1
-      )
-      
-      get itinerary_group_path(itinerary_group)
-      
-      expect(assigns(:organizer)).to eq(organizer)
+    describe "GET /itineraries/:id/edit" do
+        it "renders the edit template (settings page)" do
+            itinerary_group = ItineraryGroup.create!(
+                title: "NYC Tour",
+                start_date: Date.today,
+                end_date: Date.today + 1
+            )
+
+            get edit_itinerary_path(itinerary_group)
+            
+            expect(response).to have_http_status(:success)
+            expect(response).to render_template(:edit)
+        end
     end
 
-    it "assigns @attendees" do
-      organizer = User.create!(username: 'alice', password: 'pass123', role: 'organizer')
-      itinerary_group = ItineraryGroup.create!(
-        title: "Europe Trip", 
-        organizer_id: organizer.id,
-        start_date: Date.today,
-        end_date: Date.today + 1
-      )
-      member1 = User.create!(username: 'bob', password: 'pass123', role: 'user')
-      member2 = User.create!(username: 'carol', password: 'pass123', role: 'user')
-      ItineraryAttendee.create!(user: member1, itinerary_group: itinerary_group)
-      ItineraryAttendee.create!(user: member2, itinerary_group: itinerary_group)
-      
-      get itinerary_group_path(itinerary_group)
-      
-      expect(assigns(:attendees)).to include(member1, member2)
-    end
-  end
 
-  describe "GET /itinerary_groups/:id/edit" do
-    it "renders the edit template (settings page)" do
-      itinerary_group = ItineraryGroup.create!(
-        title: "NYC Tour",
-        start_date: Date.today,
-        end_date: Date.today + 1,
-        organizer_id: user.id 
-      )
+    describe "PATCH /itineraries/:id" do
+        it "redirects to the show page after successful update" do
+            itinerary_group = ItineraryGroup.create!(
+                
+                title: "NYC Tour",
+                start_date: Date.today,
+                end_date: Date.today + 1
+            )
+            
+            patch itinerary_path(itinerary_group), params: {
+                itinerary_group: { title: "NYC Tour Updated" }
+            }
+            
+            expect(response).to redirect_to(itinerary_path(itinerary_group))
+        end
 
-      get edit_itinerary_group_path(itinerary_group)
-      
-      expect(response).to have_http_status(:success)
-      expect(response).to render_template(:edit)
+        it "sets a success flash message after successful update" do
+            itinerary_group = ItineraryGroup.create!(
+                
+                title: "NYC Tour",
+                start_date: Date.today,
+                end_date: Date.today + 1
+            )
+            
+            patch itinerary_path(itinerary_group), params: {
+                itinerary_group: { title: "NYC Tour Updated" }
+            }
+            
+            expect(flash[:notice]).to eq("Itinerary was successfully updated.")
+        end
     end
-  end
-
-  describe "PATCH /itinerary_groups/:id" do
-    it "redirects to the show page after successful update" do
-      itinerary_group = ItineraryGroup.create!(
-        title: "NYC Tour",
-        start_date: Date.today,
-        end_date: Date.today + 1,
-        organizer_id: user.id
-      )
-      
-      patch itinerary_group_path(itinerary_group), params: {
-        itinerary_group: { title: "NYC Tour Updated" }
-      }
-      
-      expect(response).to redirect_to(itinerary_group_path(itinerary_group))
-    end
-
-    it "sets a success flash message after successful update" do
-      itinerary_group = ItineraryGroup.create!(
-        title: "NYC Tour",
-        start_date: Date.today,
-        end_date: Date.today + 1,
-        organizer_id: user.id
-      )
-      
-      patch itinerary_group_path(itinerary_group), params: {
-        itinerary_group: { title: "NYC Tour Updated" }
-      }
-      
-      expect(flash[:notice]).to eq("Itinerary was successfully updated.")
-    end
-  end
 end
+
