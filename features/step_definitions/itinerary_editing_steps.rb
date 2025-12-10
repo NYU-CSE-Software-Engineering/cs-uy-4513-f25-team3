@@ -8,7 +8,9 @@ end
 
 Given(/^the following itinerary exists:$/) do |table|
   attrs = table.rows_hash.symbolize_keys
-  ItineraryGroup.create!(attrs)
+  itinerary = ItineraryGroup.new(attrs)
+  itinerary.trip_type = attrs["is_private"]
+  itinerary.save!
 end
 Given(/^I am on the itinerary settings page for "(.*)"$/) do |title|
   find_itinerary!(title)
