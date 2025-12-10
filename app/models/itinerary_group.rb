@@ -1,10 +1,10 @@
 class ItineraryGroup < ApplicationRecord
   # Associations
   # organizer ID
-  belongs_to :organizer, class_name: "User", optional: true 
+  belongs_to :organizer, class_name: "User", optional: true
 
   has_many :itinerary_attendees, dependent: :destroy
-  has_many :users, through: :itinerary_attendees
+  has_many :attendees, through: :itinerary_attendees, source: :user
 
   has_many :itinerary_flights, dependent: :destroy
   has_many :flights, through: :itinerary_flights
@@ -25,9 +25,11 @@ class ItineraryGroup < ApplicationRecord
 
   validates :password, presence: true, if: :is_private?
 
-  has_many :itinerary_attendees, dependent: :destroy
-  has_many :attendees, through: :itinerary_attendees, source: :user
-  belongs_to :organizer, class_name: 'User', foreign_key: 'organizer_id', optional: true
+  def all_members
+    members = attendees.to_a
+    members << organizer if organizer && !members.include?(organizer)
+    members.uniq
+  end
 
   def trip_type
     is_private? ? "Private" : "Public"

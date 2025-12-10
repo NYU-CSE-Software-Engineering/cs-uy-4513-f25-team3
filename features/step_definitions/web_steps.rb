@@ -11,7 +11,9 @@ Then(/^I should see (a message|an error) "(.*)"$/) do |type, text|
   expect(page).to have_content(text)
 end
 
-
+Then(/^I should see "(.*)"$/) do |text|
+  expect(page).to have_content(text)
+end
 
 Then(/^I should be on the (.*) page$/) do |page_name|
   expect(page).to have_current_path(path_to(page_name))
@@ -48,3 +50,5 @@ end
 Given('I am on the itineraries page') do
   visit itineraries_path
 end
+
+

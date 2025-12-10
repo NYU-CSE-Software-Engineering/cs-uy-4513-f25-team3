@@ -18,15 +18,16 @@
   <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
   <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
 
-  <h2>Attendees</h2>
-  <% if @itinerary_group.users.any? %>
+  <h2>Group Members</h2>
+  <% members = @itinerary_group.all_members %>
+  <% if members.any? %>
     <ul>
-      <% @itinerary_group.users.each do |user| %>
-        <li><%= user.username %></li>
+      <% members.each do |user| %>
+        <li><%= "#{user.first_name} #{user.last_name}" %></li>
       <% end %>
     </ul>
   <% else %>
-    <p>No attendees have joined this itinerary yet.</p>
+    <p>No members have joined this itinerary yet.</p>
   <% end %>
 
   <h2>Flights</h2>
