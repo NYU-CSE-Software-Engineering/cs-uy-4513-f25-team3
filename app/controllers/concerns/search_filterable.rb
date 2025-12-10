@@ -54,7 +54,7 @@ module SearchFilterable
     min = min_param.present? ? min_param.to_f : 0.0
     max = max_param.present? ? max_param.to_f : nil
 
-    relation = relation.where("cost >= ?", min)
+    relation = relation.where("cost >= ?", min) if min
     relation = relation.where("cost <= ?", max) if max
     relation
   end
