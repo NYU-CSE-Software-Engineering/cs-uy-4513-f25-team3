@@ -1,5 +1,5 @@
 def chat_input!
-  find(%([data-testid="chat-input"]))
+  find('input[data-testid="chat-input"]')
 end
 
 def send_button_click!
