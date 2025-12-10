@@ -87,6 +87,14 @@
     <p>No hotels have been added to this itinerary.</p>
   <% end %>
 
+  <% if current_user %>
+    <%= button_to "Join Trip", join_itinerary_path(@itinerary_group), method: :post %>
+
+    <% if @itinerary_group.users.exists?(current_user.id) %>
+      <p>You are attending this itinerary</p>
+    <% end %>
+  <% end %>
+
 <% else %>
   <%= render "shared/join" %>
 <% end %>

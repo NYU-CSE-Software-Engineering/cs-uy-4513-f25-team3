@@ -19,7 +19,7 @@ Feature: Joining an itinerary
         Given I am a signed-in user as "chris"
         And I am on the itinerary details page for "Public Europe Trip"
         When I press "Join Trip"
-        Then I should see the success message "You have joined this itinerary"
+        Then I should see the success message "You have joined the trip successfully."
         And I should be listed as an attendee of "Public Europe Trip"
 
     @core
@@ -30,7 +30,7 @@ Feature: Joining an itinerary
         Then I should be on the join itinerary page for "Secret Korea Trip"
         When I fill in "Password" with "korea123"
         And I press "Join"
-        Then I should see the success message "You have joined this itinerary"
+        Then I should see the success message "You have joined the trip successfully."
         And I should be listed as an attendee of "Secret Korea Trip"
         And I should see the itinerary details for "Secret Korea Trip"
 
@@ -41,7 +41,7 @@ Feature: Joining an itinerary
         Then I should be on the join itinerary page for "Secret Korea Trip"
         When I fill in "Password" with "wrongpassword"
         And I press "Join"
-        Then I should see the error message "Incorrect password"
+        Then I should see the error message "Incorrect trip password."
         And I should not be listed as an attendee of "Secret Korea Trip"
         And I should not see the itinerary details for "Secret Korea Trip"
 
