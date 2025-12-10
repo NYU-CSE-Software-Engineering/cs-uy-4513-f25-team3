@@ -1,9 +1,11 @@
 Given('I am logged in as organizer {string}') do |username|
-  organizer = create(:user, :organizer, password: 'password123')
-  visit login_path  
-  fill_in 'Username', with: organizer.username  
-  fill_in 'Password', with: 'password123'
-  click_button 'Login'
+  organizer = User.find_or_create_by!(username: username) do |user|
+    user.password = 'securepass'
+    user.password_confirmation = 'securepass'
+    user.role = 'organizer'
+  end
+
+  page.set_rack_session(organizer_id: organizer.id, user_id: organizer.id)
 end
 
 Given('I enter {string} as my trip password') do |password|
@@ -22,11 +24,13 @@ Given('the itinerary {string} is private with password {string}') do |title, pas
 end
 
 Given('I am logged in as user {string}') do |username|
-  user = create(:user, username: 'janedoe', password: 'password123')
-  visit login_path  
-  fill_in 'Username', with: user.username  
-  fill_in 'Password', with: 'password123'
-  click_button 'Login'
+  user = User.find_or_create_by!(username: username) do |u|
+    u.password = 'password123'
+    u.password_confirmation = 'password123'
+    u.role = 'user'
+  end
+
+  page.set_rack_session(user_id: user.id)
 end
 
 When('I visit the join page for {string}') do |title|

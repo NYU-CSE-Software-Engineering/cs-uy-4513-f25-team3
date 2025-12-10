@@ -32,11 +32,46 @@
 <% end %>
 
 <% if @hotels.present? %>
-  <ul>
+  <div class="hotel-results">
     <% @hotels.each do |hotel| %>
-      <li class="hotel-name"><%= hotel.name %></li>
+      <section class="hotel-card">
+        <h2 class="hotel-name"><%= hotel.name %></h2>
+
+        <p>
+          <strong>Location:</strong>
+          <%= hotel.location %>
+        </p>
+
+        <% if hotel.rating.present? %>
+          <p>
+            <strong>Rating:</strong>
+            <%= hotel.rating %> / 5.0
+          </p>
+        <% end %>
+
+        <% if hotel.cost.present? %>
+          <p>
+            <strong>Cost per night:</strong>
+            $<%= number_with_precision(hotel.cost, precision: 2) %>
+          </p>
+        <% end %>
+
+        <% if hotel.arrival_time.present? || hotel.departure_time.present? %>
+          <p>
+            <% if hotel.arrival_time.present? %>
+              <strong>Check‑in:</strong>
+              <%= l(hotel.arrival_time, format: :long) %>
+            <% end %>
+            <% if hotel.departure_time.present? %>
+              <br>
+              <strong>Check‑out:</strong>
+              <%= l(hotel.departure_time, format: :long) %>
+            <% end %>
+          </p>
+        <% end %>
+      </section>
     <% end %>
-  </ul>
+  </div>
 <% else %>
   <p>No hotels found</p>
 <% end %>

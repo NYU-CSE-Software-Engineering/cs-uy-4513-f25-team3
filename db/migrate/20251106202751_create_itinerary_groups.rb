@@ -8,6 +8,8 @@ class CreateItineraryGroups < ActiveRecord::Migration[6.1]
       t.date    :end_date
       t.boolean :is_private, default: false
       t.integer :organizer_id
+      t.float   :cost
+      t.string  :password
 
       t.timestamps
     end
