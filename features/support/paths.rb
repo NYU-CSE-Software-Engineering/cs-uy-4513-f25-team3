@@ -6,8 +6,14 @@ def path_to(page_name)
         login_path
     when "itineraries"
         itineraries_path
+    when "flights"
+        flights_path
+    when "hotels"
+        hotels_path
+    when "profile edit page", "edit profile"
+        edit_user_path(@user) 
     else
+        
         raise "No path mapping for '#{page_name}'"
     end
-
 end

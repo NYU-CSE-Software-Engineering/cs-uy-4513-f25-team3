@@ -1,0 +1,19 @@
+<nav>
+    <% if current_user %>
+        <%= link_to "Itineraries", itineraries_path, style: "margin-right: 10px;" %>
+        <%= link_to "Flights", flights_path, style: "margin-right: 10px;" %>
+        <%= link_to "Hotels", hotels_path, style: "margin-right: 10px;" %>
+
+        <% if current_user.role == "admin" %>
+            <%= link_to "Accounts", accounts_path, style: "margin-right: 10px;" %>
+        <% end %>
+    <% else %>
+        <% unless current_page?(signup_path) %>
+            <%= link_to "Sign up", signup_path, style: "margin-right: 10px;" %>
+        <% end %>
+
+        <% unless current_page?(login_path) %>
+            <%= link_to "Login", login_path, style: "margin-right: 10px;" %>
+        <% end %>
+    <% end %>
+</nav>

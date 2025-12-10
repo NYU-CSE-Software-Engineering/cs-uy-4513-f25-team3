@@ -1,0 +1,77 @@
+<%= render "shared/navbar" %>
+<h1>Hotels</h1>
+
+<% if flash.now[:alert] %>
+  <div class="alert"><%= flash.now[:alert] %></div>
+<% end %>
+
+<% if flash.now[:notice] %>
+  <div class="notice"><%= flash.now[:notice] %></div>
+<% end %>
+
+<%= form_with url: hotels_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :search_location, "Location" %>
+    <%= text_field_tag :search_location, params[:search_location], id: "search_location" %>
+  </div>
+
+  <div>
+    <%= label_tag :min_rating, "Minimum rating" %>
+    <%= number_field_tag :min_rating, params[:min_rating],
+          id: "min_rating",
+          min: 0,
+          max: 5,
+          step: 0.1 %>
+  </div>
+
+  <%= render "shared/date_and_cost_filters",
+             start_label: "Arrival date",
+             end_label: "Departure date" %>
+
+  <%= render "shared/search_and_clear_buttons" %>
+<% end %>
+
+<% if @hotels.present? %>
+  <div class="hotel-results">
+    <% @hotels.each do |hotel| %>
+      <section class="hotel-card">
+        <h2 class="hotel-name"><%= hotel.name %></h2>
+
+        <p>
+          <strong>Location:</strong>
+          <%= hotel.location %>
+        </p>
+
+        <% if hotel.rating.present? %>
+          <p>
+            <strong>Rating:</strong>
+            <%= hotel.rating %> / 5.0
+          </p>
+        <% end %>
+
+        <% if hotel.cost.present? %>
+          <p>
+            <strong>Cost per night:</strong>
+            $<%= number_with_precision(hotel.cost, precision: 2) %>
+          </p>
+        <% end %>
+
+        <% if hotel.arrival_time.present? || hotel.departure_time.present? %>
+          <p>
+            <% if hotel.arrival_time.present? %>
+              <strong>Check‑in:</strong>
+              <%= l(hotel.arrival_time, format: :long) %>
+            <% end %>
+            <% if hotel.departure_time.present? %>
+              <br>
+              <strong>Check‑out:</strong>
+              <%= l(hotel.departure_time, format: :long) %>
+            <% end %>
+          </p>
+        <% end %>
+      </section>
+    <% end %>
+  </div>
+<% else %>
+  <p>No hotels found</p>
+<% end %>

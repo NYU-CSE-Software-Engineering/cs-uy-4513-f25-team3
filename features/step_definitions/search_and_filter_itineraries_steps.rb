@@ -1,12 +1,12 @@
-# HELPER
-def submit_search_form
-  click_button "Search"
-end
-
 # GIVEN
 Given('the following itineraries exist:') do |table|
   # Log in a test user so require_login passes
-  user = User.create!(username: "search_user", password: "password", role: "user")
+  user = User.create!(
+    username: "search_user",
+    password: "password",
+    password_confirmation: "password",
+    role: "user"
+  )
   page.set_rack_session(user_id: user.id)
 
   table.hashes.each do |row|
@@ -20,12 +20,6 @@ Given('the following itineraries exist:') do |table|
 end
 
 # WHEN
-When(/^I filter by dates between "([^"]*)" and "([^"]*)"$/) do |start_date, end_date|
-  fill_in 'start_date', with: start_date
-  fill_in 'end_date', with: end_date
-  submit_search_form
-end
-
 When(/^I filter by location "(.*)"$/) do |location|
   fill_in "location", with: location
   submit_search_form
@@ -33,21 +27,6 @@ end
 
 When(/^I filter by trip type "(.*)"$/) do |trip_type|
   select trip_type, from: "Trip type"
-  submit_search_form
-end
-
-When(/^I filter itineraries with cost between (\d+) and (\d+)$/) do |min, max|
-  fill_in 'min_cost', with: min
-  fill_in 'max_cost', with: max
-  submit_search_form
-end
-
-When('I clear all filters') do
-  click_button 'Clear'
-end
-
-When('I filter itineraries with an invalid cost range') do
-  fill_in 'min_cost', with: 'abc'
   submit_search_form
 end
 
@@ -72,7 +51,7 @@ end
 
 Then(/^I should see all itineraries$/) do
   expected_titles = ItineraryGroup.all.map(&:title)
-  visible_titles = page.all('.itinerary-title').map(&:text)
+  visible_titles = page.all('.itinerary-title a:first-child').map(&:text)
   expect(visible_titles).to match_array(expected_titles)
 end
 
@@ -94,13 +73,17 @@ end
 
 Then('I should see the following details for {string}') do |title|
   itinerary = ItineraryGroup.find_by(title: title)
-  
-  # Check each attribute, show "Not available" if missing
-  expect(page).to have_content(itinerary.title || 'Not available')
-  expect(page).to have_content(itinerary.description.presence || 'Not available')
-  expect(page).to have_content(itinerary.location.presence || 'Not available')
-  expect(page).to have_content(itinerary.start_date || 'Not available')
-  expect(page).to have_content(itinerary.end_date || 'Not available')
-  expect(page).to have_content(itinerary.is_private.presence || 'Not available')
-  expect(page).to have_content(itinerary.cost || 'Not available')
+
+  if itinerary.is_private
+    expect(page).to have_content("This itinerary is private and cannot be viewed.")
+  else
+    # Check each attribute, show "Not available" if missing
+    expect(page).to have_content(itinerary.title || 'Not available')
+    expect(page).to have_content(itinerary.description.presence || 'Not available')
+    expect(page).to have_content(itinerary.location.presence || 'Not available')
+    expect(page).to have_content(itinerary.start_date || 'Not available')
+    expect(page).to have_content(itinerary.end_date || 'Not available')
+    expect(page).to have_content(itinerary.is_private.presence || 'Not available')
+    expect(page).to have_content(itinerary.cost || 'Not available')
+  end
 end

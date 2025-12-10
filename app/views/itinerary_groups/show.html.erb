@@ -1,33 +1,93 @@
+<%= render "shared/navbar" %>
 <% if flash[:notice] %>
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
-
 <% if flash[:alert] %>
   <div class="alert"><%= flash[:alert] %></div>
 <% end %>
 
-<h1><%= @itinerary_group.title || 'Not available' %></h1>
+<% if @itinerary_group.is_private %>
+  <p>This itinerary is private and cannot be viewed.</p>
+<% else %>
+  <h1><%= @itinerary_group.title || 'Not available' %></h1>
 
-<p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
-<p>Location: <%= @itinerary_group.location.presence || 'Not available' %></p>
-<p>Start date: <%= @itinerary_group.start_date || 'Not available' %></p>
-<p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
-<p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
-<p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
+  <p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
+  <p>Location: <%= @itinerary_group.location.presence || 'Not available' %></p>
+  <p>Start date: <%= @itinerary_group.start_date || 'Not available' %></p>
+  <p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
+  <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
+  <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
 
-<% if @organizer || @attendees.any? %>
-  <h2>Group Members</h2>
-  <ul>
-    <% if @organizer %>
-      <li><%= @organizer.first_name %> <%= @organizer.last_name %></li>
-    <% end %>
-    
-    <% @attendees.each do |attendee| %>
-      <li><%= attendee.first_name %> <%= attendee.last_name %></li>
-    <% end %>
-  </ul>
+  <h2>Attendees</h2>
+  <% if @itinerary_group.users.any? %>
+    <ul>
+      <% @itinerary_group.users.each do |user| %>
+        <li><%= user.username %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No attendees have joined this itinerary yet.</p>
+  <% end %>
+
+  <h2>Flights</h2>
+  <% if @itinerary_group.flights.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Flight #</th>
+          <th>From</th>
+          <th>To</th>
+          <th>Departure</th>
+          <th>Arrival</th>
+          <th>Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @itinerary_group.flights.each do |flight| %>
+          <tr>
+            <td><%= flight.flight_number %></td>
+            <td><%= flight.departure_location %></td>
+            <td><%= flight.arrival_location %></td>
+            <td><%= flight.departure_time %></td>
+            <td><%= flight.arrival_time %></td>
+            <td><%= number_to_currency(flight.cost) if flight.cost %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No flights have been added to this itinerary.</p>
+  <% end %>
+
+  <h2>Hotels</h2>
+  <% if @itinerary_group.hotels.any? %>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Arrival</th>
+          <th>Departure</th>
+          <th>Rating</th>
+          <th>Cost (per night)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @itinerary_group.hotels.each do |hotel| %>
+          <tr>
+            <td><%= hotel.name %></td>
+            <td><%= hotel.location %></td>
+            <td><%= hotel.arrival_time %></td>
+            <td><%= hotel.departure_time %></td>
+            <td><%= hotel.rating %></td>
+            <td><%= number_to_currency(hotel.cost) if hotel.cost %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No hotels have been added to this itinerary.</p>
+  <% end %>
 <% end %>
 
-
-
-<%= link_to 'Back to results', itineraries_path %>
+<%= link_to 'Back to results', itineraries_path(request.query_parameters) %>

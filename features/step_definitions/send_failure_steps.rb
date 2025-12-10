@@ -1,5 +1,8 @@
 When(/^I attempt to send "([^"]*)" to ItineraryGroupID (\d+) and the request fails$/) do |text, group_id|
-  allow(Message).to receive(:create!).and_raise(ActiveRecord::ActiveRecordError, 'Simulated failure')
+  page.set_rack_session(simulate_message_failure: true)
+  visit("/itineraries/#{group_id}/messages")
+  chat_input!.set(text)
+  send_button_click!
 end
 
 Then(/^no new Message exists with \(UserID: (\d+), ItineraryGroupID: (\d+), Text: "([^"]+)"\)$/) do |user_id, group_id, text|
@@ -12,8 +15,4 @@ Then('an error is shown for the failed send') do
   expect(
     page.has_text?('Unable to send')
   ).to be(true), 'Expected a visible send error'
-end
-
-Then('I see {string}') do |text|
-  expect(page).to have_text(text)
 end

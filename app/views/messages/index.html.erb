@@ -1,0 +1,79 @@
+<%= render "shared/navbar" %>
+<h1>Group Chat</h1>
+
+<% if flash[:alert] %>
+  <div><%= flash[:alert] %></div>
+<% end %>
+
+<div id="messages">
+  <% @messages.each do |message| %>
+    <div
+      data-testid="message-<%= message.id %>"
+      data-message-id="<%= message.id %>">
+      <div class="message-summary">
+        <span>[User <%= message.user_id %>]</span>
+        <span><%= message.text %></span>
+        <% if message.updated_at && message.updated_at > message.created_at %>
+          <span>(*edited)</span>
+        <% end %>
+        <button
+          type="button"
+          class="message-details-toggle"
+          data-testid="details-button-<%= message.id %>"
+          data-message-details-target="message-details-<%= message.id %>"
+          >
+          Details
+        </button>
+      </div>
+
+      <div
+        id="message-details-<%= message.id %>"
+        class="message-details is-hidden"
+        data-testid="message-details-<%= message.id %>"
+        aria-hidden="true">
+        <strong>Details</strong>
+        <div class="message-timestamp">
+          <span>Sent:</span>
+          <span data-testid="message-time">
+            <%= (message.time || message.created_at).strftime("%Y-%m-%d %H:%M") %>
+          </span>
+        </div>
+
+        <% if current_user && message.user_id == current_user.id %>
+          <div class="message-edit">
+            <span>Edit</span>
+            <form action="<%= message_path(message) %>" method="post">
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <input type="hidden" name="_method" value="patch" />
+              <input
+                type="text"
+                name="text"
+                value="<%= message.text %>"
+                data-testid="edit-input-<%= message.id %>" />
+              <button
+                type="submit"
+                data-testid="save-<%= message.id %>">
+                Save
+              </button>
+            </form>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<form action="<%= create_itinerary_group_message_path(@itinerary_group) %>" method="post">
+  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+  <div data-testid="chat-input">
+    <% if flash[:failed_text].present? %>
+      <span><%= flash[:failed_text] %></span>
+    <% end %>
+    <input
+      type="text"
+      name="text"
+      data-testid="chat-input"
+      value="<%= flash[:failed_text].to_s %>" />
+  </div>
+  <button type="submit" data-testid="chat-send">Send</button>
+</form>

@@ -1,4 +1,5 @@
 class ItinerariesController < ApplicationController
+  include SearchFilterable
   before_action :require_login
   
   # UNCOMMENT TO SEE THE ITINERARIES PAGE WITHOUT LOGIN AS IT IS NOT IMPLEMENTED YET
@@ -7,16 +8,30 @@ class ItinerariesController < ApplicationController
   def index
     @itineraries = ItineraryGroup.all
 
-    # "Filters not applied until search triggered"
-    return unless params[:commit] == "Search" && params[:clear].blank?
-
     if params[:clear].present?
-      @itineraries = ItineraryGroup.all
+      params[:search]     = nil
+      params[:start_date] = nil
+      params[:end_date]   = nil
+      params[:min_cost]   = nil
+      params[:max_cost]   = nil
+      params[:location]   = nil
+      params[:trip_type]  = nil
       return
     end
 
     apply_search_filter
-    return if handle_date_errors || handle_cost_errors
+
+    scope, date_error = handle_date_errors_for(ItineraryGroup)
+    if date_error
+      @itineraries = scope
+      return
+    end
+
+    scope, cost_error = handle_cost_errors_for(ItineraryGroup)
+    if cost_error
+      @itineraries = scope
+      return
+    end
 
     apply_date_filter
     apply_location_filter
@@ -42,46 +57,15 @@ class ItinerariesController < ApplicationController
   end
 
   def apply_date_filter
-    return if params[:start_date].blank? || params[:end_date].blank?
+    return if params[:start_date].blank? && params[:end_date].blank?
 
-    start_date = Date.parse(params[:start_date])
-    end_date   = Date.parse(params[:end_date])
+    start_date = params[:start_date].present? ? Date.parse(params[:start_date]) : nil
+    end_date   = params[:end_date].present?   ? Date.parse(params[:end_date])   : nil
 
-    @itineraries = @itineraries.where(
-      "start_date >= ? AND end_date <= ?", start_date, end_date
-    )
-  end
-
-  def handle_date_errors
-    return false if params[:start_date].blank? || params[:end_date].blank?
-
-    start_date = Date.parse(params[:start_date]) rescue nil
-    end_date   = Date.parse(params[:end_date])   rescue nil
-
-    if start_date && end_date && end_date < start_date
-      flash.now[:alert] = "End date must be after start date"
-      @itineraries = base_scope.none
-      true
-    else
-      false
-    end
-  end
-
-  def handle_cost_errors
-    min = params[:min_cost]
-    max = params[:max_cost]
-
-    return false if min.blank? && max.blank?
-
-    numeric = ->(v) { v.to_s.match?(/\A\d+(\.\d+)?\z/) }
-
-    unless [min, max].compact.all? { |v| numeric.call(v) }
-      flash.now[:alert] = "Please enter valid numbers for cost"
-      @itineraries = base_scope.none
-      return true
-    end
-
-    false
+    scope = @itineraries
+    scope = scope.where("start_date >= ?", start_date) if start_date
+    scope = scope.where("end_date <= ?", end_date)     if end_date
+    @itineraries = scope
   end
 
   def apply_location_filter
@@ -98,11 +82,6 @@ class ItinerariesController < ApplicationController
   end
 
   def apply_cost_filter
-    min = params[:min_cost].presence&.to_f
-    max = params[:max_cost].presence&.to_f
-    return if min.nil? && max.nil?
-
-    @itineraries = @itineraries.where("cost >= ?", min) if min
-    @itineraries = @itineraries.where("cost <= ?", max) if max
+    @itineraries = apply_cost_filter_for(@itineraries)
   end
 end
