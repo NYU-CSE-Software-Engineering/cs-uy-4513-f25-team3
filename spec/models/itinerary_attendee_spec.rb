@@ -37,6 +37,14 @@ RSpec.describe ItineraryAttendee, type: :model do
         expect(attendee).not_to be_valid
         expect(attendee.errors[:itinerary_group]).to include('must exist')
     end
+
+    it 'does not allow a user to join an itinerary they are already in' do
+        ItineraryAttendee.create!(user: user, itinerary_group: group)
+        attendee = ItineraryAttendee.new(user: user, itinerary_group: group)
+
+        expect(attendee).not_to be_valid
+        expect(attendee.errors[:user_id]).to include('is already part of itinerary')
+    end
 end
 
 
