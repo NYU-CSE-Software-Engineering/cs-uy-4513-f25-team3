@@ -14,7 +14,7 @@ Background:
         | location    | New York              |
         | start_date  | 2026-01-01            |
         | end_date    | 2026-01-14            |
-        | is_private  | Public                |
+        | is_private  | false                 |
         | cost        | 2400                  |
 
 
