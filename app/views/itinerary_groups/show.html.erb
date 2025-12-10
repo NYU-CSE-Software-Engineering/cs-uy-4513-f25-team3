@@ -6,7 +6,7 @@
   <div class="alert"><%= flash[:alert] %></div>
 <% end %>
 
-<% if @itinerary_group.is_private %>
+<% if @itinerary_group.is_private && !@can_view_private %>
   <p>This itinerary is private and cannot be viewed.</p>
 <% else %>
   <h1><%= @itinerary_group.title || 'Not available' %></h1>

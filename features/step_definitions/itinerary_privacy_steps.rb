@@ -1,6 +1,11 @@
 Given('I am logged in as organizer {string}') do |username|
-  organizer = User.find_or_create_by!(username: username, password: 'securepass', role: 'organizer')
-  page.set_rack_session(organizer_id: organizer.id)
+  organizer = User.find_or_create_by!(username: username) do |user|
+    user.password = 'securepass'
+    user.password_confirmation = 'securepass'
+    user.role = 'organizer'
+  end
+
+  page.set_rack_session(organizer_id: organizer.id, user_id: organizer.id)
 end
 
 Given('I enter {string} as my trip password') do |password|
@@ -19,7 +24,12 @@ Given('the itinerary {string} is private with password {string}') do |title, pas
 end
 
 Given('I am logged in as user {string}') do |username|
-  user = User.find_or_create_by!(username: username, password: 'password123', role: 'user')
+  user = User.find_or_create_by!(username: username) do |u|
+    u.password = 'password123'
+    u.password_confirmation = 'password123'
+    u.role = 'user'
+  end
+
   page.set_rack_session(user_id: user.id)
 end
 
