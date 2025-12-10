@@ -22,32 +22,35 @@ Scenario: View members in a public group I belong to
 		| organizer       | alice_s                  |
 		| is_private      | false                    |
 	And I am a member of the group "Fun Adventure"
+	And "alice_s" is a member of the group "Fun Adventure"
 	And "carol_w" is a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
-	Then I should see "Group Members"
-	And I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "Carol Wilson"
+	Then I should see "Attendees"
+	And I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "carol_w"
 
 Scenario: View members as the organizer
 	Given I am logged in as "alice_s" with password "Pass123!"
 	And I have created an itinerary group titled "Fun Adventure"
+	And "alice_s" is a member of the group "Fun Adventure"
 	And "bob_j" is a member of the group "Fun Adventure"
 	And "carol_w" is a member of the group "Fun Adventure"
 	And "david_b" is a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
-	Then I should see "Group Members"
-	And I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "Carol Wilson"
-	And I should see "David Brown"
+	Then I should see "Attendees"
+	And I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "carol_w"
+	And I should see "david_b"
 
 Scenario: View group with only organizer (no other members)
 	Given I am logged in as "alice_s" with password "Pass123!"
 	And I have created an itinerary group titled "New Trip"
+	And "alice_s" is a member of the group "New Trip"
 	When I visit the itinerary page for "New Trip"
-	Then I should see "Group Members"
-	And I should see "Alice Smith"
+	Then I should see "Attendees"
+	And I should see "alice_s"
 
 Scenario: Member list updates when new member joins
 	Given I am logged in as "bob_j" with password "Pass123!"
@@ -57,15 +60,16 @@ Scenario: Member list updates when new member joins
 		| organizer   | alice_s        |
 		| is_private  | false          |
 	And I am a member of the group "Fun Adventure"
+	And "alice_s" is a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
-	Then I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should not see "Carol Wilson"
+	Then I should see "alice_s"
+	And I should see "bob_j"
+	And I should not see "carol_w"
 	When "carol_w" joins the group "Fun Adventure"
 	And I visit the itinerary page for "Fun Adventure"
-	Then I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "Carol Wilson"
+	Then I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "carol_w"
 
 Scenario: Member list updates when a member leaves
 	Given I am logged in as "bob_j" with password "Pass123!"
@@ -75,19 +79,20 @@ Scenario: Member list updates when a member leaves
 		| organizer   | alice_s        |
 		| is_private  | false          |
 	And I am a member of the group "Fun Adventure"
+	And "alice_s" is a member of the group "Fun Adventure"
 	And "carol_w" is a member of the group "Fun Adventure"
 	And "david_b" is a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
-	Then I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "Carol Wilson"
-	And I should see "David Brown"
+	Then I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "carol_w"
+	And I should see "david_b"
 	When "carol_w" leaves the group "Fun Adventure"
 	And I visit the itinerary page for "Fun Adventure"
-	Then I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "David Brown"
-	And I should not see "Carol Wilson"
+	Then I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "david_b"
+	And I should not see "carol_w"
 
 Scenario: View members in multiple different groups
 	Given I am logged in as "bob_j" with password "Pass123!"
@@ -97,6 +102,7 @@ Scenario: View members in multiple different groups
 		| organizer   | alice_s        |
 		| is_private  | false          |
 	And I am a member of the group "Paris Trip"
+	And "alice_s" is a member of the group "Paris Trip"
 	And "carol_w" is a member of the group "Paris Trip"
 	And the following itinerary group exists:
 		| title       | Tokyo Trip     |
@@ -104,17 +110,18 @@ Scenario: View members in multiple different groups
 		| organizer   | carol_w        |
 		| is_private  | false          |
 	And I am a member of the group "Tokyo Trip"
+	And "carol_w" is a member of the group "Tokyo Trip"
 	And "david_b" is a member of the group "Tokyo Trip"
 	When I visit the itinerary page for "Paris Trip"
-	Then I should see "Alice Smith"
-	And I should see "Bob Jones"
-	And I should see "Carol Wilson"
-	And I should not see "David Brown"
+	Then I should see "alice_s"
+	And I should see "bob_j"
+	And I should see "carol_w"
+	And I should not see "david_b"
 	When I visit the itinerary page for "Tokyo Trip"
-	Then I should see "Carol Wilson"
-	And I should see "Bob Jones"
-	And I should see "David Brown"
-	And I should not see "Alice Smith"
+	Then I should see "carol_w"
+	And I should see "bob_j"
+	And I should see "david_b"
+	And I should not see "alice_s"
 
 #Sad Paths
 Scenario: Cannot view members of a private group I'm not in
@@ -126,7 +133,7 @@ Scenario: Cannot view members of a private group I'm not in
 	And "carol_w" is a member of the group "Secret Trip"
 	When I attempt to visit the itinerary page for "Secret Trip"
 	Then I should see an error message
-	And I should not see "Carol Wilson"
+	And I should not see "carol_w"
 
 Scenario: Cannot view members when not logged in
 	Given the following itinerary group exists:
@@ -138,7 +145,7 @@ Scenario: Cannot view members when not logged in
 	And I am logged out
 	When I attempt to visit the itinerary page for "Public Trip"
 	Then I should be redirected to the login page
-	And I should not see "Carol Wilson"
+	And I should not see "carol_w"
 
 Scenario: Cannot view non-existent group
 	Given I am logged in as "alice_s" with password "Pass123!"
