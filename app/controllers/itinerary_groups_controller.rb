@@ -18,7 +18,7 @@ class ItineraryGroupsController < ApplicationController
     @itinerary_group = ItineraryGroup.find(params[:id])
     @can_view_private = can_view_itinerary?(@itinerary_group)
 
-    if @itinerary_group.is_private && !@can_view_private
+    if !@can_view_private
       flash[:alert] = "This itinerary is private and cannot be viewed."
     end
   end
