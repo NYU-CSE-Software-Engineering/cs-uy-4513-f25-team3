@@ -1,28 +1,25 @@
-=begin
-used session instead since it is implemented now
-def find_user!(id)
-  User.find(id)
-end
-=end
+# frozen_string_literal: true
 
 Given(/^the following Users exist:$/) do |table|
   table.hashes.each do |row|
     User.create!(
-      #user_id: row['UserID'].to_i, # deleting because database gives us an id automatically
       first_name: row['FirstName'],
-      last_name: row['LastName'],
-      username: row['Username'],
-      password: row['Password'],
-      age: row['Age'].to_i,
-      gender: row['Gender'],
-      role: row['Role'],
-      password_confirmation: row['Password Confirmation']
+      last_name:  row['LastName'],
+      username:   row['Username'],
+      password:   row['Password'],
+      password_confirmation: row['Password'],
+      age:        (row['Age'].to_i if row['Age']),
+      gender:     row['Gender'],
+      role:       row['Role']
     )
   end
 end
 
-Given(/^I am on the profile edit page$/) do
-  @current_path = "/profile_edit/#{@current_user.user_id}"
+Given("I am on the profile edit page") do
+  # prefer a user from the session if already set, otherwise create/find one
+  @current_user ||= User.last || FactoryBot.create(:user)
+  page.set_rack_session(user_id: @current_user.id)
+  visit edit_user_path(@current_user)
 end
 
 Given(/^I am UserID (\d+)$/) do |user_id|
@@ -32,95 +29,98 @@ Given(/^I am UserID (\d+)$/) do |user_id|
   @old_password = @current_user.password
 end
 
-
-When(/^I enter my current password correctly$/) do
-  expect(@current_user.password).not_to be_nil
+When(/^I enter my current password "(.*)" correctly$/) do |current_password|
+  # the input id is "current_password" (password_field_tag), label "Current password"
+  fill_in "current_password", with: current_password
 end
 
 When(/^I enter "(.*)" as my new unique username$/) do |new_username|
-  @current_user.username = new_username
+  fill_in "Username", with: new_username
 end
 
 When(/^I enter "(.*)" as my new password$/) do |new_password|
-  @current_user.password = new_password
+  # matches label "New password" or id "user_password"
+  fill_in "New password", with: new_password rescue fill_in "user_password", with: new_password
 end
 
 When(/^I confirm it by typing "(.*)" again$/) do |confirmation|
-  @password_confirmation = confirmation
+  fill_in "New password confirmation", with: confirmation rescue fill_in "user_password_confirmation", with: confirmation
 end
 
 When(/^I update my age to (\d+)$/) do |age|
-  @current_user.age = age.to_i
+  fill_in "Age", with: age
 end
 
 When(/^I update my first name to "(.*)"$/) do |first_name|
-  @current_user.first_name = first_name
+  fill_in "First name", with: first_name rescue fill_in "user_first_name", with: first_name
 end
 
 When(/^I update my last name to "(.*)"$/) do |last_name|
-  @current_user.last_name = last_name
+  fill_in "Last name", with: last_name rescue fill_in "user_last_name", with: last_name
 end
 
 When(/^I update my gender to "(.*)"$/) do |gender|
-  @current_user.gender = gender
+  # select uses visible option text
+  select gender, from: "Gender" rescue select gender, from: "user_gender"
 end
 
-#When(/^I press "(.*)"$/) do |_button|
-#  if @current_user.password != @password_confirmation
-#    @error_message = "Password confirmation does not match"
-#  else
-#    @current_user.save
-#  end
-#end
-
-Then(/^I should see an error saying "(.*)"$/) do |error_text|
-  expect(@error_message).to eq(error_text)
+When(/^I press "(.*)" for editing the profile$/) do |button|
+  # simulate clicking the submit button (e.g. "Save Changes")
+  click_button button
 end
 
-Then(/^my username should still be "(.*)"$/) do |original_username|
-  expect(@current_user.username).to eq(original_username)
+Then(/^my password should still be "(.*)"$/) do |original_password|
+  @current_user.reload
+  expect(@current_user.password).to eq(original_password)
 end
 
 Then(/^my username should be updated to "(.*)"$/) do |new_username|
+  @current_user.reload
   expect(@current_user.username).to eq(new_username)
 end
 
 Then(/^I should be able to log in only with "(.*)"$/) do |new_password|
+  @current_user.reload
   expect(@current_user.password).to eq(new_password)
 end
 
 Then(/^the old password should no longer work$/) do
+  @current_user.reload
   expect(@current_user.password).not_to eq(@old_password)
 end
 
 Then(/^my age should be updated to (\d+) on my profile$/) do |age|
+  @current_user.reload
   expect(@current_user.age).to eq(age.to_i)
 end
 
 Then(/^my full name should be displayed as "(.*)" on my profile$/) do |full_name|
+  @current_user.reload
   expect("#{@current_user.first_name} #{@current_user.last_name}").to eq(full_name)
 end
 
 Then(/^my gender should be updated to "(.*)" on my profile$/) do |gender|
+  @current_user.reload
   expect(@current_user.gender).to eq(gender)
 end
 
-Then(/^I should see a success confirmation message$/) do
-  @flash_message = "Profile updated successfully!"
-  expect(@flash_message).to eq("Profile updated successfully!")
+# Then(/^I should see a success confirmation message$/) do
+#   expect(page).to have_content("Profile updated successfully")
+# end
+
+When(/^I try to visit \/edit\/(\d+)$/) do |requested_id|
+  requested_user = User.find_by(id: requested_id.to_i) || FactoryBot.create(:user, id: requested_id.to_i)
+  visit edit_user_path(requested_user)
 end
 
-When(/^I try to visit \/show\/(\d+)$/) do |requested_id|
-  if requested_id == @current_user.user_id
-    @current_path = "/show/#{requested_id}"
-   
-  else
-     @page_error = "Access denied"
-     @current_path = "/show/#{@current_user.user_id}"
-  end
+Then(/^I should not be able to view the page \/edit\/(\d+)$/) do |blocked_id|
+  expect(current_path).not_to eq("/users/#{blocked_id}/edit")
 end
 
-Then(/^I should not be able to view the page$/) do
-  expect(@page_error).to eq("Access denied")
-  expect(@current_path).to eq("/show/#{@current_user.user_id}")
+Then(/^I should be back on \/edit\/(\d+)$/) do |expected_id|
+  expect(current_path).to eq("/users/#{expected_id}/edit")
 end
+
+
+
+

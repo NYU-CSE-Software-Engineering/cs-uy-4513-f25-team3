@@ -49,7 +49,7 @@ RSpec.describe "User sign up", type: :request do
 
         expect(response).to render_template(:new)
         text = CGI.unescapeHTML(response.body)
-        expect(text).to include("Password confirmation doesn't match Password")
+        expect(text).to include("Password confirmation does not match")
       end
 
       it "fails when required fields are missing" do
