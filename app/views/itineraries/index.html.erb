@@ -10,13 +10,8 @@
 <% end %>
 
 
-<<<<<<< HEAD
-<% if flash[:alert] %>
-  <div class="alert"><%= flash[:alert] %></div>
-=======
 <% if flash.now[:alert] || flash[:alert] %>
   <div class="alert"><%= flash.now[:alert] || flash[:alert] %></div>
->>>>>>> main
 <% end %>
 
 <% if flash[:notice] %>
