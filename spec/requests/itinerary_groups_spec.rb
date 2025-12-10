@@ -125,26 +125,59 @@ RSpec.describe "ItineraryGroups", type: :request do
     describe "GET /itineraries/:id/join" do
         it 'renders join page for private itinerary groups' do
             get join_itinerary_path(private_group)
+
             expect(response).to have_http_status(:success)
             expect(response).to render_template(:join)
         end
 
         it 'renders the show page for public itinerary groups' do
             get join_itinerary_path(public_group)
+
             expect(response).to redirect_to(itinerary_path(public_group))
         end
     end
 
-
-
-
-
-
     # TODO: Add failing /POST RSPEC
+    describe "POST /itineraries/:id/join" do
+        context 'when itinerary is public' do
+            it 'adds user to list of attendees then redirects to show page' do
+                post join_itinerary_path(public_group)
 
+                expect(response).to redirect_to(itinerary_path(public_group))
+                expect(flash[:notice]).to eq('You have joined the trip successfully.')
+                expect(public_group.reload.users).to include(user)
+            end
+        end
 
+        context 'when itinerary is private and password is correct' do
+            it 'adds user to list of attendees then redirects to show page' do
+                post join_itinerary_path(private_group), params: {password: 'spain123'}
 
+                expect(response).to redirect_to(itinerary_path(private_group))
+                expect(flash[:notice]).to eq('You have joined the trip successfully.')
+                expect(private_group.reload.users).to include(user)
+            end
+        end
 
+        context 'when itinerary is private and password is incorrect' do
+            it 'does not add user to list of attendees and re-renders join template with error' do
+                post join_itinerary_path(private_group), params: {password: 'wrong_password_omegalol'}
 
+                expect(response).to render_template(:join)
+                expect(flash[:alert]).to eq("Incorrect trip password.")
+                expect(private_group.reload.users).not_to include(user)
+            end
+        end
+
+        context 'when the user is already in the itinerary group' do
+            it 'does not allow the attendee to join again' do
+                post join_itinerary_path(public_group)
+                expect(public_group.reload.users).to include(user)
+
+                post join_itinerary_path(public_group)
+                expect(public_group.reload.itinerary_attendees.count).to eq(1)
+            end
+        end
+    end
 end
 
