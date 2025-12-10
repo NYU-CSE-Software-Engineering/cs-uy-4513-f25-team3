@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_01_151805) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_10_204548) do
   create_table "flights", force: :cascade do |t|
     t.string "flight_number"
     t.string "departure_location"
@@ -86,12 +86,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_01_151805) do
     t.string "first_name"
     t.string "last_name"
     t.string "username"
-    t.string "password"
     t.integer "age"
     t.string "gender"
     t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
   add_foreign_key "itinerary_attendees", "itinerary_groups"

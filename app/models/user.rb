@@ -1,10 +1,10 @@
 class User < ApplicationRecord
-  attr_accessor :password_confirmation
+  has_secure_password
   has_many :messages
 
   validates :role, presence: true
   validates :username, presence: true, uniqueness: true
-  validates :password, presence: true
+
   def admin?
     role == "admin"
   end

@@ -6,16 +6,17 @@ class SessionsController < ApplicationController
 
     def create
         user = User.find_by(username: params[:user][:username])
-        if user && user.password == params[:user][:password]
+        if user&.authenticate(params[:user][:password])
             reset_session
             session[:user_id] = user.id
             redirect_to itineraries_path
         else
             flash[:alert] = "Invalid username and/or password"
-            @user = User.new(username: "", password: "")
+            @user = User.new(username: "")
             render :new, status: :unprocessable_entity
         end
     end
+
 
 
     def destroy
