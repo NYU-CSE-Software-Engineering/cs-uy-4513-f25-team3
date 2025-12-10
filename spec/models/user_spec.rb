@@ -35,3 +35,23 @@ RSpec.describe User, type: :model do
 
 end
 
+    describe 'associations' do
+        it 'has many itinerary_attendees' do
+            association = described_class.reflect_on_association(:itinerary_attendees)
+            expect(association.macro).to eq(:has_many)
+        end
+
+        it 'has many itinerary_groups through itinerary_attendees' do
+            association = described_class.reflect_on_association(:itinerary_groups)
+            expect(association.macro).to eq(:has_many)
+            expect(association.options[:through]).to eq(:itinerary_attendees)
+        end
+
+        it 'has many organized_groups' do
+            association = described_class.reflect_on_association(:organized_groups)
+            expect(association.macro).to eq(:has_many)
+            expect(association.options[:class_name]).to eq('ItineraryGroup')
+        end
+    end
+
+end
