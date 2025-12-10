@@ -1,5 +1,6 @@
 class ItineraryGroupsController < ApplicationController
   before_action :require_login, only: [:show, :edit, :update]
+  before_action :require_organizer, only: [:edit, :update]
   rescue_from ActiveRecord::RecordNotFound, with: :group_not_found
 
   def edit
@@ -70,5 +71,15 @@ class ItineraryGroupsController < ApplicationController
   def group_not_found
     flash.now[:alert] = "Group not found or doesn't exist."
     render plain: "Error: Group not found or doesn't exist.", status: :not_found
+  end
+
+  def require_organizer
+    @itinerary_group = ItineraryGroup.find(params[:id])
+    current_user = User.find_by(id: session[:user_id])
+    
+    unless current_user && @itinerary_group.organizer_id == current_user.id
+      flash[:alert] = "You must be the organizer to edit this itinerary."
+      redirect_to itinerary_group_path(@itinerary_group)
+    end
   end
 end
