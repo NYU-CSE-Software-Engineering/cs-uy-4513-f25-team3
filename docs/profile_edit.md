@@ -30,6 +30,7 @@ So that my profile information stays accurate and personalized
 - `LastName:string`
 - `Username:string` 
 - `Password:string`
+- `Role:string`
 - `Age:integer`
 - `Gender:string`
 
