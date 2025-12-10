@@ -1,23 +1,31 @@
-<h1>Login</h1>
-<% if flash[:notice] %>
-  <p class="flash-notice"><%= flash[:notice] %></p>
-<% end %>
+<% content_for :body_class, "signin-page" %>
 
-<% if flash[:alert] %>
-  <p class="flash-alert"><%= flash[:alert] %></p>
-<% end %>
+<div class="signin-container">
+  <h1>Log In</h1>
+  <% if flash[:notice] %>
+    <p class="flash-notice"><%= flash[:notice] %></p>
+  <% end %>
 
-<%= form_with model: @user, url: login_path, method: :post, local: true do |f| %>
-  <div>
-    <%= f.label :username %><br>
-    <%= f.text_field :username, required: true%>
-  </div>
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password, required: true %>
-  </div>
+  <% if flash[:alert] %>
+    <p class="flash-alert"><%= flash[:alert] %></p>
+  <% end %>
 
-  <div>
-    <%= f.submit "Login" %>
-  </div>
-<% end %>
+  <%= form_with model: @user, url: login_path, method: :post, local: true do |f| %>
+    <div>
+      <%= f.label :username %>
+      <%= f.text_field :username, required: true%>
+    </div>
+    <div>
+      <%= f.label :password %>
+      <%= f.password_field :password, required: true%>
+    </div>
+
+    <div>
+      <%= f.submit "Login" %>
+    </div>
+
+    <div class="form-footer">
+      Don't have an account? <%= link_to "Sign up", signup_path %>
+    </div>
+  <% end %>
+</div>
