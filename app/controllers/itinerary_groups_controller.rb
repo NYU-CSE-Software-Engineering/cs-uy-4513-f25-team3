@@ -41,6 +41,10 @@ class ItineraryGroupsController < ApplicationController
 
   def join
     @itinerary_group = ItineraryGroup.find(params[:id])
+
+    unless @itinerary_group.is_private
+      return redirect_to itinerary_path(@itinerary_group)
+    end
   end
   
   def join_itinerary
