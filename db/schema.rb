@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_01_151805) do
   create_table "flights", force: :cascade do |t|
     t.string "flight_number"
     t.string "departure_location"
@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
   create_table "hotels", force: :cascade do |t|
     t.string "name"
     t.string "location"
-    t.integer "rating"
+    t.float "rating"
     t.float "cost"
     t.datetime "arrival_time"
     t.datetime "departure_time"
@@ -47,20 +47,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["flight_id", "itinerary_group_id"], name: "index_itinerary_flights_on_flight_and_group", unique: true
+    t.index ["flight_id", "itinerary_group_id"], name: "index_itinerary_flights_on_flight_id_and_itinerary_group_id", unique: true
   end
 
   create_table "itinerary_groups", force: :cascade do |t|
     t.string "title"
     t.string "description"
+    t.string "location"
     t.date "start_date"
     t.date "end_date"
     t.boolean "is_private", default: false
     t.integer "organizer_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.float "cost"
     t.string "password"
-    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "itinerary_hotels", force: :cascade do |t|
@@ -86,9 +87,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
     t.string "last_name"
     t.string "username"
     t.string "password"
-    t.string "role"
     t.integer "age"
     t.string "gender"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -96,6 +97,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_004526) do
   add_foreign_key "itinerary_attendees", "itinerary_groups"
   add_foreign_key "itinerary_attendees", "users"
   add_foreign_key "itinerary_flights", "flights"
+  add_foreign_key "itinerary_flights", "flights"
+  add_foreign_key "itinerary_flights", "itinerary_groups"
   add_foreign_key "itinerary_flights", "itinerary_groups"
   add_foreign_key "itinerary_hotels", "hotels"
   add_foreign_key "itinerary_hotels", "itinerary_groups"

@@ -10,7 +10,10 @@ def path_to(page_name)
         flights_path
     when "hotels"
         hotels_path
+    when "profile edit page", "edit profile"
+        edit_user_path(@user) 
     else
+        
         raise "No path mapping for '#{page_name}'"
     end
 end

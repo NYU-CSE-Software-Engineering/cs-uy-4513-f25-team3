@@ -1,11 +1,13 @@
 FactoryBot.define do
   factory :flight do
     sequence(:flight_number) { |n| "FL#{n.to_s.rjust(3, '0')}" }
-    departure_location { "New York" }
-    arrival_location { "Miami" }
-    departure_time { Time.zone.parse("2025-12-04 09:00:00") }
-    arrival_time { Time.zone.parse("2025-12-04 13:00:00") }
-    cost { 400 }
+    departure_location { Faker::Address.city }
+    arrival_location { Faker::Address.city }
+    departure_time { Faker::Time.forward(days: 30, period: :morning) }
+    arrival_time do
+      base_departure = departure_time || Faker::Time.forward(days: 30, period: :morning)
+      base_departure + rand(1..6).hours
+    end
+    cost { rand(100..1_000) }
   end
 end
-

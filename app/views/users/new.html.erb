@@ -1,3 +1,5 @@
+<%= render "shared/navbar" %>
+
 <h1>Create a New Account</h1>
 
 <% if @user.errors.any? %>
@@ -8,6 +10,15 @@
       <% end %>
     </ul>
   </div>
+<% end %>
+
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+
+
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
 <%= form_with model: @user, local: true, id: "new_user" do |f| %>

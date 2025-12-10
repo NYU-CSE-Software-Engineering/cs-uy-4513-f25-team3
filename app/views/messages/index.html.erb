@@ -1,3 +1,4 @@
+<%= render "shared/navbar" %>
 <h1>Group Chat</h1>
 
 <% if flash[:alert] %>
@@ -64,7 +65,7 @@
 
 <form action="<%= create_itinerary_group_message_path(@itinerary_group) %>" method="post">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <div data-testid="chat-input-container">
+  <div data-testid="chat-input">
     <% if flash[:failed_text].present? %>
       <span><%= flash[:failed_text] %></span>
     <% end %>
