@@ -9,7 +9,6 @@ Given(/^the following users exist:$/) do |table|
       last_name: row['last_name'],
       username: row['username'],
       password: row['password'],
-      password_confirmation: row['password'],
       role: row['role']
     )
   end
@@ -26,30 +25,19 @@ end
 Given(/^the following itinerary group exists:$/) do |table|
   attrs = table.rows_hash
   organizer = User.find_by!(username: attrs['organizer'])
-  
-  group_attrs = {
+  @itinerary_group = ItineraryGroup.create!(
     title: attrs['title'],
     description: attrs['description'],
     organizer_id: organizer.id,
-    is_private: attrs['is_private'] == 'true',
-    start_date: attrs['start_date'] || Date.today,
-    end_date: attrs['end_date'] || (Date.today + 7.days) 
-  }
-  
-  if attrs['is_private'] == 'true'
-    group_attrs[:password] = attrs['password'] || 'DefaultPass123!'
-  end
-  
-  @itinerary_group = ItineraryGroup.create!(group_attrs)
+    is_private: attrs['is_private'] == 'true'
+  )
 end
 
 Given(/^I have created an itinerary group titled "(.*)"$/) do |title|
   @itinerary_group = ItineraryGroup.create!(
     title: title,
     organizer_id: @current_user.id,
-    is_private: false,
-    start_date: Date.today,
-    end_date: Date.today + 7.days
+    is_private: false
   )
 end
 
@@ -109,6 +97,10 @@ end
 # Custom steps unique to this feature
 Then(/^I should see either "(.*)" or "(.*)"$/) do |text1, text2|
   expect(page.text).to match(/#{text1}|#{text2}/i)
+end
+
+Then(/^I should not see "(.*)"$/) do |text|
+  expect(page).not_to have_content(text)
 end
 
 Given(/^I am logged out$/) do
