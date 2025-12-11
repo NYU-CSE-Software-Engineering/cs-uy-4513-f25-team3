@@ -8,20 +8,30 @@
   <p class="alert"><%= flash[:alert] %></p>
 <% end %>
 
-<% @accounts.each do |account| %>
-    <div class="account" data-username="<%= account.username %>">
-        <p><strong>ID:</strong> <%= account.id %></p>
-        <p><strong>Username:</strong> <%= account.username %></p>
-        <p><strong>Role:</strong> <%= account.role %></p>
+<div class="row g-3">
+  <% @accounts.each do |account| %>
+    <div class="col-md-6 col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-body">
+          <div class="member-info">
+            <p><strong>ID:</strong> <%= account.id %></p>
+            <p><strong>Username:</strong> <%= account.username %></p>
+            <p><strong>Role:</strong> <%= account.role %></p>
+          </div>
 
-        <%= form_with(model: account, url: account_path(account), method: :put, local: true) do |f| %>
-            <%= f.label :role %>
-            <%= f.select :role, options_for_select(["user", "organizer", "admin"], account.role) %>
-            <%= f.submit "Update Role", data: { turbo_confirm: "Are you sure you want to change this user's role?" } %>
-        <% end %>
+          <%= form_with(model: account, url: account_path(account), method: :put, local: true, class: "d-flex justify-content-center gap-2 mb-2") do |f| %>
+            <%= f.label :role, "Role" %>
+            <%= f.select :role, options_for_select(["user", "organizer", "admin"], account.role), class: "form-select w-auto" %>
+            <%= f.submit "Update Role", class: "btn btn-sm btn-primary", data: { turbo_confirm: "Are you sure you want to change this user's role?" } %>
+          <% end %>
 
-        <%= button_to "Delete",account_path(account),method: :delete, data: { turbo_confirm: "Are you sure you want to delete this account?" } %>
 
-        <hr>
+          <div class="text-center">
+            <%= button_to "Delete", account_path(account), method: :delete, class: "btn btn-sm btn-danger", data: { turbo_confirm: "Are you sure you want to delete this account?" } %>
+          </div>
+        </div>
+      </div>
     </div>
-<% end %>
+  <% end %>
+</div>
+

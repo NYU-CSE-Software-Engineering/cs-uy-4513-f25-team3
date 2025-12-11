@@ -1,4 +1,8 @@
-// Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
-import "@hotwired/turbo-rails"
-import "controllers"
-import "group_chat_details"
+// app/javascript/application.js
+import "@hotwired/turbo-rails"      
+import "./controllers"         
+import "group_chat_details"         
+import * as bootstrap from "bootstrap"
+import Rails from "@rails/ujs"
+Rails.start()                      
+

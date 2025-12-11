@@ -9,51 +9,78 @@
   <div class="notice"><%= flash.now[:notice] %></div>
 <% end %>
 
-<%= form_with url: flights_path, method: :get, local: true do %>
-  <div>
-    <%= label_tag :departure_location, "Departure location" %>
-    <%= text_field_tag :departure_location, params[:departure_location], id: "departure_location" %>
+
+<div class="search-filter-container">
+  <div class="search-form">
+    <div class="card shadow-sm p-4 search-card">
+      <div class="card-body">
+        <%= form_with url: flights_path, method: :get, local: true do %>
+
+        
+
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <%= label_tag :departure_location, "Departure location" %>
+            <%= text_field_tag :departure_location, params[:departure_location], id: "departure_location", class: "form-control" %>
+          </div>
+
+
+          <div class="col-md-6">
+            <%= label_tag :arrival_location, "Arrival location" %>
+            <%= text_field_tag :arrival_location, params[:arrival_location], id: "arrival_location", class: "form-control" %>
+          </div>
+        </div>
+        <%= render "shared/date_and_cost_filters", start_label: "Departure date", end_label: "Arrival date" %>
+
+        <%= render "shared/search_and_clear_buttons" %>
+
+        <% end %>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div>
-    <%= label_tag :arrival_location, "Arrival location" %>
-    <%= text_field_tag :arrival_location, params[:arrival_location], id: "arrival_location" %>
-  </div>
 
-  <%= render "shared/date_and_cost_filters",
-             start_label: "Departure date",
-             end_label: "Arrival date" %>
 
-  <%= render "shared/search_and_clear_buttons" %>
-<% end %>
+
 
 <% if @flights.present? %>
-  <div class="flight-results">
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+    
     <% @flights.each do |flight| %>
-      <section class="flight-card">
-        <h2 class="flight-number"><%= flight.flight_number %></h2>
+      <div class="col">
+        <div class="card h-100 shadow-sm flight-card">
+          <div class="card-body">
 
-        <p>
-          <strong>Route:</strong>
-          <%= flight.departure_location %> → <%= flight.arrival_location %>
-        </p>
+            <h5 class="card-title">
+              Flight <%= flight.flight_number %>
+            </h5>
 
-        <p>
-          <strong>Departure:</strong>
-          <%= l(flight.departure_time, format: :long) %>
-          <br>
-          <strong>Arrival:</strong>
-          <%= l(flight.arrival_time, format: :long) %>
-        </p>
+            <p class="card-text mb-2">
+              <strong>Route:</strong>
+              <%= flight.departure_location %> → <%= flight.arrival_location %>
+            </p>
 
-        <% if flight.cost.present? %>
-          <p>
-            <strong>Cost:</strong>
-            $<%= number_with_precision(flight.cost, precision: 2) %>
-          </p>
-        <% end %>
-      </section>
+            <p class="card-text mb-2">
+              <strong>Departure:</strong><br>
+              <%= l(flight.departure_time, format: :long) %>
+              <br>
+              <strong>Arrival:</strong><br>
+              <%= l(flight.arrival_time, format: :long) %>
+            </p>
+
+            <% if flight.cost.present? %>
+              <p class="card-text">
+                <strong>Cost:</strong>
+                $<%= number_with_precision(flight.cost, precision: 2) %>
+              </p>
+            <% end %>
+
+          </div>
+        </div>
+      </div>
     <% end %>
+
   </div>
 <% else %>
   <p>No flights found</p>

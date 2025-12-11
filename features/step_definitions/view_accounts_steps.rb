@@ -48,22 +48,30 @@ When('I navigate to the Accounts page') do
 end
 
 
+Then('the account {string} should have role {string}') do |username, role|
+  account_card = find('div.card', text: username)
 
-Then('the account {string} should have role {string}') do |username, expected_role|
-  account_div = find(".account[data-username='#{username}']")
-  expect(account_div).to have_content(expected_role)
+  within(account_card) do
+    expect(find('select[name="account[role]"]').value).to eq(role)
+  end
 end
 
+
 When('I click the {string} button for {string}') do |action, username|
-  account_div = find(".account[data-username='#{username}']", visible: true)
-  within(account_div) do
+  account_card = find('div.card', text: username)
+  within(account_card) do
     click_button(action)
   end
 end
 
-And('I change the role to {string} for {string}') do |role, username|
-  account_div = find(".account[data-username='#{username}']")
-  within(account_div) do
-    select(role, from: 'Role')
+
+
+When('I change the role to {string} for {string}') do |role, username|
+  card = find('div.card', text: username)
+  within(card) do
+    find('select').find(:option, role).select_option
+    click_button('Update Role')
   end
 end
+
+

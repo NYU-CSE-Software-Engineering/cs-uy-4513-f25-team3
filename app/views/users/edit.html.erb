@@ -1,5 +1,5 @@
+<%= render "shared/navbar" %>
 <h1>Edit Profile</h1>
-
 <% if @user.errors.any? %>
   <div class="errors">
     <ul>
@@ -18,41 +18,68 @@
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
 
-<%= form_with model: @user, url: user_path(@user), method: :patch, data: { turbo: false } do |f| %>
-  <%= f.label :username %>
-  <%= f.text_field :username %>
 
-  <% unless @user.oauth_user? %>
-    <%= f.label :current_password, "Current password" %>
-    <%= password_field_tag :current_password, nil, required: true %>
+ <div class="d-flex account-form">
+  <div class="card shadow-sm p-4 account-card">
+    <div class="card-body">
 
-    <%= f.label :password, "New password" %>
-    <%= f.password_field :password %>
+      <%= form_with model: @user, url: user_path(@user), method: :patch, data: { turbo: false } do |f| %>
+        <div class="mb-3">
+            <%= f.label :username %>
+            <%= f.text_field :username, class: "form-control" %>
+        </div>
+         <% unless @user.oauth_user? %>
+          <div class="mb-3">
+            <%= f.label :current_password, "Current password" %>
+            <%= password_field_tag :current_password, nil, required: true, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :password, "New password" %>
+            <%= f.password_field :password, class: "form-control" %>
+          </div>
+          <div class="mb-3">
+            <%= f.label :password_confirmation, "New password confirmation" %>
+            <%= f.password_field :password_confirmation, class: "form-control" %>
+          </div>
+        <% end %>
 
-    <%= f.label :password_confirmation, "New password confirmation" %>
-    <%= f.password_field :password_confirmation %>
-  <% end %>
+        <div class="mb-3">
+          <%= f.label :first_name %>
+          <%= f.text_field :first_name, class: "form-control" %> 
+        </div>
 
-<div>
-  <%= f.label :first_name %>
-  <%= f.text_field :first_name %> <!-- optional -->
+        <div class="mb-3">
+          <%= f.label :last_name %>
+          <%= f.text_field :last_name, class: "form-control" %> 
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :age %>
+          <%= f.number_field :age, min: 0, class: "form-control" %> 
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :gender %>
+          <%= f.select :gender, ["Male", "Female", "Other"], include_blank: true %>
+        </div>
+
+        <div class="d-grid mb-3">
+          <%= f.submit "Save Changes", class:"btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
 
-<div>
-  <%= f.label :last_name %>
-  <%= f.text_field :last_name %> <!-- optional -->
-</div>
 
-<div>
-  <%= f.label :age %>
-  <%= f.number_field :age, min: 0 %> <!-- optional -->
-</div>
 
-<div>
-  <%= f.label :gender %>
-  <%= f.select :gender, ["Male", "Female", "Other"], include_blank: true %> <!-- optional -->
-</div>
 
-  
-  <%= f.submit "Save Changes" %>
-<% end %>
+
+
+
+
+
+
+
+
+
