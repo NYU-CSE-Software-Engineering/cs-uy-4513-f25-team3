@@ -60,7 +60,7 @@
 
         <div class="mb-3">
           <%= f.label :gender %>
-          <%= f.select :gender, ["Male", "Female", "Other"], include_blank: true %>
+          <%= f.select :gender, ["Male", "Female", "Other"], { include_blank: true }, class: "form-select" %>
         </div>
 
         <div class="d-grid mb-3">

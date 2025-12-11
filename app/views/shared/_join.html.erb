@@ -1,5 +1,17 @@
-<%= form_with url: join_itinerary_path(@itinerary_group), method: :post do |f| %>
-  <%= label_tag :password, "Trip Password" %>
-  <%= password_field_tag :password %>
-  <%= submit_tag "Join Trip" %>
-<% end %>
+
+<div class="d-flex account-form">
+  <div class="card shadow-sm p-4 account-card">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Join Trip</h3>
+      <%= form_with url: join_itinerary_path(@itinerary_group), method: :post do |f| %>
+        <div class="mb-3">
+          <%= label_tag :password, "Trip Password" %>
+          <%= password_field_tag :password, class: "form-control" %>
+        </div>
+        <div class="d-grid mb-3">
+          <%= f.submit "Join Trip", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
