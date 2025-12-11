@@ -44,6 +44,32 @@
     <%= f.label :cost, "Trip Cost" %>
     <%= f.number_field :cost, step: 0.01 %>
   </div>
+
+  <!-- Hotels that match the itinerary location -->
+  <h3>Available Hotels in <%= @itinerary_group.location %></h3>
+  <% if @matching_hotels.any? %>
+    <%= f.collection_check_boxes :hotel_ids, @matching_hotels, :id, :name do |b| %>
+      <div>
+        <%= b.check_box %> <%= b.text %> — Cost: $<%= Hotel.find(b.value).cost %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No hotels available for this location.</p>
+  <% end %>
+
+  <!-- Flights that match the itinerary location -->
+  <h3>Available Flights to <%= @itinerary_group.location %></h3>
+  <% if @matching_flights.any? %>
+    <%= f.collection_check_boxes :flight_ids, @matching_flights, :id, :flight_number do |b| %>
+      <div>
+        <%= b.check_box %> Flight <%= b.text %> —
+        From <%= Flight.find(b.value).departure_location %>
+        at <%= Flight.find(b.value).departure_time.strftime("%Y-%m-%d %H:%M") %>
+      </div>
+    <% end %>
+  <% else %>
+    <p>No flights available for this location.</p>
+  <% end %>
   
   <%= f.submit "Save Changes" %>
 <% end %>

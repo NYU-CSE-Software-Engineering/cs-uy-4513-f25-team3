@@ -21,8 +21,10 @@ class ItineraryGroupsController < ApplicationController
 
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
+    @matching_hotels = Hotel.where(location: @itinerary_group.location)
+    @matching_flights = Flight.where(arrival_location: @itinerary_group.location)
   end
-  
+
   def update
     @itinerary_group = ItineraryGroup.find(params[:id])
     
@@ -30,6 +32,8 @@ class ItineraryGroupsController < ApplicationController
       flash[:notice] = "Itinerary was successfully updated."
       redirect_to itinerary_path(@itinerary_group)
     else
+      @matching_hotels = Hotel.where(location: @itinerary_group.location)
+      @matching_flights = Flight.where(arrival_location: @itinerary_group.location)
       render :edit
     end
   end
@@ -87,9 +91,11 @@ class ItineraryGroupsController < ApplicationController
 
   def itinerary_group_params
     params.require(:itinerary_group).permit(
-      :title, :description, :location, 
-      :start_date, :end_date,
-      :is_private, :password, :cost)
+      :title, :description, :location, :start_date, :end_date, :is_private,
+      :password, :cost,
+      hotel_ids: [],
+      flight_ids: []
+    )
   end
 
   def require_organizer
