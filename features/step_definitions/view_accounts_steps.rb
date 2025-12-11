@@ -48,13 +48,15 @@ When('I navigate to the Accounts page') do
 end
 
 
-Then('the account {string} should have role {string}') do |username, role|
-  account_card = find('div.card', text: username)
+Then('the account {string} should have role {string}') do |username, expected_role|
+  card = find('div.card', text: username)
 
-  within(account_card) do
-    expect(find('select[name="account[role]"]').value).to eq(role)
+  within(card) do
+    actual_role = find_field('Role').value
+    expect(actual_role).to eq(expected_role)
   end
 end
+
 
 
 When('I click the {string} button for {string}') do |action, username|
@@ -65,13 +67,11 @@ When('I click the {string} button for {string}') do |action, username|
 end
 
 
-
 When('I change the role to {string} for {string}') do |role, username|
   card = find('div.card', text: username)
   within(card) do
-    find('select').find(:option, role).select_option
+    select role, from: 'Role'
     click_button('Update Role')
   end
 end
-
 

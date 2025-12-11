@@ -10,7 +10,7 @@
 <% if !@itinerary_group.is_private || @can_view_private %>
   <div class="d-flex justify-content-between align-items-center mb-4">
     <h1 class="mb-0"><%= @itinerary_group.title || 'Not available' %></h1>
-    <%= link_to 'Back to results', itineraries_path(request.query_parameters), class: "btn btn-primary" %>
+    <%= link_to 'Back to results', itineraries_path(request.query_parameters), class: "btn btn-primary", id: "back-to-results" %>
   </div>
 
 
