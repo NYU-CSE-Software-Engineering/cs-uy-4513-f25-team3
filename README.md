@@ -18,6 +18,9 @@ Organizers can:
 * Manage trip visibility
 * Manage their own profiles
 
+Admins can:
+
+* View and delete accounts
 ---
 
 ## 👥 Team Members & Roles
@@ -27,46 +30,45 @@ Organizers can:
 * Navbar
 * View accounts
 * Login
-* Cucumber fixes for itinerary privacy
-* Auth
+* OAuth with Google
 * Contributions to Logout
-* Contributed to feature documentation
+* CSS/Bootstrap
 
 **Chris Jin**
 
 * Join Itinerary
 * Create Itinerary
 * Contributions to Logout
-* Contributed to feature documentation
+* Leave button for itineraries
 
 **Muath Alghamdi**
 
 * Sign Up
 * Profile Edit
 * Database Updates
-* Contributed to feature documentation
+* Documentation
 
 **Jason Lin**
 
-* Contributions to Logout
-* Itinerary Privacy
-* Hotels and Flights
-* Contributions to Profile Edit
-* Contributed to feature documentation
+* Database Updates
+* Faker Gem
+* Search and filter for Itineraries
+* Hotels & Flights
 
 **Gabriel Draghici**
 
-* View Group
-* Contributed to Itinerary Group feature
-* Database updates
-* Contributed to feature documentation
+* View Groups feature
+* Itinerary Editing
+* Itinerary Privacy
+* Bug fixes
 
 **Jan Borowski**
 
 * Group Chat
 * Messages & Message Editing
 * Set up Cucumber and Rspec
-* Contributed to feature documentation
+
+**All team members contributed throughout several features, necessary bug fixes, and style, documentation, or database updates throughout the project.**
 
 ---
 
