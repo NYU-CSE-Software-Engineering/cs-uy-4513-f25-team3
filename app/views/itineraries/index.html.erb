@@ -42,6 +42,22 @@
         id: "trip_type" %>
 </div>
 
+<div>
+<%= label_tag :membership, "Involvement" %>
+<%= select_tag :membership,
+      options_for_select(
+        [
+          ["All itineraries", ""],
+          ["Created by me", "created"],
+          ["Joined by me", "joined"],
+          ["Not joined", "none"]
+        ],
+        params[:membership]
+      ),
+      include_blank: false,
+      id: "membership" %>
+</div>
+
 
 <%= render "shared/search_and_clear_buttons" %>
 <% end %>

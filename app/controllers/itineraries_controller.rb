@@ -16,6 +16,7 @@ class ItinerariesController < ApplicationController
       params[:max_cost]   = nil
       params[:location]   = nil
       params[:trip_type]  = nil
+      params[:membership] = nil
       return
     end
 
@@ -37,6 +38,7 @@ class ItinerariesController < ApplicationController
     apply_location_filter
     apply_trip_type_filter
     apply_cost_filter
+    apply_membership_filter
 
     flash.now[:notice] = "No itineraries found" if @itineraries.empty? && flash.now[:alert].blank?
   end
@@ -83,5 +85,25 @@ class ItinerariesController < ApplicationController
 
   def apply_cost_filter
     @itineraries = apply_cost_filter_for(@itineraries)
+  end
+
+  def apply_membership_filter
+    return if params[:membership].blank?
+
+    case params[:membership].downcase
+    when "created"
+      # itineraries where current_user is the creator
+      @itineraries = @itineraries.where(organizer_id: current_user.id)
+    when "joined"
+      # itineraries where user is an attendee (through itinerary_attendees table)
+      @itineraries = @itineraries.joins(:itinerary_attendees)
+                               .where(itinerary_attendees: { user_id: current_user.id })
+    when "none"
+      # itineraries user did NOT join OR create
+      created_ids = ItineraryGroup.where(organizer_id: current_user.id).select(:id)
+      joined_ids  = ItineraryAttendee.where(user_id: current_user.id).select(:itinerary_group_id)
+
+      @itineraries = @itineraries.where.not(id: created_ids).where.not(id: joined_ids)
+    end
   end
 end
