@@ -15,10 +15,11 @@ Background:
 #Happy Paths
 Scenario: View members in a public group I belong to
 	Given the following itinerary group exists:
-		| title           | Fun Adventure         |
-		| description     | Having Fun				|
-		| organizer       | alice_s                  |
-		| is_private      | false                    |
+		| title           | Fun Adventure     |
+		| description     | Having Fun 			  |
+		| organizer       | alice_s           |
+		| is_private      | false             |
+    | location        | Github            |
 	And I am a member of the group "Fun Adventure"
 	And "carol_w" is a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
@@ -53,6 +54,7 @@ Scenario: Member list updates when new member joins
 		| description | Having Fun     |
 		| organizer   | alice_s        |
 		| is_private  | false          |
+    | location    | Github         |
 	And I am a member of the group "Fun Adventure"
 	When I visit the itinerary page for "Fun Adventure"
 	Then I should see "alice_s"
@@ -70,6 +72,7 @@ Scenario: Member list updates when a member leaves
 		| description | Having fun     |
 		| organizer   | alice_s        |
 		| is_private  | false          |
+    | location    | Github         |
 	And I am a member of the group "Fun Adventure"
 	And "carol_w" is a member of the group "Fun Adventure"
 	And "david_b" is a member of the group "Fun Adventure"
@@ -91,6 +94,7 @@ Scenario: View members in multiple different groups
 		| description | Visit Paris    |
 		| organizer   | alice_s        |
 		| is_private  | false          |
+    | location    | Paris          |
 	And I am a member of the group "Paris Trip"
 	And "carol_w" is a member of the group "Paris Trip"
 	And the following itinerary group exists:
@@ -98,6 +102,7 @@ Scenario: View members in multiple different groups
 		| description | Visit Tokyo    |
 		| organizer   | carol_w        |
 		| is_private  | false          |
+    | location    | Tokyo          |
 	And I am a member of the group "Tokyo Trip"
 	And "david_b" is a member of the group "Tokyo Trip"
 	When I visit the itinerary page for "Paris Trip"
@@ -115,10 +120,11 @@ Scenario: View members in multiple different groups
 Scenario: Cannot view members of a private group I'm not in
 	Given the following itinerary group exists:
 		| title       | Secret Trip    |
-		| description | Private 	   |
+		| description | Private 	     |
 		| organizer   | alice_s        |
 		| is_private  | true           |
 		| password    | secret123      |
+    | location    | Github         |
 	And "carol_w" is a member of the group "Secret Trip"
 	When I attempt to visit the itinerary page for "Secret Trip"
 	Then I should see an error message
@@ -130,6 +136,7 @@ Scenario: Cannot view members when not logged in
 		| description | Open           |
 		| organizer   | alice_s        |
 		| is_private  | false          |
+    | location    | Github         |
 	And "carol_w" is a member of the group "Public Trip"
 	And I am logged out
 	When I attempt to visit the itinerary page for "Public Trip"

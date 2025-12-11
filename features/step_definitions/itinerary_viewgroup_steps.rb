@@ -37,7 +37,8 @@ Given(/^the following itinerary group exists:$/) do |table|
     start_date: start_date,
     end_date: end_date,
     is_private: attrs['is_private'] == 'true',
-    password: attrs['password']
+    password: attrs['password'],
+    location: attrs['location']
   )
   
   ItineraryAttendee.find_or_create_by!(
@@ -52,7 +53,8 @@ Given(/^I have created an itinerary group titled "(.*)"$/) do |title|
     organizer_id: @current_user.id,
     start_date: Date.today,
     end_date: Date.today + 7.days,
-    is_private: false
+    is_private: false,
+    location: "Github"
   )
   
   ItineraryAttendee.find_or_create_by!(

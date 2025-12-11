@@ -11,9 +11,10 @@ def path_to(page_name)
     when "hotels"
         hotels_path
     when "profile edit page", "edit profile"
-        edit_user_path(@user) 
+        edit_user_path(@user)
+    when "new itinerary"
+        new_itinerary_path
     else
-        
         raise "No path mapping for '#{page_name}'"
     end
 end
