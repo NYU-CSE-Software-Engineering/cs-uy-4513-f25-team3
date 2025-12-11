@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
     end
 
     it 'is invalid without a Username' do
-        user = User.new(password: "abc123", role: "user")
+        user = User.new(password: "abc123", password_confirmation: "abc123", role: "user")
         expect(user).not_to be_valid
     end
     it 'is invalid if Username already exists' do
@@ -33,5 +33,24 @@ RSpec.describe User, type: :model do
         expect(user.admin?).to be false
     end
 
+    it 'has many itinerary_attendees' do
+      assoc = User.reflect_on_association(:itinerary_attendees)
+      expect(assoc.macro).to eq(:has_many)
+    end
+
+    it 'has many itinerary_groups through itinerary_attendees' do
+      assoc = User.reflect_on_association(:itinerary_groups)
+      expect(assoc.macro).to eq(:has_many)
+      expect(assoc.options[:through]).to eq(:itinerary_attendees)
+    end
+
+    it 'has many organized_groups' do
+      assoc = User.reflect_on_association(:organized_groups)
+      expect(assoc.macro).to eq(:has_many)
+      expect(assoc.options[:class_name]).to eq('ItineraryGroup')
+      expect(assoc.options[:foreign_key]).to eq('organizer_id')
+    end
+
 end
+
 

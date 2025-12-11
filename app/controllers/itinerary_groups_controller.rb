@@ -1,4 +1,7 @@
 class ItineraryGroupsController < ApplicationController
+
+  before_action :require_organizer, only: [:edit, :update]
+
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
   end
@@ -20,6 +23,11 @@ class ItineraryGroupsController < ApplicationController
 
     if @itinerary_group.is_private && !@can_view_private
       flash[:alert] = "This itinerary is private and cannot be viewed."
+      @organizer = nil
+      @attendees = []
+    else
+      @organizer = @itinerary_group.organizer
+      @attendees = @itinerary_group.attendees
     end
   end
 
@@ -58,5 +66,13 @@ class ItineraryGroupsController < ApplicationController
 
   def itinerary_group_params
     params.require(:itinerary_group).permit(:title, :is_private, :password)
+  end
+
+  def require_organizer
+    @itinerary_group = ItineraryGroup.find(params[:id])
+    unless current_user && @itinerary_group.organizer_id == current_user.id
+      flash[:alert] = "You must be the organizer to edit this itinerary."
+      redirect_to itinerary_path(@itinerary_group)
+    end
   end
 end
