@@ -1,8 +1,15 @@
 <%= render "shared/navbar" %>
 <h1><%= @itinerary_group.title %></h1>
-
 <h1>Edit Itinerary Settings</h1>
-
+<% if @itinerary_group.errors.any? %>
+  <div class="error-messages">
+    <ul>
+      <% @itinerary_group.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
 
 
@@ -14,8 +21,38 @@
 
       <%= form_with model: @itinerary_group, url: itinerary_path(@itinerary_group), method: :patch, local: true do |f| %>
         <div class="mb-3">
+          <%= f.label :title, "Title" %>
+          <%= f.text_field :title, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :description, "Description" %>
+          <%= f.text_area :description, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :location, "Location" %>
+          <%= f.text_field :location, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :start_date, "Start Date" %>
+          <%= f.date_field :start_date, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :end_date, "End Date" %>
+          <%= f.date_field :end_date, class: "form-control" %>
+        </div>
+        
+        <div class="mb-3">
           <%= f.label :is_private, "Trip Type" %>
           <%= f.select :is_private, [['Public', false], ['Private', true]], { selected: @itinerary_group.is_private } %>
+        </div>
+        
+        <div class="mb-3">
+            <%= f.label :cost, "Trip Cost" %>
+            <%= f.number_field :cost, step: 0.01 %>
         </div>
 
         <div class="mb-3">
@@ -32,3 +69,12 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+ 
+
+
+
