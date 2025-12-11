@@ -1,6 +1,23 @@
-class ItineraryGroupsController < ApplicationController
+class ItineraryGroupsController < ApplicationController 
 
   before_action :require_organizer, only: [:edit, :update]
+
+  def new
+    @itinerary_group = ItineraryGroup.new
+  end
+
+  def create
+    @itinerary_group = ItineraryGroup.new(itinerary_group_params)
+    @itinerary_group.organizer = current_user
+
+    if @itinerary_group.save
+      @itinerary_group.users << current_user   # add organizer
+      redirect_to itinerary_path(@itinerary_group), notice: 'Itinerary Created'
+    else
+      flash.now[:alert] = @itinerary_group.errors.full_messages.join(", ")
+      render :new
+    end
+  end
 
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
@@ -33,6 +50,10 @@ class ItineraryGroupsController < ApplicationController
 
   def join
     @itinerary_group = ItineraryGroup.find(params[:id])
+
+    unless @itinerary_group.is_private
+      return redirect_to itinerary_path(@itinerary_group)
+    end
   end
   
   def join_itinerary
@@ -65,7 +86,10 @@ class ItineraryGroupsController < ApplicationController
   end
 
   def itinerary_group_params
-    params.require(:itinerary_group).permit(:title, :is_private, :password)
+    params.require(:itinerary_group).permit(
+      :title, :description, :location, 
+      :start_date, :end_date,
+      :is_private, :password, :cost)
   end
 
   def require_organizer

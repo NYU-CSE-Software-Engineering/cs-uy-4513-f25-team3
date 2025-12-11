@@ -8,6 +8,7 @@ Given('the following ItineraryGroups exist:') do |table|
       g.title      = row['Title'] || "Group #{row['ItineraryGroupID']}"
       g.start_date = Date.parse(row['StartDate'] || Date.today.to_s)
       g.end_date   = Date.parse(row['EndDate']   || g.start_date.to_s)
+      g.location   = row['Location']
     end
   end
 end

@@ -14,6 +14,8 @@ RSpec.describe "Itinerary search and filtering", type: :request do
     post login_path, params: { user: { username: user.username, password: user.password } }
   end
 
+  # --- Test data (all FUTURE dates so model validations pass) ---
+
   let!(:hawaii_public) do
     ItineraryGroup.create!(
       title:       "Hawaii Trip",

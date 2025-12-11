@@ -28,8 +28,8 @@ Then('I see {string}') do |text|
 end
 
 Given('MessageID {int} was edited') do |message_id|
-  msg = Message.find(message_id.to_i)
-  msg.touch
+  msg = Message.find(message_id)
+  msg.update!(text: "#{msg.text} (edited)")
   visit current_path
 end
 

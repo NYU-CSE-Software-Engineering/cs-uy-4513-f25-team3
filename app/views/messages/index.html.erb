@@ -14,7 +14,7 @@
         <span>[User <%= message.user_id %>]</span>
         <span><%= message.text %></span>
         <% if message.updated_at && message.updated_at > message.created_at %>
-          <span>(*edited)</span>
+          <span class="edited-indicator">(edited)</span>
         <% end %>
         <button
           type="button"

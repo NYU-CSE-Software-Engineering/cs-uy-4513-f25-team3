@@ -1,3 +1,4 @@
+@freeze_time_2025
 Feature: Search and Filter Itineraries
     As a user
     I want to search, filter, and view itineraries by keyword, date, location, cost, and trip type
