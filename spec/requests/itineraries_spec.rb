@@ -19,8 +19,8 @@ RSpec.describe "Itinerary search and filtering", type: :request do
       title:       "Hawaii Trip",
       description: "Fun week in Hawaii",
       location:    "Honolulu",
-      start_date:  Date.parse("2025-12-01"),
-      end_date:    Date.parse("2025-12-07"),
+      start_date:  1.day.from_now.to_date,
+      end_date:    2.days.from_now.to_date,
       is_private:  false,
       cost:        1200
     )
@@ -31,11 +31,11 @@ RSpec.describe "Itinerary search and filtering", type: :request do
       title:       "Hawaii Private",
       description: "Private luxury getaway",
       location:    "Honolulu",
-      start_date:  Date.parse("2025-12-05"),
-      end_date:    Date.parse("2025-12-10"),
+      start_date:  3.days.from_now.to_date,
+      end_date:    4.days.from_now.to_date,
       is_private:  true,
       cost:        3000,
-      password:   "ihatebugs"
+      password:    "ihatebugs"
     )
   end
 
@@ -44,8 +44,8 @@ RSpec.describe "Itinerary search and filtering", type: :request do
       title:       "Ski Escape",
       description: "Skiing adventure in Aspen",
       location:    "Aspen",
-      start_date:  Date.parse("2025-11-15"),
-      end_date:    Date.parse("2025-11-20"),
+      start_date:  5.days.from_now.to_date,
+      end_date:    6.days.from_now.to_date,
       is_private:  false,
       cost:        800
     )
@@ -56,8 +56,8 @@ RSpec.describe "Itinerary search and filtering", type: :request do
       title:       "Beach Relax",
       description: "Relaxing on Miami beaches",
       location:    "Miami",
-      start_date:  Date.parse("2025-12-05"),
-      end_date:    Date.parse("2025-12-10"),
+      start_date:  7.days.from_now.to_date,
+      end_date:    8.days.from_now.to_date,
       is_private:  false,
       cost:        1500
     )
@@ -73,14 +73,15 @@ RSpec.describe "Itinerary search and filtering", type: :request do
     end
 
     it "filters by date range" do
+      # Range that should only match Beach Relax (7–8 days from now)
       get itineraries_path, params: {
-        start_date: "2025-12-05",
-        end_date:   "2025-12-10",
+        start_date: 7.days.from_now.to_date.to_s,
+        end_date:   8.days.from_now.to_date.to_s,
         commit:     "Search"
       }
 
       expect(response.body).to include("Beach Relax")
-      expect(response.body).not_to include("Hawaii Trip", "Ski Escape")
+      expect(response.body).not_to include("Hawaii Trip", "Hawaii Private", "Ski Escape")
     end
 
     it "filters by location" do
@@ -110,11 +111,11 @@ RSpec.describe "Itinerary search and filtering", type: :request do
 
     it "combines multiple filters" do
       get itineraries_path, params: {
-        search:    "Hawaii",
-        trip_type: "Public",
-        start_date: "2025-12-01",
-        end_date:   "2025-12-10",
-        commit:    "Search"
+        search:     "Hawaii",
+        trip_type:  "Public",
+        start_date: 1.day.from_now.to_date.to_s,
+        end_date:   2.days.from_now.to_date.to_s,
+        commit:     "Search"
       }
 
       expect(response.body).to include("Hawaii Trip")
@@ -134,9 +135,10 @@ RSpec.describe "Itinerary search and filtering", type: :request do
     end
 
     it "shows an error when end date is before start date" do
+      # Deliberately invalid: end date is BEFORE start date
       get itineraries_path, params: {
-        start_date: "2025-12-10",
-        end_date:   "2025-12-01",
+        start_date: 10.days.from_now.to_date.to_s,
+        end_date:   5.days.from_now.to_date.to_s,
         commit:     "Search"
       }
 
@@ -146,16 +148,29 @@ RSpec.describe "Itinerary search and filtering", type: :request do
     it "does not apply filters until search is triggered" do
       get itineraries_path # no commit/search params
 
-      expect(response.body).to include("Hawaii Trip", "Hawaii Private", "Ski Escape", "Beach Relax")
+      expect(response.body).to include(
+        "Hawaii Trip",
+        "Hawaii Private",
+        "Ski Escape",
+        "Beach Relax"
+      )
     end
 
     it "clears all filters when clear param is present" do
+      # First, apply a filter
       get itineraries_path, params: { search: "Hawaii", commit: "Search" }
-      expect(response.body).to include("Hawaii Trip")
+      expect(response.body).to include("Hawaii Trip", "Hawaii Private")
+      expect(response.body).not_to include("Ski Escape", "Beach Relax")
 
+      # Then clear
       get itineraries_path, params: { clear: "true" }
 
-      expect(response.body).to include("Hawaii Trip", "Hawaii Private", "Ski Escape", "Beach Relax")
+      expect(response.body).to include(
+        "Hawaii Trip",
+        "Hawaii Private",
+        "Ski Escape",
+        "Beach Relax"
+      )
     end
   end
 end
