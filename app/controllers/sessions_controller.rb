@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
         else
             flash[:alert] = "Invalid username and/or password"
             @user = User.new(username: "")
+            @rendering_login_page = true
             render :new, status: :unprocessable_entity
         end
     end
