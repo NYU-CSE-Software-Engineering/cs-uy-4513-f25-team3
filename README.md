@@ -1,8 +1,3 @@
-Here is a fully polished, Markdown-formatted, copy-ready **README.md** section.
-I’ve improved spacing, headings, indentation, bullet formatting, and removed emojis so it looks professional on GitHub.
-
----
-
 # CoRoute
 
 ## 📝 Description
@@ -33,32 +28,45 @@ Organizers can:
 * View accounts
 * Login
 * Cucumber fixes for itinerary privacy
+* Auth
+* Contributions to Logout
+* Contributed to feature documentation
 
 **Chris Jin**
 
 * Join Itinerary
 * Create Itinerary
+* Contributions to Logout
+* Contributed to feature documentation
 
 **Muath Alghamdi**
 
 * Sign Up
 * Profile Edit
 * Database Updates
+* Contributed to feature documentation
 
 **Jason Lin**
 
-* Logout
+* Contributions to Logout
 * Itinerary Privacy
 * Hotels and Flights
+* Contributions to Profile Edit
+* Contributed to feature documentation
 
-**Gabriel**
+**Gabriel Draghici**
 
 * View Group
+* Contributed to Itinerary Group feature
+* Database updates
+* Contributed to feature documentation
 
 **Jan Borowski**
 
 * Group Chat
 * Messages & Message Editing
+* Set up Cucumber and Rspec
+* Contributed to feature documentation
 
 ---
 
@@ -153,7 +161,7 @@ rails db:create
 
 * **Run migrations:**
 
-rails db:migrate
+rails db:migrate 
 
 * **Seed the database:**
 
