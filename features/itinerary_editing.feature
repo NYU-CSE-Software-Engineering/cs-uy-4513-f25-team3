@@ -1,11 +1,11 @@
 Feature: Editing Itinerary
-	As a user
-	I want to edit the description, location, start date, end date, trip type, and/or trip cost
+	As an organizer
+	I want to edit the description, location, start date, end date, trip type, and/or trip cost of my itinerary
 	So that the itinerary can stay updated with any recent changes
 
 Background:
-	Given I am a signed-in user
-	And the following itinerary exists:
+	Given I am a signed-in organizer
+	And I have created the following itinerary:
         | title       | NYC Tour              |
 		| description | Exploring NYC         |
 		| location    | New York              |
@@ -73,3 +73,12 @@ Scenario: Negative trip cost - shows an error
 	When I fill in "Trip Cost" with "-100"
 	And I press "Save Changes"
 	Then I should see the error "Cost must be greater than or equal to 0"
+
+
+Scenario: Non-organizer cannot edit itinerary
+	Given a user "alice" with password "password" and role "user" exists
+	And "alice" is logged in
+	And an itinerary "NYC Tour" exists organized by another user
+	When I try to visit the itinerary settings page for "NYC Tour"
+	Then I should be redirected to the itinerary page for "NYC Tour"
+	And I should see the error "You must be the organizer to edit this itinerary."
