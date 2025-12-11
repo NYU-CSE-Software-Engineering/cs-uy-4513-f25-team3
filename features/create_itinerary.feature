@@ -34,7 +34,7 @@ Feature:
             | is_private  | Private            |
             | cost        | 5250               |
         And I press "Create"
-        Then I should see the error message "location field can not be blank"
+        Then I should see the error message "Location field can't be blank"
 
     @core
     Scenario: End date occurs before Start date

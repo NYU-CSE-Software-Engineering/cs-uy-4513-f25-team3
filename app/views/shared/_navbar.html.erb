@@ -1,20 +1,59 @@
-<nav>
-    <% if current_user %>
-        <%= link_to "Itineraries", itineraries_path, style: "margin-right: 10px;" %>
-        <%= link_to "Flights", flights_path, style: "margin-right: 10px;" %>
-        <%= link_to "Hotels", hotels_path, style: "margin-right: 10px;" %>
-        <%= link_to "Profile", edit_user_path(current_user), style: "margin-right: 10px;" %>
 
-        <% if current_user.role == "admin" %>
-            <%= link_to "Accounts", accounts_path, style: "margin-right: 10px;" %>
-        <% end %>
-    <% else %>
-        <% unless current_page?(signup_path) %>
-            <%= link_to "Sign up", signup_path, style: "margin-right: 10px;" %>
-        <% end %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <%= image_tag "logo.png", alt: "coRoute Logo", height: "40" %>
+    </a>
 
-      <% unless current_page?(login_path) || @rendering_login_page %>
-        <%= link_to "Login", login_path, style: "margin-right: 10px;" %>
-      <% end %>
-    <% end %>
+
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-baseline">
+        <% if current_user %>
+          <li class="nav-item">
+            <%= button_to "Logout", logout_path, method: :delete, class: "btn btn-link nav-link p-0 me-3", form_class: "d-inline m-0 align-baseline" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Profile", edit_user_path(current_user), class: "nav-link me-3" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Itineraries", itineraries_path, class: "nav-link me-3" %>
+          </li>
+          <% if current_user.role == "organizer" %>
+            <li class="nav-item">
+              <%= link_to "Create Itinerary", new_itinerary_path, class: "nav-link me-3" %>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to "Flights", flights_path, class: "nav-link me-3" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "Hotels", hotels_path, class: "nav-link me-3" %>
+          </li>
+          <% if current_user.role == "admin" %>
+            <li class="nav-item">
+              <%= link_to "Accounts", accounts_path, class: "nav-link me-3" %>
+            </li>
+          <% end %>
+        <% else %>
+          <% unless current_page?(signup_path) %>
+            <li class="nav-item">
+              <%= link_to "Sign up", signup_path, class: "nav-link me-3" %>
+            </li>
+          <% end %>
+          <% unless current_page?(login_path) || @rendering_login_page %>
+            <li class="nav-item">
+              <%= link_to "Login", login_path, class: "nav-link me-3" %>
+            </li>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
 </nav>
+

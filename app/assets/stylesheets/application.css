@@ -9,23 +9,135 @@
  * Consider organizing styles into separate files for maintainability.
  */
 
-.message-summary {
+/*
+  Global
+*/
+
+@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css');
+html, body {
+  height: 100%;
+}
+.account-form {
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  min-height: calc(100vh - 80px); 
 }
 
-.message-details {
-  margin: 0.5rem 0 1rem 0;
-  padding: 0.5rem;
-  border-left: 2px solid #ddd;
+.search-form {
+  display: flex;
+  justify-content: center;
+  min-height: 20vh; 
 }
 
-.message-details.is-hidden {
-  display: none;
+.account-card {
+  width: 100%; 
+  max-width: 400px;
 }
 
-.message-details-toggle {
-  margin-left: auto;
+.search-card {
+  width: 100%; 
+  max-width: 90vw;
 }
+
+.itinerary-cards-container {
+  max-width: 1200px;
+  margin: 2rem auto; 
+  padding: 0 1rem;  
+}
+
+
+.itinerary-card {
+  text-align: center;         
+  width: 100%;                
+}
+
+
+
+/* Container centering */
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+/* Card background and shadow */
+.form-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 400px;
+}
+
+/* Title */
+.form-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+/* Form group spacing */
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Labels */
+.form-group label {
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Inputs & select */
+.input-field {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+/* Submit button */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Custom alert */
+.custom-alert {
+  background-color: #f8d7da;
+  border: 1px solid #f5c2c7;
+  color: #842029;
+  padding: 15px;
+  margin: 20px auto;
+  border-radius: 6px;
+  width: 400px;
+  position: relative;
+}
+
+.custom-alert ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.alert-close {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+

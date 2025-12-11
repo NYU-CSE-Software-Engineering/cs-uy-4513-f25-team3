@@ -50,10 +50,13 @@ Then(/^I should not see the following itineraries: (.*)$/) do |itineraries|
 end
 
 Then(/^I should see all itineraries$/) do
-  expected_titles = ItineraryGroup.all.map(&:title)
-  visible_titles = page.all('.itinerary-title a:first-child').map(&:text)
+  expected_titles = ItineraryGroup.all.pluck(:title)
+
+  visible_titles = page.all('h5.card-title a').map(&:text)
+
   expect(visible_titles).to match_array(expected_titles)
 end
+
 
 When(/^I enter "(.*)" in the search box$/) do |keyword|
   fill_in 'search', with: keyword
@@ -64,11 +67,13 @@ When(/^I view the itinerary "(.*)"$/) do |title|
 end
 
 Then(/^I can return to the itineraries page$/) do
-  if page.has_link?("Back to results")
-    click_link_or_button("Back to results")
+  if page.has_css?("#back-to-results")
+    find("#back-to-results").click
   end
+
   expect(page).to have_current_path(itineraries_path)
 end
+
 
 
 Then('I should see the following details for {string}') do |title|

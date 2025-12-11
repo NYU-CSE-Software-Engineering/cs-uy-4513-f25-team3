@@ -1,0 +1,7 @@
+<% flash.each do |type, message| %>
+  <% next if message.blank? %>
+  <div class="alert alert-<%= bootstrap_class_for_flash(type) %> alert-dismissible fade show my-3 w-50 mx-auto" role="alert" style="max-width: 600px;">
+    <%= message %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

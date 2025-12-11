@@ -18,7 +18,7 @@ class ItineraryGroup < ApplicationRecord
 
   # Validations
   validates :title, presence: true
-  validates :location, presence: {message: 'location field can not be blank'}
+  validates :location, presence: {message: "field can't be blank"}
   validates :start_date, presence: true
   validates :end_date, presence: true
   validate :chronological_dates
@@ -75,10 +75,14 @@ class ItineraryGroup < ApplicationRecord
     self.is_private = value.to_s.casecmp("Private").zero?
   end
 
+    def organized_by?(user)
+      organizer_id == user.id
+    end
+
   private
 
   def end_date_not_before_start
     return if start_date.blank? || end_date.blank?
-    errors.add(:end_date, "cannot be before start_date") if end_date < start_date
+    errors.add(:end_date, "can't be before start_date") if end_date < start_date
   end
 end
