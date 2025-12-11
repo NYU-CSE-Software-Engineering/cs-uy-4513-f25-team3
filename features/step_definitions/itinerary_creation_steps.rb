@@ -42,6 +42,6 @@ Given('I am not signed in') do
 end
 
 Then('I should be on the itinerary settings page for {string}') do |string|
-    find_itinerary!(title)
+    find_itinerary!(string)
     visit edit_itinerary_path(@itinerary)
 end

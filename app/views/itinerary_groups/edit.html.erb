@@ -1,4 +1,6 @@
 <%= render "shared/navbar" %>
+<h1><%= @itinerary_group.title %></h1>
+
 <h1>Edit Itinerary Settings</h1>
 
 <%= form_with model: @itinerary_group, url: itinerary_path(@itinerary_group), method: :patch, local: true do |f| %>
