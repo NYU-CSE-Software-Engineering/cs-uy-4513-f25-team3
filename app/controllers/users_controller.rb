@@ -56,6 +56,13 @@ class UsersController < ApplicationController
       return render :edit
     end
 
+    if update_params[:username].present? &&
+       update_params[:username] != @user.username &&
+       User.exists?(username: update_params[:username])
+      flash.now[:alert] = "Username already taken"
+      return render :edit
+    end
+
     if @user.update(update_params)
       flash[:notice] = "Profile updated successfully"
       redirect_to itineraries_path
