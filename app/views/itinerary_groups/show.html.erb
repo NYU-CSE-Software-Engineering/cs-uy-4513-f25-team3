@@ -141,7 +141,7 @@
 <% end %>
 
   <% if current_user && @itinerary_group.users.exists?(current_user.id) && current_user.id != @itinerary_group.organizer_id %>
-    <%= button_to "Leave Trip", leave_itinerary_path(@itinerary_group), method: :delete%>
+    <%= button_to "Leave Trip", leave_itinerary_path(@itinerary_group), method: :delete, class: "btn btn-danger"%>
   <% end %>
 
 <% else %>
