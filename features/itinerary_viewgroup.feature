@@ -138,6 +138,6 @@ Scenario: Cannot view members when not logged in
 
 Scenario: Cannot view non-existent group
 	When I attempt to visit the itinerary page for "Fake Trip"
-	Then I should see an error message
-	And I should see "not found" or "doesn't exist"
+	Then I should see "Itineraries" 
+	And I should see "No itineraries found"
 

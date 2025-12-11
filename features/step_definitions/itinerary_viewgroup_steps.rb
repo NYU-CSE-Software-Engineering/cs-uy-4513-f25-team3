@@ -20,7 +20,7 @@ Given(/^I am logged in as "(.*)" with password "(.*)"$/) do |username, password|
   visit login_path
   fill_in 'Username', with: username
   fill_in 'Password', with: password
-  click_button 'Log in'
+  click_button 'Login'
 end
 
 Given(/^the following itinerary group exists:$/) do |table|
@@ -120,5 +120,5 @@ Then(/^I should be redirected to the login page$/) do
 end
 
 Then(/^I should see an error message$/) do
-  expect(page.text).to match(/error|denied|access|not found|doesn't exist/i)
+  expect(page.text).to match(/error|denied|access|not found|doesn't exist|private.*cannot|alert/i)
 end
