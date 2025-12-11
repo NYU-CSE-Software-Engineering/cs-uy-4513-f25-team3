@@ -71,7 +71,7 @@ end
 
 Then(/^my password should still be "(.*)"$/) do |original_password|
   @current_user.reload
-  expect(@current_user.password).to eq(original_password)
+  expect(@current_user.authenticate(original_password)).to be_truthy
 end
 
 Then(/^my username should be updated to "(.*)"$/) do |new_username|
@@ -81,12 +81,12 @@ end
 
 Then(/^I should be able to log in only with "(.*)"$/) do |new_password|
   @current_user.reload
-  expect(@current_user.password).to eq(new_password)
+  expect(@current_user.authenticate(new_password)).to be_truthy
 end
 
 Then(/^the old password should no longer work$/) do
   @current_user.reload
-  expect(@current_user.password).not_to eq(@old_password)
+  expect(@current_user.authenticate(@old_password)).to be_falsey
 end
 
 Then(/^my age should be updated to (\d+) on my profile$/) do |age|

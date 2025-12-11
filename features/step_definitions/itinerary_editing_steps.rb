@@ -19,7 +19,15 @@ end
 Given(/^the following itinerary exists:$/) do |table|
   attrs = table.rows_hash.symbolize_keys
   itinerary = ItineraryGroup.new(attrs)
+
+  organizer = User.find_or_create_by!(username: 'izzyadams11') do |user|
+    user.password = 'securepass'
+    user.password_confirmation = 'securepass'
+    user.role = 'organizer'
+  end
+
   itinerary.trip_type = attrs["is_private"]
+  itinerary.organizer_id = organizer.id
   itinerary.save!
 end
 

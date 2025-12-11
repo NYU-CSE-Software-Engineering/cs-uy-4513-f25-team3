@@ -10,6 +10,15 @@ RSpec.describe "ItineraryGroups", type: :request do
         )
     end
 
+    let!(:organizer) do
+        User.create!(
+            username: 'alice', 
+            password: 'pass123', 
+            password_confirmation: 'pass123',
+            role: 'organizer'
+        )
+    end
+
     let!(:public_group) do
         ItineraryGroup.create!(
             title: "Public NYC Trip",
@@ -18,7 +27,6 @@ RSpec.describe "ItineraryGroups", type: :request do
             start_date: Date.today + 1,
             end_date: Date.today + 2,
             is_private: false,
-            # password: nil
         )
     end
 
@@ -37,7 +45,6 @@ RSpec.describe "ItineraryGroups", type: :request do
     before do
         post login_path, params: { user: { username: user.username, password: "password123" } }
     end
-
 
     describe "GET /itineraries/new" do
         it "renders the new template" do
@@ -78,7 +85,8 @@ RSpec.describe "ItineraryGroups", type: :request do
                 title: "NYC Tour",
                 location: "NYC",
                 start_date: Date.today + 1,
-                end_date: Date.today + 2
+                end_date: Date.today + 2,
+                organizer_id: user.id
             )
             
             get edit_itinerary_path(itinerary_group)
@@ -88,14 +96,13 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 
-
     describe "PATCH /itineraries/:id" do
         it "redirects to the show page after successful update" do
             itinerary_group = ItineraryGroup.create!(
                 title: "NYC Tour",
                 location: "NYC",
                 start_date: Date.today + 1,
-                end_date: Date.today + 2
+                end_date: Date.today + 2,
             )
             
             patch itinerary_path(itinerary_group), params: {
@@ -110,7 +117,8 @@ RSpec.describe "ItineraryGroups", type: :request do
                 title: "NYC Tour",
                 location: "NYC",
                 start_date: Date.today + 1,
-                end_date: Date.today + 2
+                end_date: Date.today + 2,
+                organizer_id: user.id
             )
             
             patch itinerary_path(itinerary_group), params: {
@@ -121,7 +129,6 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 
-    # TODO: Add failing /GET RSPEC 
     describe "GET /itineraries/:id/join" do
         it 'renders join page for private itinerary groups' do
             get join_itinerary_path(private_group)
@@ -137,7 +144,6 @@ RSpec.describe "ItineraryGroups", type: :request do
         end
     end
 
-    # TODO: Add failing /POST RSPEC
     describe "POST /itineraries/:id/join" do
         context 'when itinerary is public' do
             it 'adds user to list of attendees then redirects to show page' do
@@ -179,5 +185,52 @@ RSpec.describe "ItineraryGroups", type: :request do
             end
         end
     end
-end
 
+    describe "GET /itineraries/:id" do
+        let!(:itinerary_group) do
+            ItineraryGroup.create!(
+                title: "Europe Trip", 
+                organizer_id: organizer.id,
+                start_date: Date.today,
+                end_date: Date.today + 7.days,
+                location: "Europe"
+            )
+        end
+
+        it "returns http success" do
+            get itinerary_path(itinerary_group)
+            expect(response).to have_http_status(:success)
+        end
+
+        it "assigns @itinerary_group" do
+            get itinerary_path(itinerary_group)
+            expect(assigns(:itinerary_group)).to eq(itinerary_group)
+        end
+
+        it "assigns @organizer" do
+            get itinerary_path(itinerary_group)
+            expect(assigns(:organizer)).to eq(organizer)
+        end
+
+        it "assigns @attendees" do
+            member1 = User.create!(
+                username: 'bob', 
+                password: 'pass123',
+                password_confirmation: 'pass123',
+                role: 'user'
+            )
+            member2 = User.create!(
+                username: 'carol', 
+                password: 'pass123',
+                password_confirmation: 'pass123',
+                role: 'user'
+            )
+            ItineraryAttendee.create!(user: member1, itinerary_group: itinerary_group)
+            ItineraryAttendee.create!(user: member2, itinerary_group: itinerary_group)
+            
+            get itinerary_path(itinerary_group)
+            
+            expect(assigns(:attendees)).to include(member1, member2)
+        end
+    end
+end

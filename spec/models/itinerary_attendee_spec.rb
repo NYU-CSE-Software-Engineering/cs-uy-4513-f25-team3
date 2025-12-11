@@ -45,11 +45,33 @@ RSpec.describe ItineraryAttendee, type: :model do
         expect(attendee).not_to be_valid
         expect(attendee.errors[:user_id]).to include('is already part of itinerary')
     end
-end
-
-
-
-
-
-
     
+    it 'belongs to a user' do
+      assoc = ItineraryAttendee.reflect_on_association(:user)
+      expect(assoc.macro).to eq(:belongs_to)
+    end
+
+    it 'belongs to an itinerary group' do
+      assoc = ItineraryAttendee.reflect_on_association(:itinerary_group)
+      expect(assoc.macro).to eq(:belongs_to)
+    end
+
+    it 'is valid with a user and itinerary_group' do
+      user = User.create!(
+        username: 'testuser', 
+        password: 'pass123', 
+        password_confirmation: 'pass123',
+        role: 'user'
+      )
+      group = ItineraryGroup.create!(
+        title: 'Test Trip', 
+        organizer_id: user.id,
+        start_date: Date.today,
+        end_date: Date.today + 7.days,
+        location: "Github"
+      )
+      attendee = ItineraryAttendee.new(user: user, itinerary_group: group)
+      expect(attendee).to be_valid
+
+    end
+end

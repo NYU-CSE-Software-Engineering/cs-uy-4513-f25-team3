@@ -5,6 +5,8 @@ class ItineraryGroup < ApplicationRecord
 
   has_many :itinerary_attendees, dependent: :destroy
   has_many :users, through: :itinerary_attendees
+  has_many :attendees, through: :itinerary_attendees, source: :user
+
 
   has_many :itinerary_flights, dependent: :destroy
   has_many :flights, through: :itinerary_flights
