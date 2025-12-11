@@ -1,17 +1,7 @@
 <% content_for :body_class, "signin-page" %>
 <%= render "shared/navbar" %>
-<% if flash[:notice] %>
-  <p class="flash-notice"><%= flash[:notice] %></p>
-<% end %>
+<%= render "shared/flash" %>
 
-<div class="signin-container">
-  <% if flash[:notice] %>
-    <p class="flash-notice"><%= flash[:notice] %></p>
-  <% end %>
-
-  <% if flash[:alert] %>
-    <p class="flash-alert"><%= flash[:alert] %></p>
-  <% end %>
 
  <div class="d-flex account-form">
   <div class="card shadow-sm p-4 account-card">

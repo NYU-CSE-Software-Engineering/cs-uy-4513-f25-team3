@@ -1,13 +1,7 @@
 <%= render "shared/navbar" %>
+<%= render "shared/flash" %>
 <h1>Hotels</h1>
 
-<% if flash.now[:alert] %>
-  <div class="alert"><%= flash.now[:alert] %></div>
-<% end %>
-
-<% if flash.now[:notice] %>
-  <div class="notice"><%= flash.now[:notice] %></div>
-<% end %>
 
 
 <div class="search-filter-container">

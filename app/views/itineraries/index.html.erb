@@ -1,7 +1,6 @@
 <%= render "shared/navbar" %>
-<% if flash[:signup_success] %>
-  <div class="notice"><%= flash[:signup_success] %></div>
-<% end %>
+<%= render "shared/flash" %>
+
 <% if current_user %>
   <h1>Welcome, <%= current_user.username %>!</h2>
   
@@ -10,13 +9,8 @@
 
 
 
-<% if flash.now[:alert] || flash[:alert] %>
-  <div class="alert"><%= flash.now[:alert] || flash[:alert] %></div>
-<% end %>
 
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
+
 <div class="search-filter-container">
   <div class="search-form">
     <div class="card shadow-sm p-4 search-card">

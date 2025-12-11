@@ -32,7 +32,6 @@ class HotelsController < ApplicationController
     apply_rating_filter
     apply_cost_filter
 
-    flash.now[:notice] = "No hotels found" if @hotels.empty? && flash.now[:alert].blank?
   end
 
   private

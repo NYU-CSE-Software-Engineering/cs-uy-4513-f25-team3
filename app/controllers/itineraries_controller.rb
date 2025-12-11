@@ -38,7 +38,7 @@ class ItinerariesController < ApplicationController
     apply_trip_type_filter
     apply_cost_filter
 
-    flash.now[:notice] = "No itineraries found" if @itineraries.empty? && flash.now[:alert].blank?
+
   end
 
   private

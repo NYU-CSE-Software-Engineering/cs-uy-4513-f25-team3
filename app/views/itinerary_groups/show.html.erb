@@ -1,11 +1,5 @@
 <%= render "shared/navbar" %>
-
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
-<% if flash[:alert] %>
-  <div class="alert"><%= flash[:alert] %></div>
-<% end %>
+<%= render "shared/flash" %>
 
 
   <div class="d-flex justify-content-between align-items-center mb-4">
