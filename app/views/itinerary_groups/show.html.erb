@@ -128,6 +128,10 @@
  <% if current_user %>
   <% if @itinerary_group.users.exists?(current_user.id) %>
     <p>You are attending this itinerary</p>
+     <%= button_to "Leave Trip",
+        leave_itinerary_path(@itinerary_group),
+        method: :post,
+        class: "btn btn-danger mt-2" %>
   <% else %>
     <%= button_to "Join Trip", join_itinerary_path(@itinerary_group), method: :post, class: "btn btn-primary" %>
   <% end %>

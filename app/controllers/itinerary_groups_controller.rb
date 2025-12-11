@@ -74,6 +74,22 @@ class ItineraryGroupsController < ApplicationController
       end
     end
   end
+
+  def leave_itinerary
+  @itinerary_group = ItineraryGroup.find(params[:id])
+
+  if @itinerary_group.organizer_id == current_user.id
+    flash[:alert] = "Organizers cannot leave their own itinerary."
+    return redirect_to itinerary_path(@itinerary_group)
+  end
+
+  if @itinerary_group.users.exists?(current_user.id)
+    @itinerary_group.users.delete(current_user)
+    flash[:notice] = "You have left the trip."
+  end
+
+  redirect_to itineraries_path
+  end
   
   private
   
