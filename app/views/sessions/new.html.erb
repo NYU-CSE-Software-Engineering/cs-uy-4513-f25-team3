@@ -1,7 +1,11 @@
 <% content_for :body_class, "signin-page" %>
+<%= render "shared/navbar" %>
+<h1>Login</h1>
+<% if flash[:notice] %>
+  <p class="flash-notice"><%= flash[:notice] %></p>
+<% end %>
 
 <div class="signin-container">
-  <h1>Log In</h1>
   <% if flash[:notice] %>
     <p class="flash-notice"><%= flash[:notice] %></p>
   <% end %>
@@ -27,5 +31,16 @@
     <div class="form-footer">
       Don't have an account? <%= link_to "Sign up", signup_path %>
     </div>
+
+
   <% end %>
 </div>
+  
+
+
+<%= link_to "Sign in with Google", "/auth/google_oauth2" %>
+
+
+
+
+

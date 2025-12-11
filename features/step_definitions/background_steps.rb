@@ -30,5 +30,17 @@ end
 
 Given('I am on the group chat for ItineraryGroupID {int}') do |group_id|
   id = group_id.to_i
+  user = @current_user || begin
+    session_data = page.get_rack_session
+    User.find_by(id: session_data[:user_id])
+  end
+
+  if user
+    ItineraryAttendee.find_or_create_by!(
+      itinerary_group_id: id,
+      user_id: user.id
+    )
+  end
+
   visit("/itineraries/#{id}/messages")
 end

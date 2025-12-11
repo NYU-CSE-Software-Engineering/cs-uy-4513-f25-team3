@@ -1,0 +1,5 @@
+<%= form_with url: join_itinerary_path(@itinerary_group), method: :post do |f| %>
+  <%= label_tag :password, "Trip Password" %>
+  <%= password_field_tag :password %>
+  <%= submit_tag "Join Trip" %>
+<% end %>

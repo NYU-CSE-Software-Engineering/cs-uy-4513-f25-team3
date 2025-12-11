@@ -12,6 +12,10 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 
+  #omni stuff
+  get "/auth/:provider/callback", to: "sessions#omniauth"
+  get "/auth/failure", to: "sessions#failure"
+
   # search / filter
   resources :itineraries, only: [:index]
 
@@ -48,6 +52,6 @@ Rails.application.routes.draw do
 
   get "/signup", to: "users#new"
   post "/signup", to: "users#create"
-  resources :users, only: [:new, :create]
+  resources :users, only: [:new, :create, :edit, :update]
 
 end

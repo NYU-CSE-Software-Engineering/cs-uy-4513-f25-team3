@@ -1,14 +1,12 @@
+<%= render "shared/navbar" %>
 <% if flash[:notice] %>
   <div class="notice"><%= flash[:notice] %></div>
 <% end %>
-
 <% if flash[:alert] %>
   <div class="alert"><%= flash[:alert] %></div>
 <% end %>
 
-<% if @itinerary_group.is_private %>
-  <p>This itinerary is private and cannot be viewed.</p>
-<% else %>
+<% if !@itinerary_group.is_private || @can_view_private %>
   <h1><%= @itinerary_group.title || 'Not available' %></h1>
 
   <p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
@@ -88,6 +86,9 @@
   <% else %>
     <p>No hotels have been added to this itinerary.</p>
   <% end %>
+
+<% else %>
+  <%= render "shared/join" %>
 <% end %>
 
 <%= link_to 'Back to results', itineraries_path(request.query_parameters) %>

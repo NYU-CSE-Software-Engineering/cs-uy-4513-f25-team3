@@ -1,8 +1,22 @@
 <% content_for :body_class, "signin-page" %>
+<%= render "shared/navbar" %>
 
-<div class="signin-container">
+<h1>Create a New Account</h1>
 
-  <h1>Create a New Account</h1>
+
+
+
+
+<% if flash[:alert] %>
+  <div class="alert"><%= flash[:alert] %></div>
+<% end %>
+
+
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
+
 
   <% if @user.errors.any? %>
     <div class="errors">
@@ -14,6 +28,7 @@
     </div>
   <% end %>
 
+<div class="signin-container">
   <%= form_with model: @user, local: true, id: "new_user" do |f| %>
     <div>
       <%= f.label :username %>
@@ -37,4 +52,4 @@
 
     <%= f.submit "Create Account" %>
   <% end %>
-<div>
+</div>
