@@ -18,7 +18,7 @@ Feature:
             | cost        | 3500             |
         And I press "Create"
         Then I should see the success message "Itinerary Created"
-        Then I should be on the home page
+        Then I should be on the itinerary settings page for "Korea Trip!"
         And I should see "Korea Trip!"
 
     # Sad Paths
@@ -108,6 +108,6 @@ Feature:
     Scenario: Unauthenticated user trying to create a new itinerary
         Given I am not signed in
         When I try to visit the new itinerary page
-        Then I should be on the sign in page
+        Then I should be on the login page
         And I should see "Please log in to continue"
 

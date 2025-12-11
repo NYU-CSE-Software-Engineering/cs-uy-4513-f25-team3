@@ -56,5 +56,5 @@ Feature: Joining an itinerary
     Scenario: Unauthenticated user trying to join an itinerary
         Given I am not signed in
         When I try to join the itinerary "Public Europe Trip"
-        Then I should be on the sign in page
+        Then I should be on the login page
         And I should see the message "Please log in to continue"

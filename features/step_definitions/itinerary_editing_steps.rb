@@ -22,6 +22,7 @@ Given(/^the following itinerary exists:$/) do |table|
   itinerary.trip_type = attrs["is_private"]
   itinerary.save!
 end
+
 Given(/^I am on the itinerary settings page for "(.*)"$/) do |title|
   find_itinerary!(title)
   visit edit_itinerary_path(@itinerary)

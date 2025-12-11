@@ -1,19 +1,3 @@
-Given('I am a signed-in user') do
-  @user = User.create!(
-    username: 'john123',
-    password: 'password',
-    password_confirmation: 'password',
-    role: 'user'
-  )
-
-  # actually log in through the UI so session[:user_id] is set
-  visit login_path
-  fill_in 'user_username', with: 'john123'
-  fill_in 'user_password', with: 'password'
-  click_button 'Login'
-    
-end
-
 Given('I am on the new itinerary page') do
   visit new_itinerary_path
 end
@@ -28,10 +12,6 @@ When('I fill in the following:') do |table|
         end
     end
 end
-
-#When('I press {string}') do |string|
-#    click_button button_text
-#end
 
 Then('I should see the success message {string}') do |message|
     expect(page).to have_content(message)
@@ -61,10 +41,7 @@ Given('I am not signed in') do
     visit destroy_user_session_path if page.has_link?('Logout')
 end
 
-When('I try to visit the new itinerary page') do
-    visit new_itinerary_path
-end
-
-Then('I should be on the sign in page') do
-    expect(current_path).to eq(login_path)
+Then('I should be on the itinerary settings page for {string}') do |string|
+    find_itinerary!(title)
+    visit edit_itinerary_path(@itinerary)
 end
