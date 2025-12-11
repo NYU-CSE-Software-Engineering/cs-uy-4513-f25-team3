@@ -32,7 +32,7 @@ class FlightsController < ApplicationController
     apply_arrival_filter
     apply_cost_filter
 
-    flash.now[:notice] = "No flights found" if @flights.empty? && flash.now[:alert].blank?
+
   end
 
   private

@@ -1,24 +1,51 @@
+<% content_for :body_class, "signin-page" %>
 <%= render "shared/navbar" %>
-<h1>Login</h1>
-<% if flash[:notice] %>
-  <p class="flash-notice"><%= flash[:notice] %></p>
-<% end %>
+<%= render "shared/flash" %>
 
-<% if flash[:alert] %>
-  <p class="flash-alert"><%= flash[:alert] %></p>
-<% end %>
 
-<%= form_with model: @user, url: login_path, method: :post, local: true do |f| %>
-  <div>
-    <%= f.label :username %><br>
-    <%= f.text_field :username, required: true%>
-  </div>
-  <div>
-    <%= f.label :password %><br>
-    <%= f.password_field :password, required: true %>
-  </div>
+ <div class="d-flex account-form">
+  <div class="card shadow-sm p-4 account-card">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Login</h3>
 
-  <div>
-    <%= f.submit "Login" %>
+      <%= form_with model: @user, url: login_path, method: :post, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :username, class: "form-label" %>
+          <%= f.text_field :username, required: true, class: "form-control", placeholder: "Enter your username" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, class: "form-label" %>
+          <%= f.password_field :password, required: true, class: "form-control", placeholder: "Enter your password" %>
+        </div>
+
+        <div class="d-grid mb-3">
+          <%= f.submit "Login", class: "btn btn-primary" %>
+        </div>
+        <%= link_to "/auth/google_oauth2", class: "btn btn-outline-danger w-100 mb-3 d-flex align-items-center justify-content-center" do %>
+          <i class="bi bi-google me-2"></i> Sign in with Google
+        <% end %>
+
+
+        <div class="text-center">
+          <small>
+            Don't have an account? <%= link_to "Sign up", signup_path %>
+          </small>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>
+
+
+</div>
+
+
+  
+
+
+
+
+
+
+

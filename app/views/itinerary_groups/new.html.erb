@@ -1,0 +1,77 @@
+<%= render "shared/navbar" %>
+
+
+<% if @itinerary_group.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show w-50 mx-auto" role="alert">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h4 class="alert-heading mb-0">Please fix the following errors:</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <ul class="mb-0 ps-3">
+      <% @itinerary_group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+
+
+
+
+
+
+<div class="form-wrapper">
+  <div class="form-card">
+    <div class="form-body">
+      <h3 class="form-title">Create Itinerary</h3>
+
+      <%= form_with model: @itinerary_group, url: itineraries_path, method: :post, local: true do |f| %>
+        <div class="form-group">
+          <%= f.label :title, "Title" %>
+          <%= f.text_field :title, class: "input-field", placeholder: "Enter title" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :description, "Description" %>
+          <%= f.text_field :description, class: "input-field", placeholder: "Enter description" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :location, "Location" %>
+          <%= f.text_field :location, class: "input-field", placeholder: "Enter location" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :start_date, "Start Date" %>
+          <%= f.date_field :start_date, class: "input-field" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :end_date, "End Date" %>
+          <%= f.date_field :end_date, class: "input-field" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :is_private, "Privacy" %>
+          <%= f.select :is_private, [["Public", 'false'], ["Private", 'true']], {}, class: "input-field" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password, "Password" %>
+          <%= f.password_field :password, class: "input-field", placeholder: "Enter password" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :cost, "Trip Cost" %>
+          <%= f.number_field :cost, class: "input-field", placeholder: "Enter cost" %>
+        </div>
+
+        <div class="form-submit">
+          <%= f.submit "Create Itinerary", class: "submit-btn" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,64 +1,130 @@
 <%= render "shared/navbar" %>
-<% if flash[:signup_success] %>
-  <div class="notice"><%= flash[:signup_success] %></div>
-<% end %>
+<%= render "shared/flash" %>
+
 <h1>Itineraries</h1>
 <% if current_user %>
   <h2>Welcome, <%= current_user.username %>!</h2>
   
-  <%= link_to "Edit Profile", edit_user_path(current_user), class: "button" %>
 <% end %>
 
 
-<% if flash.now[:alert] || flash[:alert] %>
-  <div class="alert"><%= flash.now[:alert] || flash[:alert] %></div>
-<% end %>
 
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
 
-<%= form_with url: itineraries_path, method: :get, local: true do %>
-<div>
-<%= label_tag :search, "Search" %>
-    <%= text_field_tag :search, params[:search], id: "search" %>
 
-<%= text_field_tag :keyword, params[:search], id: "keyword", type: :hidden %>
+<div class="search-filter-container">
+  <div class="search-form">
+    <div class="card shadow-sm p-4 search-card">
+      <div class="card-body">
+        <%= form_with url: itineraries_path, method: :get, local: true do %>
+
+          <div class="mb-3">
+            <%= label_tag :search, "Search" %>
+            <%= text_field_tag :search, params[:search], id: "search", class: "form-control" %>
+            <%= text_field_tag :keyword, params[:search], id: "keyword", type: :hidden %>
+          </div>
+
+          
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <%= label_tag :start_date, "Start date" %>
+              <%= date_field_tag :start_date, params[:start_date], class: "form-control" %>
+            </div>
+            <div class="col-md-3">
+              <%= label_tag :end_date, "End date" %>
+              <%= date_field_tag :end_date, params[:end_date], class: "form-control" %>
+            </div>
+            <div class="col-md-3">
+              <%= label_tag :min_cost, "Min cost" %>
+              <%= number_field_tag :min_cost, params[:min_cost], class: "form-control" %>
+            </div>
+            <div class="col-md-3">
+              <%= label_tag :max_cost, "Max cost" %>
+              <%= number_field_tag :max_cost, params[:max_cost], class: "form-control" %>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <%= label_tag :trip_type, "Trip type" %>
+              <%= select_tag :trip_type, options_for_select([["Public", "Public"], ["Private", "Private"]], params[:trip_type]), include_blank: false, class: "form-select" %>
+            </div>
+            <div class="col-md-6">
+              <%= label_tag :location, "Location" %>
+              <%= text_field_tag :location, params[:location], class: "form-control" %>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <%= label_tag :membership, "Involvement" %>
+            <%= select_tag :membership,
+                  options_for_select(
+                    [
+                      ["All itineraries", ""],
+                      ["Created by me", "created"],
+                      ["Joined by me", "joined"],
+                      ["Not joined", "none"]
+                    ],
+                    params[:membership]
+                  ),
+                  include_blank: false,
+                  id: "membership", class: "form-control" %>
+            </div>
+
+
+          <%= render "shared/search_and_clear_buttons" %>
+
+        <% end %>
+      </div>
+    </div>
   </div>
-
-<%= render "shared/date_and_cost_filters",
-           start_label: "Start date",
-           end_label: "End date" %>
-
-<div>
-<%= label_tag :location, "Location" %>
-    <%= text_field_tag :location, params[:location], id: "location" %>
-</div>
-
-<div>
-  <%= label_tag :trip_type, "Trip type" %>
-  <%= select_tag :trip_type,
-        options_for_select([["Public", "Public"], ["Private", "Private"]], params[:trip_type]),
-        include_blank: false,
-        id: "trip_type" %>
 </div>
 
 
-<%= render "shared/search_and_clear_buttons" %>
-<% end %>
+
+
+
 
 <% if @itineraries.present? %>
-  <ul>
-    <% @itineraries.each do |itinerary| %>
-      <li class="itinerary-title">
+  <div class="itinerary-cards-container">
+    <div class="row g-3 justify-content-center">
+      <% @itineraries.each do |itinerary| %>
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm h-100 itinerary-card">
+            <div class="card-body d-flex flex-column justify-content-between align-items-center">
+              <h5 class="card-title">
+                <%= link_to itinerary.title, itinerary_path(itinerary, request.query_parameters) %>
+              </h5>
+              <p class="card-text">
+                <%= link_to "Group chat", itinerary_group_messages_path(itinerary), class: "btn btn-sm btn-outline-primary" %>
+              </p>
+            </div>
+          </div>
+        </div>
 
-        <%= link_to itinerary.title, itinerary_path(itinerary, request.query_parameters) %>
-        <span> | </span>
-        <%= link_to "Group chat", itinerary_group_messages_path(itinerary) %>
+      <% end %>
+    </div>
 
-      </li>
-    <% end %>
-  </ul>
+
+
+
 <% else %>
   <p>No itineraries found</p>
 <% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

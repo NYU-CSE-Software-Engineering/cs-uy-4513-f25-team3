@@ -1,8 +1,43 @@
-class ItineraryGroupsController < ApplicationController
+class ItineraryGroupsController < ApplicationController 
+
+  before_action :require_organizer, only: [:edit, :update]
+
+  def new
+    @itinerary_group = ItineraryGroup.new
+  end
+
+  def create
+    @itinerary_group = ItineraryGroup.new(itinerary_group_params)
+    @itinerary_group.organizer = current_user
+
+    if @itinerary_group.save
+      @itinerary_group.users << current_user   # add organizer
+      redirect_to itinerary_path(@itinerary_group), notice: 'Itinerary Created'
+    else
+      flash.now[:alert] = @itinerary_group.errors.full_messages.join(", ")
+      render :new
+    end
+  end
+
   def edit
     @itinerary_group = ItineraryGroup.find(params[:id])
+
+    trip_start = @itinerary_group.start_date
+    trip_end   = @itinerary_group.end_date
+
+    @matching_hotels = Hotel
+      .where(location: @itinerary_group.location)
+      .where("arrival_time <= ? AND departure_time >= ?", trip_end - 1.days, trip_start + 1.days)
+
+    @matching_flights = Flight
+      .where(arrival_location: @itinerary_group.location)
+      .where(
+        "DATE(arrival_time) BETWEEN ? AND ?",
+        trip_start - 2.days,
+        trip_start + 1.days
+      )
   end
-  
+
   def update
     @itinerary_group = ItineraryGroup.find(params[:id])
     
@@ -10,6 +45,8 @@ class ItineraryGroupsController < ApplicationController
       flash[:notice] = "Itinerary was successfully updated."
       redirect_to itinerary_path(@itinerary_group)
     else
+      @matching_hotels = Hotel.where(location: @itinerary_group.location)
+      @matching_flights = Flight.where(arrival_location: @itinerary_group.location)
       render :edit
     end
   end
@@ -20,11 +57,20 @@ class ItineraryGroupsController < ApplicationController
 
     if @itinerary_group.is_private && !@can_view_private
       flash[:alert] = "This itinerary is private and cannot be viewed."
+      @organizer = nil
+      @attendees = []
+    else
+      @organizer = @itinerary_group.organizer
+      @attendees = @itinerary_group.attendees
     end
   end
 
   def join
     @itinerary_group = ItineraryGroup.find(params[:id])
+
+    unless @itinerary_group.is_private
+      return redirect_to itinerary_path(@itinerary_group)
+    end
   end
   
   def join_itinerary
@@ -45,6 +91,24 @@ class ItineraryGroupsController < ApplicationController
       end
     end
   end
+
+  def leave_itinerary
+    @itinerary_group = ItineraryGroup.find(params[:id])
+
+    attendee_record = ItineraryAttendee.find_by(
+      itinerary_group_id: @itinerary_group.id,
+      user_id: current_user.id
+    )
+
+    if attendee_record
+      attendee_record.destroy
+      flash[:notice] = "You have left the trip."
+    else
+      flash[:alert] = "You are not part of this trip."
+    end
+
+    redirect_to itineraries_path
+  end
   
   private
   
@@ -57,6 +121,19 @@ class ItineraryGroupsController < ApplicationController
   end
 
   def itinerary_group_params
-    params.require(:itinerary_group).permit(:title, :is_private, :password)
+    params.require(:itinerary_group).permit(
+      :title, :description, :location, :start_date, :end_date, :is_private,
+      :password, :cost,
+      hotel_ids: [],
+      flight_ids: []
+    )
+  end
+
+  def require_organizer
+    @itinerary_group = ItineraryGroup.find(params[:id])
+    unless current_user && @itinerary_group.organizer_id == current_user.id
+      flash[:alert] = "You must be the organizer to edit this itinerary."
+      redirect_to itinerary_path(@itinerary_group)
+    end
   end
 end

@@ -37,7 +37,7 @@ RSpec.describe "User sign up", type: :request do
         expect(response.body).to include("Username has already been taken")
       end
 
-      it "fails when password confirmation does not match" do
+      it "fails when password confirmation doesn't match" do
         post users_path, params: { 
           user: { 
             username: "newuser", 
@@ -49,7 +49,7 @@ RSpec.describe "User sign up", type: :request do
 
         expect(response).to render_template(:new)
         text = CGI.unescapeHTML(response.body)
-        expect(text).to include("Password confirmation does not match")
+        expect(text).to include("Password confirmation doesn't match")
       end
 
       it "fails when required fields are missing" do

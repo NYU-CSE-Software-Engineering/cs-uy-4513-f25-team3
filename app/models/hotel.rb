@@ -11,4 +11,6 @@ class Hotel < ApplicationRecord
     less_than_or_equal_to: 5.0
   }, allow_nil: true
   validates :cost, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :departure_time, presence: true
+  validates :arrival_time, presence: true
 end

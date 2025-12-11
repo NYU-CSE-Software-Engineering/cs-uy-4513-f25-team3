@@ -1,94 +1,149 @@
 <%= render "shared/navbar" %>
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
-<% if flash[:alert] %>
-  <div class="alert"><%= flash[:alert] %></div>
-<% end %>
+<%= render "shared/flash" %>
+
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="mb-0"><%= @itinerary_group.title || 'Not available' %></h1>
+    <%= link_to 'Back to results', itineraries_path(request.query_parameters), class: "btn btn-primary", id: "back-to-results" %>
+  </div>
+
 
 <% if !@itinerary_group.is_private || @can_view_private %>
-  <h1><%= @itinerary_group.title || 'Not available' %></h1>
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100 detail-card">
+        <div class="card-body">
+          <h5 class="card-title">Details</h5>
+          <p class="card-text"><strong>Description:</strong> <%= @itinerary_group.description.presence || 'Not available' %></p>
+          <p class="card-text"><strong>Location:</strong> <%= @itinerary_group.location.presence || 'Not available' %></p>
+          <p class="card-text"><strong>Start date:</strong> <%= @itinerary_group.start_date || 'Not available' %></p>
+          <p class="card-text"><strong>End date:</strong> <%= @itinerary_group.end_date || 'Not available' %></p>
+          <p class="card-text"><strong>Privacy:</strong> <%= @itinerary_group.is_private.presence || 'Not available' %></p>
+          <p class="card-text"><strong>Cost:</strong> <%= @itinerary_group.cost || 'Not available' %></p>
+        </div>
+      </div>
+    </div>
 
-  <p>Description: <%= @itinerary_group.description.presence || 'Not available' %></p>
-  <p>Location: <%= @itinerary_group.location.presence || 'Not available' %></p>
-  <p>Start date: <%= @itinerary_group.start_date || 'Not available' %></p>
-  <p>End date: <%= @itinerary_group.end_date || 'Not available' %></p>
-  <p>Privacy: <%= @itinerary_group.is_private.presence || 'Not available' %></p>
-  <p>Cost: <%= @itinerary_group.cost || 'Not available' %></p>
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100 detail-card">
+        <div class="card-body">
+          <h5 class="card-title">Attendees</h5>
+          <% if @itinerary_group.users.any? %>
+            <ul class="list-group list-group-flush">
+              <% @itinerary_group.users.each do |user| %>
+                <li class="list-group-item"><%= user.username %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <p class="card-text">No attendees have joined this itinerary yet.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
 
-  <h2>Attendees</h2>
-  <% if @itinerary_group.users.any? %>
-    <ul>
-      <% @itinerary_group.users.each do |user| %>
-        <li><%= user.username %></li>
-      <% end %>
-    </ul>
+
+  <div class="row g-3 mb-4">
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100 detail-card">
+        <div class="card-body">
+          <h5 class="card-title">Flights</h5>
+          <% if @itinerary_group.flights.any? %>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Flight #</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Departure</th>
+                    <th>Arrival</th>
+                    <th>Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @itinerary_group.flights.each do |flight| %>
+                    <tr>
+                      <td><%= flight.flight_number %></td>
+                      <td><%= flight.departure_location %></td>
+                      <td><%= flight.arrival_location %></td>
+                      <td><%= flight.departure_time %></td>
+                      <td><%= flight.arrival_time %></td>
+                      <td><%= number_to_currency(flight.cost) if flight.cost %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="card-text">No flights have been added to this itinerary.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow-sm h-100 detail-card">
+        <div class="card-body">
+          <h5 class="card-title">Hotels</h5>
+          <% if @itinerary_group.hotels.any? %>
+            <div class="table-responsive">
+              <table class="table table-striped table-hover mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Arrival</th>
+                    <th>Departure</th>
+                    <th>Rating</th>
+                    <th>Cost (per night)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% @itinerary_group.hotels.each do |hotel| %>
+                    <tr>
+                      <td><%= hotel.name %></td>
+                      <td><%= hotel.location %></td>
+                      <td><%= hotel.arrival_time %></td>
+                      <td><%= hotel.departure_time %></td>
+                      <td><%= hotel.rating %></td>
+                      <td><%= number_to_currency(hotel.cost) if hotel.cost %></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% else %>
+            <p class="card-text">No hotels have been added to this itinerary.</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+ <% if current_user %>
+  <% if @itinerary_group.users.exists?(current_user.id) %>
+    <p>You are attending this itinerary</p>
   <% else %>
-    <p>No attendees have joined this itinerary yet.</p>
+    <%= button_to "Join Trip", join_itinerary_path(@itinerary_group), method: :post, class: "btn btn-primary" %>
   <% end %>
 
-  <h2>Flights</h2>
-  <% if @itinerary_group.flights.any? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Flight #</th>
-          <th>From</th>
-          <th>To</th>
-          <th>Departure</th>
-          <th>Arrival</th>
-          <th>Cost</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @itinerary_group.flights.each do |flight| %>
-          <tr>
-            <td><%= flight.flight_number %></td>
-            <td><%= flight.departure_location %></td>
-            <td><%= flight.arrival_location %></td>
-            <td><%= flight.departure_time %></td>
-            <td><%= flight.arrival_time %></td>
-            <td><%= number_to_currency(flight.cost) if flight.cost %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>No flights have been added to this itinerary.</p>
-  <% end %>
 
-  <h2>Hotels</h2>
-  <% if @itinerary_group.hotels.any? %>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Location</th>
-          <th>Arrival</th>
-          <th>Departure</th>
-          <th>Rating</th>
-          <th>Cost (per night)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @itinerary_group.hotels.each do |hotel| %>
-          <tr>
-            <td><%= hotel.name %></td>
-            <td><%= hotel.location %></td>
-            <td><%= hotel.arrival_time %></td>
-            <td><%= hotel.departure_time %></td>
-            <td><%= hotel.rating %></td>
-            <td><%= number_to_currency(hotel.cost) if hotel.cost %></td>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% else %>
-    <p>No hotels have been added to this itinerary.</p>
+
+  <% if @itinerary_group.organized_by?(current_user) %>
+    <%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary_group),
+          class: "custom-btn custom-btn-secondary" %>
+  <% end %>
+<% end %>
+
+  <% if current_user && @itinerary_group.users.exists?(current_user.id) && current_user.id != @itinerary_group.organizer_id %>
+    <%= button_to "Leave Trip", leave_itinerary_path(@itinerary_group), method: :delete, class: "btn btn-danger"%>
   <% end %>
 
 <% else %>
   <%= render "shared/join" %>
 <% end %>
-
-<%= link_to 'Back to results', itineraries_path(request.query_parameters) %>
