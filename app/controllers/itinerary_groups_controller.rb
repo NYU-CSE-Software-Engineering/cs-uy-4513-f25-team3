@@ -91,6 +91,24 @@ class ItineraryGroupsController < ApplicationController
       end
     end
   end
+
+  def leave_itinerary
+    @itinerary_group = ItineraryGroup.find(params[:id])
+
+    attendee_record = ItineraryAttendee.find_by(
+      itinerary_group_id: @itinerary_group.id,
+      user_id: current_user.id
+    )
+
+    if attendee_record
+      attendee_record.destroy
+      flash[:notice] = "You have left the trip."
+    else
+      flash[:alert] = "You are not part of this trip."
+    end
+
+    redirect_to itineraries_path
+  end
   
   private
   

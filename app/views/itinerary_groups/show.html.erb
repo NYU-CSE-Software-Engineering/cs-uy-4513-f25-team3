@@ -95,6 +95,10 @@
     <% end %>
   <% end %>
 
+  <% if current_user && @itinerary_group.users.exists?(current_user.id) && current_user.id != @itinerary_group.organizer_id %>
+    <%= button_to "Leave Trip", leave_itinerary_path(@itinerary_group), method: :delete%>
+  <% end %>
+
 <% else %>
   <%= render "shared/join" %>
 <% end %>

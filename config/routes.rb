@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     member do
       get  "join"
       post "join", action: "join_itinerary"
+      delete "leave", action: "leave_itinerary"  
     end
   end
 
