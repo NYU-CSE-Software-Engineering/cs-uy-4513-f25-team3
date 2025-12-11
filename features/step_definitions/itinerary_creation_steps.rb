@@ -1,5 +1,6 @@
 Given('I am on the new itinerary page') do
   visit new_itinerary_path
+  save_and_open_page
 end
 
 When('I fill in the following:') do |table|
@@ -8,7 +9,7 @@ When('I fill in the following:') do |table|
         when "is_private"
             select value, from: "itinerary_group_is_private"
         else
-            fill_in field, with: value
+            fill_in "itinerary_group_#{field}", with: value  
         end
     end
 end

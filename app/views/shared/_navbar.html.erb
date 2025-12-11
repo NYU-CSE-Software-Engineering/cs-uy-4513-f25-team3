@@ -20,6 +20,11 @@
           <li class="nav-item">
             <%= link_to "Itineraries", itineraries_path, class: "nav-link me-3" %>
           </li>
+          <% if current_user.role == "organizer" %>
+            <li class="nav-item">
+              <%= link_to "Create Itinerary", new_itinerary_path, class: "nav-link me-3" %>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Flights", flights_path, class: "nav-link me-3" %>
           </li>

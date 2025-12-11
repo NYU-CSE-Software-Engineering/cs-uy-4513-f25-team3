@@ -75,6 +75,10 @@ class ItineraryGroup < ApplicationRecord
     self.is_private = value.to_s.casecmp("Private").zero?
   end
 
+    def organized_by?(user)
+      organizer_id == user.id
+    end
+
   private
 
   def end_date_not_before_start
