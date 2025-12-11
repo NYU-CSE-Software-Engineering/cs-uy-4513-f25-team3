@@ -126,10 +126,13 @@
 
 
  <% if current_user %>
-  <%= button_to "Join Trip", join_itinerary_path(@itinerary_group), method: :post, class: "btn btn-primary" %>
   <% if @itinerary_group.users.exists?(current_user.id) %>
     <p>You are attending this itinerary</p>
+  <% else %>
+    <%= button_to "Join Trip", join_itinerary_path(@itinerary_group), method: :post, class: "btn btn-primary" %>
   <% end %>
+
+
 
   <% if @itinerary_group.organized_by?(current_user) %>
     <%= link_to "Edit Itinerary", edit_itinerary_path(@itinerary_group),
