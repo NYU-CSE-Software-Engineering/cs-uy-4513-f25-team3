@@ -27,11 +27,11 @@ class SessionsController < ApplicationController
     end
 
     def omniauth
-    auth = request.env["omniauth.auth"]
-    user = User.from_omniauth(auth)
-    session[:user_id] = user.id
-    redirect_to root_path, notice: "Signed in with Google"
-  end
+        auth = request.env["omniauth.auth"]
+        user = User.from_omniauth(auth)
+        session[:user_id] = user.id
+        redirect_to root_path, notice: "Signed in with Google"
+    end
 
   def failure
     redirect_to login_path, alert: "Authentication failed"

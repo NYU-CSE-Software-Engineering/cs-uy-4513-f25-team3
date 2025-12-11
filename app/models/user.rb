@@ -31,6 +31,11 @@ class User < ApplicationRecord
     role == "user"
   end
 
+  def oauth_user?
+    provider.present?
+  end
+
+
   private
 
   def passwords_match

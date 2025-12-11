@@ -22,14 +22,16 @@
   <%= f.label :username %>
   <%= f.text_field :username %>
 
-  <%= f.label :current_password, "Current password" %>
-  <%= password_field_tag :current_password, nil, required: true %>
+  <% unless @user.oauth_user? %>
+    <%= f.label :current_password, "Current password" %>
+    <%= password_field_tag :current_password, nil, required: true %>
 
-  <%= f.label :password, "New password" %>
-  <%= f.password_field :password %>
+    <%= f.label :password, "New password" %>
+    <%= f.password_field :password %>
 
-  <%= f.label :password_confirmation, "New password confirmation" %>
-  <%= f.password_field :password_confirmation %>
+    <%= f.label :password_confirmation, "New password confirmation" %>
+    <%= f.password_field :password_confirmation %>
+  <% end %>
 
 <div>
   <%= f.label :first_name %>

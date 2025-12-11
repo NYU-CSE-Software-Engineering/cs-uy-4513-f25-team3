@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def update
-    unless @user.authenticate(params[:current_password])
+    if !@user.oauth_user? && !@user.authenticate(params[:current_password])
       flash.now[:alert] = "Current password is incorrect"
       return render :edit
     end
