@@ -3,15 +3,34 @@ def find_itinerary!(title)
 end
 
 Given(/^I am a signed-in user$/) do
-  @user = User.create!(email: 'test@example.com', password: 'password', role:'user')
+  @user ||= User.create!(
+    username: 'john123',
+    password: 'password',
+    password_confirmation: 'password',
+    role: 'user'
+  )
+
+  visit login_path
+  fill_in 'user_username', with: 'john123'
+  fill_in 'user_password', with: 'password'
+  click_button 'Login'
 end
 
 Given(/^the following itinerary exists:$/) do |table|
   attrs = table.rows_hash.symbolize_keys
   itinerary = ItineraryGroup.new(attrs)
+
+  organizer = User.find_or_create_by!(username: 'izzyadams11') do |user|
+    user.password = 'securepass'
+    user.password_confirmation = 'securepass'
+    user.role = 'organizer'
+  end
+
   itinerary.trip_type = attrs["is_private"]
+  itinerary.organizer_id = organizer.id
   itinerary.save!
 end
+
 Given(/^I am on the itinerary settings page for "(.*)"$/) do |title|
   find_itinerary!(title)
   visit edit_itinerary_path(@itinerary)

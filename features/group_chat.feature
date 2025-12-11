@@ -1,3 +1,4 @@
+@freeze_time_2025
 Feature: Group Chat — Communication Management
     As a member of an itinerary group
     I want to view, send, and edit messages with clear relevant details
@@ -10,8 +11,8 @@ Background:
         | 2      | Casey     | B        | casey    | hello456   | 26  | Other  | user |
         | 3      | Jordan    | C        | jordan   | travel789  | 27  | Other  | user |
     And the following ItineraryGroups exist:
-        | ItineraryGroupID | Title           | StartDate   | EndDate     |
-        | 10               | Group A Chat    | 2025-10-22  | 2025-10-23  |
+        | ItineraryGroupID | Title           | StartDate   | EndDate     | Location |
+        | 10               | Group A Chat    | 2025-10-22  | 2025-10-23  | Github   |
     And the following Messages exist:
         | MessageID | UserID | ItineraryGroupID | Text                      | Time                     |
         | 101       | 2      | 10               | Landing at 5pm            | 2025-10-22T16:30:00Z     |
