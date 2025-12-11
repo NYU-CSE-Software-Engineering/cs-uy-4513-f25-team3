@@ -21,6 +21,7 @@ Organizers can:
 Admins can:
 
 * View and delete accounts
+
 ---
 
 ## 👥 Team Members & Roles
@@ -33,13 +34,15 @@ Admins can:
 * OAuth with Google
 * Contributions to Logout
 * CSS/Bootstrap
+* Bug fixes
 
 **Chris Jin**
 
 * Join Itinerary
 * Create Itinerary
 * Contributions to Logout
-* Leave button for itineraries
+* Leave functionality for itineraries
+* Bug fixes
 
 **Muath Alghamdi**
 
@@ -47,13 +50,15 @@ Admins can:
 * Profile Edit
 * Database Updates
 * Documentation
+* Bug fixes
 
 **Jason Lin**
 
 * Database Updates
-* Faker Gem
+* Added Faker 
 * Search and filter for Itineraries
 * Hotels & Flights
+* Bug fixes
 
 **Gabriel Draghici**
 
@@ -67,6 +72,7 @@ Admins can:
 * Group Chat
 * Messages & Message Editing
 * Set up Cucumber and Rspec
+* Bug fixes
 
 **All team members contributed throughout several features, necessary bug fixes, and style, documentation, or database updates throughout the project.**
 
@@ -98,6 +104,10 @@ Ensure your environment supports these dependencies before setup.
 * **Stimulus-Rails** — JS controllers
 * **Jbuilder** — JSON templates
 * **tzinfo-data** — timezone data for Windows/JRuby
+* **bcrypt** — password hashing for authentication
+* **omniauth** — authentication framework
+* **omniauth-rails_csrf_protection** — CSRF protection for Omniauth
+* **omniauth-google-oauth2** — Google OAuth login
 
 ### **Caching, Background Jobs & WebSockets**
 
