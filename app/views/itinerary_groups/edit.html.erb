@@ -12,8 +12,6 @@
 <% end %>
 
 
-
-
 <div class="d-flex account-form">
   <div class="card shadow-sm p-4 account-card">
     <div class="card-body">
@@ -47,12 +45,12 @@
         
         <div class="mb-3">
           <%= f.label :is_private, "Trip Type" %>
-          <%= f.select :is_private, [['Public', false], ['Private', true]], { selected: @itinerary_group.is_private } %>
+          <%= f.select :is_private, [['Public', false], ['Private', true]], { selected: @itinerary_group.is_private }, class: "form-select" %>
         </div>
         
         <div class="mb-3">
-            <%= f.label :cost, "Trip Cost" %>
-            <%= f.number_field :cost, step: 0.01 %>
+          <%= f.label :cost, "Trip Cost" %>
+          <%= f.number_field :cost, step: 0.01, class: "form-control" %>
         </div>
 
         <div class="mb-3">
@@ -60,21 +58,69 @@
           <%= f.password_field :password, class: "form-control" %>
         </div>
 
+        <!-- Hotels -->
+        <h4 class="mt-4 mb-3">Available Hotels in <%= @itinerary_group.location %></h4>
+        <% if @matching_hotels.any? %>
+          <div class="row g-3">
+            <%= f.collection_check_boxes :hotel_ids, @matching_hotels, :id, :name do |b| %>
+              <% hotel = @matching_hotels.detect { |h| h.id == b.value.to_i } %>
+              <div class="col-md-6">
+                <div class="card p-2 h-100">
+                  <div class="form-check mb-2">
+                    <%= b.check_box class: "form-check-input" %>
+                    <%= b.label class: "form-check-label fw-bold" %>
+                  </div>
+                  <p class="mb-1">Location: <%= hotel.location %></p>
+                  <p class="mb-1">Rating: <%= hotel.rating %></p>
+                  <p class="mb-1">Cost per night: $<%= hotel.cost %></p>
+                  <p class="mb-0">Available: <%= hotel.arrival_time.strftime("%Y-%m-%d") %> to <%= hotel.departure_time.strftime("%Y-%m-%d") %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>No hotels available for this location.</p>
+        <% end %>
 
+        <!-- Flights -->
+        <h4 class="mt-4 mb-3">Available Flights to <%= @itinerary_group.location %></h4>
+        <% if @matching_flights.any? %>
+          <div class="row g-3">
+            <%= f.collection_check_boxes :flight_ids, @matching_flights, :id, :flight_number do |b| %>
+              <% flight = @matching_flights.detect { |fl| fl.id == b.value.to_i } %>
+              <div class="col-12">
+                <div class="card p-3">
+                  <div class="form-check mb-2">
+                    <%= b.check_box class: "form-check-input" %>
+                    <%= b.label class: "form-check-label fw-bold" %>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <p class="mb-1"><strong>Departure</strong></p>
+                      <p class="mb-1">From: <%= flight.departure_location %></p>
+                      <p class="mb-1">Date: <%= flight.departure_time.strftime("%Y-%m-%d") %></p>
+                      <p class="mb-0">Time: <%= flight.departure_time.strftime("%H:%M") %></p>
+                    </div>
+                    <div>
+                      <p class="mb-1"><strong>Arrival</strong></p>
+                      <p class="mb-1">To: <%= flight.arrival_location %></p>
+                      <p class="mb-1">Date: <%= flight.arrival_time.strftime("%Y-%m-%d") %></p>
+                      <p class="mb-0">Time: <%= flight.arrival_time.strftime("%H:%M") %></p>
+                    </div>
+                  </div>
+                  <p class="mt-2 mb-0">Cost: $<%= flight.cost %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>No flights available for this location.</p>
+        <% end %>
 
-        <div class="d-grid mb-3">
+        <div class="d-grid mt-4 mb-3">
           <%= f.submit "Save Changes", class: "btn btn-primary" %>
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
-
-
-
-
- 
-
-
-
