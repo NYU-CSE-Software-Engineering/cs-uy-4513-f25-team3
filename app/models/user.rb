@@ -4,6 +4,20 @@ class User < ApplicationRecord
 
   validates :role, presence: true
   validates :username, presence: true, uniqueness: true
+  validates :password, presence: true, on: :create, unless: -> { provider.present? && uid.present? }
+  validates :password_confirmation, presence: true, on: :create, unless: -> { provider.present? && uid.present? }
+  validate  :passwords_match, on: :create, unless: -> { provider.present? && uid.present? }
+
+  def self.from_omniauth(auth)
+    find_or_initialize_by(provider: auth.provider, uid: auth.uid).tap do |user|
+      user.username = auth.info.email
+      random_password = SecureRandom.hex(10)
+      user.password = random_password
+      user.password_confirmation = random_password
+      user.role ||= "user"
+      user.save! if user.new_record?
+    end
+  end
 
   def admin?
     role == "admin"
@@ -14,12 +28,8 @@ class User < ApplicationRecord
   end
 
   def user?
-    role =="user"
+    role == "user"
   end
-
-  validates :password, presence: true, on: :create
-  validates :password_confirmation, presence: true, on: :create
-  validate  :passwords_match, on: :create
 
   private
 
