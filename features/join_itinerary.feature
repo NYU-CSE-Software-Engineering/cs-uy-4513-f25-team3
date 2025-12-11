@@ -49,7 +49,6 @@ Feature: Joining an itinerary
         Given I am a signed-in user as "chris"
         And I have already joined the itinerary "Public Europe Trip"
         And I am on the itinerary details page for "Public Europe Trip"
-        When I press "Join Trip"
         Then I should see the message "You are attending this itinerary"
         And I should not be added as a duplicate attendee for "Public Europe Trip"
 

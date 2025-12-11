@@ -10,106 +10,117 @@
     </ul>
   </div>
 <% end %>
-<%= form_with model: @itinerary_group, url: itinerary_path(@itinerary_group), method: :patch, local: true do |f| %>
-  <div>
-    <%= f.label :title, "Title" %>
-    <%= f.text_field :title %>
-  </div>
-  <div>
-    <%= f.label :description, "Description" %>
-    <%= f.text_area :description %>
-  </div>
-  <div>
-    <%= f.label :location, "Location" %>
-    <%= f.text_field :location %>
-  </div>
-  <div>
-    <%= f.label :start_date, "Start Date" %>
-    <%= f.date_field :start_date %>
-  </div>
-  <div>
-    <%= f.label :end_date, "End Date" %>
-    <%= f.date_field :end_date %>
-  </div>
-  <div>
-    <%= f.label :is_private, "Trip Type" %>
-    <%= f.select :is_private, [['Public', false], ['Private', true]], { selected: @itinerary_group.is_private } %>
-  </div>
-  
-  <div>
-    <%= f.label :password, "Trip Password" %>
-    <%= f.password_field :password %>
-  </div>
-  <div>
-    <%= f.label :cost, "Trip Cost" %>
-    <%= f.number_field :cost, step: 0.01 %>
-  </div>
 
-  <!-- Hotels that match the itinerary location -->
-  <h3>Available Hotels in <%= @itinerary_group.location %></h3>
-  <% if @matching_hotels.any? %>
-    <%= f.collection_check_boxes :hotel_ids, @matching_hotels, :id, :name do |b| %>
-      <% hotel = @matching_hotels.detect { |h| h.id == b.value.to_i } %>
 
-      <div style="border: 1px solid #ccc; padding: 8px; margin-bottom: 6px; border-radius: 6px;">
-        <%= b.check_box %>
-        <strong><%= hotel.name %></strong><br>
+<div class="d-flex account-form">
+  <div class="card shadow-sm p-4 account-card">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Edit Itinerary</h3>
 
-        Location: <%= hotel.location %><br>
-        Rating: <%= hotel.rating %><br>
-        Cost per night: $<%= hotel.cost %><br>
-
-        Available:
-        <%= hotel.arrival_time.strftime("%Y-%m-%d") %>
-        to
-        <%= hotel.departure_time.strftime("%Y-%m-%d") %>
-      </div>
-    <% end %>
-  <% else %>
-    <p>No hotels available for this location.</p>
-  <% end %>
-
-  <!-- Flights that match the itinerary location -->
-  <h3>Available Flights to <%= @itinerary_group.location %></h3>
-  <% if @matching_flights.any? %>
-    <%= f.collection_check_boxes :flight_ids, @matching_flights, :id, :flight_number do |b| %>
-      <% flight = @matching_flights.detect { |fl| fl.id == b.value.to_i } %>
-
-      <div style="border: 1px solid #ccc; padding: 12px; margin-bottom: 10px; border-radius: 6px;">
-
-        <%= b.check_box %>
-        <strong>Flight <%= flight.flight_number %></strong><br><br>
-
-        <!-- Flex container for side-by-side columns -->
-        <div style="display: flex; justify-content: space-between; gap: 20px;">
-
-          <!-- Departure Column -->
-          <div style="flex: 1;">
-            <strong>Departure</strong><br>
-            From: <%= flight.departure_location %><br>
-            Date: <%= flight.departure_time.strftime("%Y-%m-%d") %><br>
-            Time: <%= flight.departure_time.strftime("%H:%M") %>
-          </div>
-
-          <!-- Arrival Column -->
-          <div style="flex: 1;">
-            <strong>Arrival</strong><br>
-            To: <%= flight.arrival_location %><br>
-            Date: <%= flight.arrival_time.strftime("%Y-%m-%d") %><br>
-            Time: <%= flight.arrival_time.strftime("%H:%M") %>
-          </div>
-
+      <%= form_with model: @itinerary_group, url: itinerary_path(@itinerary_group), method: :patch, local: true do |f| %>
+        <div class="mb-3">
+          <%= f.label :title, "Title" %>
+          <%= f.text_field :title, class: "form-control" %>
         </div>
 
-        <!-- Cost shown below -->
-        <div style="margin-top: 12px;">
-          Cost: $<%= flight.cost %>
+        <div class="mb-3">
+          <%= f.label :description, "Description" %>
+          <%= f.text_area :description, class: "form-control" %>
         </div>
 
-      </div>
-    <% end %>
-<% else %>
-  <p>No flights available for this location.</p>
-<% end %>
-  <%= f.submit "Save Changes" %>
-<% end %>
+        <div class="mb-3">
+          <%= f.label :location, "Location" %>
+          <%= f.text_field :location, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :start_date, "Start Date" %>
+          <%= f.date_field :start_date, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :end_date, "End Date" %>
+          <%= f.date_field :end_date, class: "form-control" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= f.label :is_private, "Trip Type" %>
+          <%= f.select :is_private, [['Public', false], ['Private', true]], { selected: @itinerary_group.is_private }, class: "form-select" %>
+        </div>
+        
+        <div class="mb-3">
+          <%= f.label :cost, "Trip Cost" %>
+          <%= f.number_field :cost, step: 0.01, class: "form-control" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, "Trip Password" %>
+          <%= f.password_field :password, class: "form-control" %>
+        </div>
+
+        <!-- Hotels -->
+        <h4 class="mt-4 mb-3">Available Hotels in <%= @itinerary_group.location %></h4>
+        <% if @matching_hotels.any? %>
+          <div class="row g-3">
+            <%= f.collection_check_boxes :hotel_ids, @matching_hotels, :id, :name do |b| %>
+              <% hotel = @matching_hotels.detect { |h| h.id == b.value.to_i } %>
+              <div class="col-md-6">
+                <div class="card p-2 h-100">
+                  <div class="form-check mb-2">
+                    <%= b.check_box class: "form-check-input" %>
+                    <%= b.label class: "form-check-label fw-bold" %>
+                  </div>
+                  <p class="mb-1">Location: <%= hotel.location %></p>
+                  <p class="mb-1">Rating: <%= hotel.rating %></p>
+                  <p class="mb-1">Cost per night: $<%= hotel.cost %></p>
+                  <p class="mb-0">Available: <%= hotel.arrival_time.strftime("%Y-%m-%d") %> to <%= hotel.departure_time.strftime("%Y-%m-%d") %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>No hotels available for this location.</p>
+        <% end %>
+
+        <!-- Flights -->
+        <h4 class="mt-4 mb-3">Available Flights to <%= @itinerary_group.location %></h4>
+        <% if @matching_flights.any? %>
+          <div class="row g-3">
+            <%= f.collection_check_boxes :flight_ids, @matching_flights, :id, :flight_number do |b| %>
+              <% flight = @matching_flights.detect { |fl| fl.id == b.value.to_i } %>
+              <div class="col-12">
+                <div class="card p-3">
+                  <div class="form-check mb-2">
+                    <%= b.check_box class: "form-check-input" %>
+                    <%= b.label class: "form-check-label fw-bold" %>
+                  </div>
+                  <div class="d-flex justify-content-between">
+                    <div>
+                      <p class="mb-1"><strong>Departure</strong></p>
+                      <p class="mb-1">From: <%= flight.departure_location %></p>
+                      <p class="mb-1">Date: <%= flight.departure_time.strftime("%Y-%m-%d") %></p>
+                      <p class="mb-0">Time: <%= flight.departure_time.strftime("%H:%M") %></p>
+                    </div>
+                    <div>
+                      <p class="mb-1"><strong>Arrival</strong></p>
+                      <p class="mb-1">To: <%= flight.arrival_location %></p>
+                      <p class="mb-1">Date: <%= flight.arrival_time.strftime("%Y-%m-%d") %></p>
+                      <p class="mb-0">Time: <%= flight.arrival_time.strftime("%H:%M") %></p>
+                    </div>
+                  </div>
+                  <p class="mt-2 mb-0">Cost: $<%= flight.cost %></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <p>No flights available for this location.</p>
+        <% end %>
+
+        <div class="d-grid mt-4 mb-3">
+          <%= f.submit "Save Changes", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

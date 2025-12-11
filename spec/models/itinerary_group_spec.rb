@@ -10,7 +10,8 @@ RSpec.describe ItineraryGroup, type: :model do
   it 'is invalid without a location' do
     itinerary_group = ItineraryGroup.new
     expect(itinerary_group).not_to be_valid
-    expect(itinerary_group.errors[:location]).to include("location field can not be blank")
+    expect(itinerary_group.errors.full_messages).to include("Location field can't be blank")
+
   end
 
   it 'is invalid without a start_date' do

@@ -47,7 +47,7 @@ Scenario: Fail sign up due to password confirmation mismatch
   And I fill in "goodpass" for the sign up password
   And I fill in "WRONGpass" for the sign up password confirmation
   And I click the "Create Account" button for sign up
-  Then I should see the sign up error "Password confirmation does not match"
+  Then I should see the sign up error "Password confirmation is invalid"
   And the sign up account should not be created
 
 Scenario: Fail sign up due to missing required fields

@@ -1,10 +1,20 @@
+<% content_for :body_class, "signin-page" %>
 <%= render "shared/navbar" %>
+<%= render "shared/flash" %>
 
-<h1>Create a New Account</h1>
+
+
+
+
 
 <% if @user.errors.any? %>
-  <div class="errors">
-    <ul>
+  <div class="alert alert-danger alert-dismissible fade show w-50 mx-auto" role="alert">
+    <div class="d-flex justify-content-between align-items-center mb-2">
+      <h4 class="alert-heading mb-0">Please fix the following errors:</h4>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <ul class="mb-0 ps-3">
       <% @user.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
       <% end %>
@@ -12,35 +22,76 @@
   </div>
 <% end %>
 
-<% if flash[:alert] %>
-  <div class="alert"><%= flash[:alert] %></div>
-<% end %>
 
 
-<% if flash[:notice] %>
-  <div class="notice"><%= flash[:notice] %></div>
-<% end %>
 
-<%= form_with model: @user, local: true, id: "new_user" do |f| %>
-  <div>
-    <%= f.label :username %>
-    <%= f.text_field :username %>
+
+
+ <div class="d-flex account-form">
+  <div class="card shadow-sm p-4 account-card">
+    <div class="card-body">
+      <h3 class="card-title text-center mb-4">Create Account</h3>
+
+      <%= form_with model: @user, local: true, id: "new_user" do |f| %>
+        <div class="mb-3">
+          <%= f.label :username, class: "form-label" %>
+          <%= f.text_field :username, class: "form-control", placeholder: "Enter username" %>
+        </div>
+
+       <div class="mb-3">
+          <%= f.label :role, class: "form-label" %>
+          <%= f.select :role, ["user", "organizer"], {}, class: "form-select" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, class: "form-label" %>
+          <%= f.password_field :password, class: "form-control", placeholder: "Enter password" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password_confirmation, "Password Confirmation", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-control", placeholder: "Confirm password" %>
+        </div>
+
+        <div class="d-grid mb-3">
+          <%= f.submit "Create Account", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+      <div class="text-center">
+        <small>
+          Already have an account? <%= link_to "Login", login_path %>
+        </small>
+      </div>
+    </div>
   </div>
+</div>
 
-  <div>
-    <%= f.label :role %>
-    <%= f.select :role, ["user", "organizer"] %>
-  </div>
 
-  <div>
-    <%= f.label :password %>
-    <%= f.password_field :password %>
-  </div>
 
-  <div>
-    <%= f.label :password_confirmation, "Password Confirmation" %>
-    <%= f.password_field :password_confirmation %>
-  </div>
+  
 
-  <%= f.submit "Create Account" %>
-<% end %>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+        
+
+      
+        
+
+    

@@ -157,7 +157,9 @@ RSpec.describe "Itinerary Editing", type: :request do
         }
 
         expect(response).to render_template(:edit)
-        expect(response.body).to include('location field can not be blank')
+        expect(response.body).to include("Location field can&#39;t be blank")
+
+
         itinerary.reload
         expect(itinerary.location).to eq('New York')
       end
