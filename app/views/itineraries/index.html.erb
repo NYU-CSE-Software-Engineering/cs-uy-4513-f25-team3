@@ -6,7 +6,6 @@
 <% if current_user %>
   <h2>Welcome, <%= current_user.username %>!</h2>
   
-  <%= link_to "Edit Profile", edit_user_path(current_user), class: "button" %>
 <% end %>
 
 
