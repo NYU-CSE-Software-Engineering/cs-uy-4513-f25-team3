@@ -8,9 +8,11 @@ class ItineraryGroupsController < ApplicationController
 
   def create
     @itinerary_group = ItineraryGroup.new(itinerary_group_params)
-    
+    @itinerary_group.organizer = current_user
+
     if @itinerary_group.save
-      redirect_to root_path, notice: 'Itinerary Created'
+      @itinerary_group.users << current_user   # add organizer
+      redirect_to itinerary_path(@itinerary_group), notice: 'Itinerary Created'
     else
       flash.now[:alert] = @itinerary_group.errors.full_messages.join(", ")
       render :new

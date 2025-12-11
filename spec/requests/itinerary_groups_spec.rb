@@ -65,8 +65,8 @@ RSpec.describe "ItineraryGroups", type: :request do
                     end_date: "2026-01-10"
                 }
             }
-            
-            expect(response).to redirect_to(root_path)
+            recent = ItineraryGroup.last
+            expect(response).to redirect_to(itinerary_path(recent))
             expect(flash[:notice]).to eq("Itinerary Created")
         end
 
