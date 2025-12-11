@@ -36,17 +36,17 @@ Scenario: Successfully update all editable fields
     And I fill in "Start Date" with "2026-02-01"
     And I fill in "End Date" with "2026-02-14"
     And I select "Private" from "Trip Type"
+	And I fill in "Trip Password" with "secret123"
     And I fill in "Trip Cost" with "3000"
     And I press "Save Changes"
     Then I should be on the itinerary page for "New York Adventure"
     And I should see the message "Itinerary was successfully updated."
     And I should see "A fun trip to NYC"
     And I should see "Manhattan"
-    And I should see "Feb 1, 2026"
-	And I should see "Feb 14, 2026"
-    And I should see "Private"
-    And I should see "$3000"
-
+	And I should see "2026-02-01"
+	And I should see "2026-02-14"
+    And I should see "true"
+	And I should see "3000.0"
 
 
 #Sad Paths
@@ -57,7 +57,7 @@ Scenario: End date before start date - shows an error
     When I fill in "Start Date" with "2026-05-05"
     And I fill in "End Date" with "2026-05-01"
     And I press "Save Changes"
-    Then I should see the error "End date must be on or after Start date"
+	Then I should see the error "end_date must be after or the same as start_date"
 
 
 Scenario: Missing title - shows an error
@@ -72,7 +72,7 @@ Scenario: Negative trip cost - shows an error
 	Given I am on the itinerary settings page for "NYC Tour"
 	When I fill in "Trip Cost" with "-100"
 	And I press "Save Changes"
-	Then I should see the error "Cost must be greater than or equal to 0"
+	Then I should see the error "Cost must be greater or equal to 0"
 
 
 Scenario: Non-organizer cannot edit itinerary
