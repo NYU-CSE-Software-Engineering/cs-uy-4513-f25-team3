@@ -80,9 +80,9 @@ RSpec.describe ItineraryGroup, type: :model do
     expect(itinerary.errors[:cost]).to include("is not a number")
   end
 
-  it "is invalid when cost is not an integer" do
-    itinerary = ItineraryGroup.new(cost: 2537.56)
-    expect(itinerary).not_to be_valid
-    expect(itinerary.errors[:cost]).to include("must be an integer")
-  end
+  # it "is invalid when cost is not an integer" do
+  #   itinerary = ItineraryGroup.new(cost: 2537.56)
+  #   expect(itinerary).not_to be_valid
+  #   expect(itinerary.errors[:cost]).to include("must be an integer")
+  # end
 end

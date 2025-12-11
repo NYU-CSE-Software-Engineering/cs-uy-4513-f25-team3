@@ -87,7 +87,7 @@ Feature:
             | wrong_input | err_message                        |
             | -100        | cost must be greater or equal to 0 |
             | one hundred | cost is not a number               |
-            | 2537.56     | cost must be an integer            |
+            # | 2537.56     | cost must be an integer            |
 
     @core
     Scenario: Private itinerary without a password

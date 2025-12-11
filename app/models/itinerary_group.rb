@@ -22,12 +22,12 @@ class ItineraryGroup < ApplicationRecord
   validate :chronological_dates
   validate :dates_not_in_past
   validate :private_password_check
-  validates :cost,
-    numericality: {
-      only_integer: true,               
-      message: 'must be an integer'     
-    },
-    allow_nil: true
+  # validates :cost,
+  #   numericality: {
+  #     only_integer: true,               
+  #     message: 'must be an integer'     
+  #   },
+  #   allow_nil: true
 
   validates :cost,
     numericality: {              
